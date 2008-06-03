@@ -1,0 +1,90 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+    <class name="com.luxsoft.siipap.ventas.domain.Devolucion" 
+    	   lazy="true" 	   table="SW_DEVO">
+        
+        <id name="id" column="DEVO_ID">        
+            <generator class="native">
+            	<param name="sequence">devolucion_ids</param>
+            </generator>
+        </id>
+        
+        <version name="version"  column="VERSION"/>        
+        
+        <many-to-one 
+			name="venta"
+			column="VENTA_ID"
+			not-null="false"
+			unique="false"/>
+        
+
+        <property  	 name="fecha" 			type="date"/>
+        
+        <property    name="numero"/>        
+        
+        <property    name="cliente" 		length="7"/>        
+        
+        <property    name="comentario" 		length="50"/>                
+        
+        <property name="importe"
+            type="com.luxsoft.siipap.utils.CantidadMonetariaCompositeUserType">
+            <column name="importe"			length="2"/>
+            <column name="importe_mon" 	length="3"/>
+        </property>
+        
+        <property name="impuesto"
+            type="com.luxsoft.siipap.utils.CantidadMonetariaCompositeUserType">
+            <column name="impuesto"			length="2"/>
+            <column name="impuesto_mon" 	length="3"/>
+        </property>
+        
+        <property name="total"
+            type="com.luxsoft.siipap.utils.CantidadMonetariaCompositeUserType">
+            <column name="total"			length="2"/>
+            <column name="total_mon" 		length="3"/>
+        </property>
+        
+        <property name="impCortes"
+            type="com.luxsoft.siipap.utils.CantidadMonetariaCompositeUserType">
+            <column name="IMPCORTES"		length="2" not-null="true"  default="0"/>
+            <column name="IMPCORTES_MON" 	length="3" not-null="true"  default="'MXN'"/>
+        </property>
+        
+        <property name="cortes"/>
+        
+        <property name="descuento1">
+        	<column name="DESC1" not-null="true" scale="2" default="0"/>
+        </property>
+        
+        <property name="descuento2">
+        	<column name="DESC2" not-null="true" scale="2" default="0"/>
+        </property>
+        
+
+        <set name="partidas"
+			inverse="true"
+			lazy="true"
+			cascade="all-delete-orphan">
+			<key column="DEVO_ID"/>
+			<one-to-many class="com.luxsoft.siipap.ventas.domain.DevolucionDet"/>
+		</set>
+		
+		<property name="sucursal"/>
+		<property name="tipoVenta" 	length="1"/>		
+		<property name="serieVenta" length="1"/>		
+		<property name="numeroVenta" />		
+
+		<property name="fechaReal" type="date"/>		
+		<property name="mes"/>		
+		<property name="year"/>														
+
+		<property name="creado" />
+
+ 
+    </class>
+
+</hibernate-mapping>

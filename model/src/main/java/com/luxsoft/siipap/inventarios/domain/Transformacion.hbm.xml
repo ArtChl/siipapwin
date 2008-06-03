@@ -1,0 +1,60 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+
+	<class name="com.luxsoft.siipap.inventarios.domain.Transformacion" 
+    	table="SW_TRANSFORMACIONES"
+    	lazy="true">
+    	
+        <id name="id" column="TRANSFORMACION_ID">
+            <generator class="native">
+	            <param name="sequence">inventario_sequence</param>
+            </generator>
+        </id>
+              		
+		<many-to-one name="origen"
+        	column="ORIGEN_ID"
+        	unique="true"/> 
+        	
+        <property name="claveOrigen" length="10"/>
+
+		<many-to-one name="destino"
+        	column="DESTINO_ID"
+        	unique="true"/> 
+
+        <property name="claveDestino" length="10"/>
+        
+		<property name="costo"
+            type="com.luxsoft.siipap.utils.CantidadMonetariaCompositeUserType">
+            <column name="COSTO"		length="2"/>
+            <column name="COSTO_MON" 	length="3"/>
+       </property>
+       
+       <property name="costoDeMaterial"
+            type="com.luxsoft.siipap.utils.CantidadMonetariaCompositeUserType">
+            <column name="COSTOMATERIAL"		length="2"/>
+            <column name="COSTOMATERIAL_MON" 	length="3"/>
+       </property>
+       
+       <property name="importePorCorte"
+            type="com.luxsoft.siipap.utils.CantidadMonetariaCompositeUserType">
+            <column name="IMPORTECORTE"			length="2"/>
+            <column name="IMPORTECORTE_MON" 	length="3"/>
+       </property>        	
+		        	
+        <property name="mes"/>
+        <property name="year"/>
+	   	<property name="creado" />
+	   	<property name="modificado" />	   	
+	   	 
+	   	
+		
+       	
+	</class>	
+        		
+
+</hibernate-mapping>
+<!-- parsed in 15ms -->

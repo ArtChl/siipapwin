@@ -1,0 +1,265 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+    
+<hibernate-mapping>
+
+<class 
+    name="com.luxsoft.siipap.clipper.domain.Mocomo" 
+    table="SW_MOCOMO"
+    lazy="true">
+
+    <id name="id"
+        column="MOCOMO_ID">
+        <generator class="native">
+            	<param name="sequence">siipap_sequence</param>
+         </generator>
+    </id>
+
+    <property name="MCMSUCURSA"
+        not-null="true"/>
+        
+    <property name="MCMIDENOPE"/>
+
+    <property name="MCMFECHA"
+        type="date"
+        length="7"/>
+
+    <property name="MCMETAPA"
+        length="1"/>
+        
+    <property name="MCMSERIEFA"
+        length="1"/>
+
+    <property name="MCMTIPOFAC"
+        length="1"/>
+
+    <property name="MCMCONSECU"
+        length="1"/>
+        
+    <property name="MCMTIPOFAL"
+        length="10"/>
+        
+    <property name="MCMNUMDOCT"/>
+
+    <property name="MCMNODOCTO"/>
+        
+    <property name="MCMNOFISCA"/>
+
+    <property name="MCMSERIEFI"
+        length="1"/>
+
+    <property name="MCMCLITIPO"
+        length="3"/>
+        
+    <property name="MCMCLASCLI"/>
+        
+    <property name="MCMCLAVCLI"
+        length="7"/>
+
+    <property name="MCMNOMBCLI"
+        length="55"/>
+
+    <property name="MCMCLAVSOC"
+        length="4"/>
+
+    <property name="MCMNOMBSOC"
+        length="40"/>
+
+    <property name="MCMRFCCLIE"
+        length="20"/>
+        
+    <property name="MCMCALLE"
+        length="40"/>
+        
+    <property name="MCMCOLONIA"
+        length="40"/>
+        
+    <property name="MCMDELEGAC"
+        length="30"/>
+        
+    <property name="MCMCODIGOP"
+        length="5"/>
+        
+    <property name="MCMTELEFON"
+        length="30"/>
+
+    <property name="MCMVENDEDO"/>
+
+    <property name="MCMCOBRADO"/>
+
+    <property name="MCMCHOFER"/>
+
+    <property name="MCMZONA"/>
+
+    <property name="MCMFEDEPCH"
+        type="date"
+        length="7"/>
+
+    <property name="MCMVTO"
+        type="date"
+        length="7"/>
+
+    <property name="MCMNOMDESR"
+        length="150"/>
+        
+    <property name="MCMPORDESR"
+        length="50"/>
+        
+    <property name="MCMNOMDESF"
+        length="150"/>
+        
+    <property name="MCMPORDESF"
+        length="50"/>
+        
+    <property name="MCMNOMCAD"
+        length="150"/>
+
+    <property name="MCMPORCAD"
+        length="50"/>
+        
+    <property name="MCMIMPARTI"/>
+        
+    <property name="MCMCONCEPT"
+        length="25"/>
+        
+    <property name="MCMIMPCONC"/>
+        
+    <property name="MCMIMPCORT"/>
+
+    <property name="MCMCANTCOR"/>
+
+    <property name="MCMSUBTOT"/>
+
+    <property name="MCMIMPUEST"/>
+        
+    <property name="MCMTOTAL"/>
+        
+    <property name="MCMIMPARIN"/>
+        
+    <property name="MCMSUBTOTI"/>
+
+    <property name="MCMIMPUESI"/>
+
+    <property name="MCMTOTALI"/>
+
+    <property name="MCMKGSFACT"/>
+
+    <property name="MCMCANTIDA"/>
+
+    <property name="MCMPORIVA"/>
+
+    <property name="MCMFACTURI"
+        length="6"/>
+
+    <property name="MCMSURTIO"
+        length="15"/>
+
+    <property name="MCMCOMFAC"
+        length="50"/>
+
+    <property name="MCMNOCHTAR"
+        length="20"/>
+
+    <property name="MCMBANCO"
+        length="30"/>
+
+    <property name="MCMHORAFAC"
+        length="8"/>
+
+    <property name="MCMHRSREAL"
+        length="8"/>
+
+    <property name="MCMFECREAL"
+        type="date"
+        length="7"/>
+
+    <property name="MCMFECHCAN"
+        type="date"
+        length="7"/>
+
+    <property name="MCMCANCELO"
+        length="5"/>
+
+    <property name="MCMMOTICAN"
+        length="40"/>
+
+    <property name="MCMSUFAAFE"/>
+
+    <property name="MCMSEFAAFE"
+        length="1"/>
+
+    <property name="MCMTIFAAFE"
+        length="1"/>
+
+    <property name="MCMNUFAAFE"/>
+
+    <property name="MCMTIPOMOV"
+        length="2"/>
+
+    <property name="MCMNUMMOVI"/>
+ 
+    <property name="MCMARCHIVO"
+        length="8"/>
+
+    <property name="MCMMVADEV"
+        length="3"/>
+
+    <property name="MCMSUCDEV"/>
+
+    <property name="MCMFECDEV"
+        type="date"
+        length="7"/>
+
+    <property name="MCMNUMDEV"/>
+
+    <property name="MCMFORMATO"
+        length="10"/>
+
+    <property name="MCMIMPRESO"
+        type="date"
+        length="7"/>
+
+    <property name="MCMFECOMVE"
+        length="30"/>
+
+    <property name="MCMFECOMCH"
+        length="30"/>
+
+    <property name="MCMLIDER"
+        length="7"/>
+
+    <property name="MCMCTRLGRA"
+        length="1"/>
+
+    <property name="MCMFORMPAG"
+        length="1"/>
+
+    <property name="MCMCANTENT"/>
+        
+    <property name="MCMCONMANI"
+        length="15"/>
+
+    <property name="MCMIMPANI"/>
+
+   <property name="MCMNOMCOTI"
+        length="6"/>
+
+   <property name="MCMNOMPEDI"
+        length="6"/>
+
+    <property name="MES"
+        length="6"/>
+
+    <!-- Associations  -->
+
+    <set name="partidas"
+		inverse="true"
+		cascade="all-delete-orphan">
+		<key column="MOCOMO_ID"/>
+			<one-to-many class="com.luxsoft.siipap.clipper.domain.Almace"/>
+	</set>
+
+</class>
+</hibernate-mapping>

@@ -1,0 +1,87 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 29/08/2007 10:23:34 AM by Hibernate Tools 3.2.0.b9 -->
+
+<hibernate-mapping>
+
+    <class name="com.luxsoft.siipap.inventarios2.domain.MoviDoc" 
+    		table="SW_MOVIDOC">
+    		
+        <id name="id" access="field">
+            <column name="MOVIDOC_ID" />
+            <generator class="native"/>
+        </id>
+        
+        <version name="version" type="int" access="field">
+            <column name="version" not-null="true" />
+        </version>        
+        
+        <property name="sucursal" />
+        
+        <property name="fecha" type="date" not-null="true"/>
+        
+        <many-to-one name="concepto" 
+			column="CONCEPTO_ID"
+			not-null="true" />
+        
+        <property name="claveConcepto" length="3" not-null="true" />
+        
+        <property name="comentario" length="255" />
+
+        <property name="creado" type="date" access="field"/>
+        
+        <property name="modificado" 
+        		type="timestamp"         		
+        		not-null="true"/>
+        
+        <set name="partidas"
+			inverse="true"
+			lazy="true"
+			cascade="all-delete-orphan">
+			<key column="MOVIDOC_ID"/>
+			<one-to-many class="com.luxsoft.siipap.inventarios2.domain.MoviDet"/>
+		</set>
+
+    </class>
+    
+    <class name="com.luxsoft.siipap.inventarios2.domain.MoviDet"
+    	table="SW_MOVIDET">
+    	
+    	<id name="id">
+    		<column name="id"/>
+    		<generator class="native"/>
+    	</id>
+    	
+    	<version name="version" type="int" access="field">
+            <column name="version" not-null="true" />
+        </version>
+        
+        <many-to-one 
+			name="movidoc"
+			column="MOVIDOC_ID"
+			not-null="true"
+			foreign-key="MOVIDET_MOVIDOC_FK"/> 
+
+        <many-to-one name="articulo" 
+			column="ARTICULO_ID"
+			not-null="true" />
+        
+        <property name="clave"></property>
+        
+        <property name="cantidad" type="big_decimal">
+        	<column name="cantidad" scale="3" not-null="true" default="0"/>
+        </property>
+        
+        <property name="unixuni" /> 
+        
+         <many-to-one 
+			name="movi"
+			column="MOVI_ID"
+			not-null="true"
+			foreign-key="MOVIDET_MOVI_FK"/>       
+
+    	
+    </class>
+    
+</hibernate-mapping>

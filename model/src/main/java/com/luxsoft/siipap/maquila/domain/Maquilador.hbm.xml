@@ -1,0 +1,72 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+
+
+    <class 
+    	name="com.luxsoft.siipap.maquila.domain.Maquilador" 
+    	table="SW_MAQUILADORES"
+    	lazy="true">
+    	
+    	<id name="id"
+            column="MAQUILADOR_ID">			
+            <generator class="native">
+	            <param name="sequence">maquila_ids</param>
+            </generator>
+
+        </id>
+        
+        <natural-id>
+	        <property name="clave" length="10"/>
+        </natural-id>
+	
+        <property name="nombre" length="70"/>
+        
+        <property name="direccion"
+            type="com.luxsoft.siipap.utils.DireccionUserType">
+            <column name="CALLE"	length="70"/>
+            <column name="NUMERO" length="10"/>
+            <column name="NUMERO_EXT" length="10"/>
+            <column name="COLONIA" length="40"/>            
+            <column name="CP" length="6"/>            
+            <column name="CIUDAD" length="25"/>                        
+            <column name="ENTIDAD" length="25"/>                                    
+            <column name="MUNI_DELEG" length="30"/>
+            <column name="PAIS" length="25"/>
+       </property>
+       
+        <property name="rfc" length="12"></property>
+        <property name="diasDeCredito" />
+        <property name="observaciones" length="40"/>
+        <property name="representante" length="30"/>        
+        <property name="cuentaContable" length="10"/>        
+         <property name="activo" />         
+         
+    	 <property name="telefono1" length="15"/>
+    	 <property name="telefono2" length="15"/>
+    	 <property name="fax" length="15"/>
+    	 
+    	 <property name="tarifa"
+            type="com.luxsoft.siipap.utils.CantidadMonetariaCompositeUserType">
+            <column name="TARIFA"		length="5"/>
+            <column name="TARIFA_MON" 	length="2"/>
+        </property>
+            
+	
+        <!--     Referencias o relaciones many-to-one  -->
+         
+        <set name="almacenes"
+        	inverse="true"
+        	cascade="all-delete-orphan"
+        	lazy="false">
+        	<key column="MAQUILADOR_ID"/>
+        	<one-to-many class="com.luxsoft.siipap.maquila.domain.Almacen"/>
+        </set>
+        
+    </class>
+
+</hibernate-mapping>
+<!-- parsed in 15ms -->

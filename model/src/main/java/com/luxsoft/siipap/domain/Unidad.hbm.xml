@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+   "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+   "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+
+<hibernate-mapping>
+    <class name="com.luxsoft.siipap.domain.Unidad" 
+    	lazy="true" 
+    	table="SW_UNIDADES">
+    	
+        <id name="id" column="UNIDAD_ID">
+            <generator class="native">
+            	<param name="sequence">siipap_sequence</param>
+            </generator>
+        </id>
+        
+        <property name="clave" 
+        	length="3"
+        	not-null="true" unique="true"/>
+        	
+        <property name="descripcion" 
+        	length="30"/>
+
+        <property name="cantidad"/>
+    </class>
+
+</hibernate-mapping>
+<!-- parsed in 0ms -->

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+	
+	
+	<bean id="daoContext" 
+		class="org.springframework.context.support.ClassPathXmlApplicationContext"
+		lazy-init="true">
+		<constructor-arg>
+			<value>swx-dao-ctx.xml</value>
+		</constructor-arg>
+	</bean>
+	
+	<!-- 
+	<bean id="modelContext" lazy-init="true"
+		class="org.springframework.context.support.ClassPathXmlApplicationContext">
+		<constructor-arg>
+			<value>com/luxsoft/siipap/ctx/model-context.xml</value>
+		</constructor-arg>		
+		<constructor-arg>
+			<ref bean="daoContext"/>
+		</constructor-arg>		
+	</bean>
+	
+	<bean id="viewContext" lazy-init="true"
+		class="org.springframework.context.support.ClassPathXmlApplicationContext">
+		<constructor-arg>
+			<list>
+				<value>com/luxsoft/siipap/ctx/richclient-application-context.xml</value>
+			</list>
+		</constructor-arg>
+
+		<constructor-arg>
+			<ref bean="modelContext"/>
+		</constructor-arg>
+		
+	</bean>
+	 -->
+	
+	
+	 
+</beans>

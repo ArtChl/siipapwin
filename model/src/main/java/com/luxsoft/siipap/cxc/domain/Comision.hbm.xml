@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+    <class name="com.luxsoft.siipap.cxc.domain.Comision" 
+    	   lazy="true" 	   
+    	   table="SW_COMISIONES">
+        
+        <id name="id" column="COMISION_ID">        
+            <generator class="assigned"/>
+        </id>
+        
+		<property name="minimo" not-null="true" unique="true"/>
+		<property name="maximo" not-null="true" unique="true"/>
+		<property name="comision" not-null="true" />
+		<property name="creado" not-null="true"/>
+		<property name="modificado" not-null="true"/>		
+
+ 
+    </class>
+
+</hibernate-mapping>

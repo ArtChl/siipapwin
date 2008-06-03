@@ -1,0 +1,169 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+    <class name="com.luxsoft.siipap.cxp.domain.Facxp" 
+    	   lazy="true"
+    	   table="SW_FACXP">
+        
+        <id name="id" column="FACXP_ID">
+            <generator class="native">
+            	<param name="sequence">cxp_ids</param>
+            </generator>
+        </id>
+
+        <natural-id>
+	        <property name="FACTURA"        length="12"/>			
+			<many-to-one name="proveedor" column="PROVEEDOR_ID"/>		    
+		</natural-id>        
+					
+		<many-to-one  name="cargo" 
+				column="CXP_ID" 
+				lazy="false" 
+				fetch="join"
+				cascade="all"
+				unique="true"/>
+		
+	
+		<property name="CLAVE"	length="4"/>
+		
+		<property name="NUMERO"	unique="true"/>
+		
+		<property name="PROVEEDOR"  
+			length="55"/>
+        
+        <property name="REFERENCIA"
+            length="12"/>
+
+        <property name="CXP"
+            length="8"/>
+
+        <property name="FECHA"
+			type="date"/>
+
+        <property name="MONEDA"
+            length="4"/>
+
+        <property name="TC"/>
+         
+      
+
+        <property name="POLIZA"
+            length="10"/>
+
+        <property name="CRECIBO"
+            length="10"/>
+
+        <property name="FCREIBO"    type="date"/>
+
+        <property name="VTO"     type="date"/>
+
+        <property name="DSCTOF"/>
+
+        <property name="VTOD" type="date"/>
+
+        <property name="ELABORO"
+            length="20"/>
+
+        <property name="LLAVEG"
+            length="30"/>
+
+        <property name="TC1"/>
+
+        <property name="TC2"/>
+
+        <property name="TC3"/>
+
+        <property name="TC4"/>
+
+        <property name="TC5"/>
+
+        <property name="NC"    length="10"/>
+            
+		<property name="IMPNC"/>
+
+        <property name="CONNC"  length="4"/>
+
+
+        <property name="FECHAC"
+            type="date"/>
+
+        <property name="IMPRESO"
+            length="1"/>
+            
+		<property name="importe"
+            type="com.luxsoft.siipap.utils.CantidadMonetariaCompositeUserType">
+            <column name="importe"	length="2"/>
+            <column name="importe_mon" 	length="3"/>
+        </property>
+
+        <property name="impuesto"
+            type="com.luxsoft.siipap.utils.CantidadMonetariaCompositeUserType">
+            <column name="impuesto"	length="2"/>
+            <column name="impuesto_mon" 	length="3"/>
+        </property>
+
+        <property name="total"
+            type="com.luxsoft.siipap.utils.CantidadMonetariaCompositeUserType">
+            <column name="total"	length="2"/>
+            <column name="total_mon" 	length="3"/>
+        </property>
+
+        <property name="importeEnFactura"
+            type="com.luxsoft.siipap.utils.CantidadMonetariaCompositeUserType">
+            <column name="importeEnFactura"	length="2"/>
+            <column name="importeEnFactura_mon" 	length="3"/>
+        </property>
+
+        <property name="impuestoEnFactura"
+            type="com.luxsoft.siipap.utils.CantidadMonetariaCompositeUserType">
+            <column name="impuestoEnFactura"	length="2"/>
+            <column name="impuestoEnFactura_mon" 	length="3"/>
+        </property>
+
+        <property name="totalEnFactura"
+            type="com.luxsoft.siipap.utils.CantidadMonetariaCompositeUserType">
+            <column name="totalEnFactura"	length="2"/>
+            <column name="totalEnFactura_mon" 	length="3"/>
+        </property>
+        
+        <property name="importeMN"
+            type="com.luxsoft.siipap.utils.CantidadMonetariaCompositeUserType">
+            <column name="importeMN"	length="2"/>
+            <column name="importeMN_mon" 	length="3"/>
+        </property>
+
+        <property name="impuestoMN"
+            type="com.luxsoft.siipap.utils.CantidadMonetariaCompositeUserType">
+            <column name="impuestoMN"	length="2"/>
+            <column name="impuestoMN_mon" 	length="3"/>
+        </property>
+
+        <property name="totalMN"
+            type="com.luxsoft.siipap.utils.CantidadMonetariaCompositeUserType">
+            <column name="totalMN"	length="2"/>
+            <column name="totalMN_mon" 	length="3"/>
+        </property>
+
+		<property name="tipoDeMoneda" length="3"/>            
+            
+        <set name="partidas"
+				inverse="true"
+				lazy="true"
+				cascade="all-delete-orphan">
+				<key column="FACXP_ID"/>
+				<one-to-many class="com.luxsoft.siipap.cxp.domain.Facxpde"/>
+		</set>
+		
+		<property name="creado" />
+ 		<property name="modificado" />
+		
+		
+		
+
+ 
+    </class>
+
+</hibernate-mapping>

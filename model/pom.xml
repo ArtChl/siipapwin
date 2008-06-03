@@ -1,0 +1,284 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>com.luxsoft.siipapwin</groupId>
+		<artifactId>siipapwin</artifactId>
+		<version>1.0-SNAPSHOT</version>
+	</parent>
+	<groupId>com.luxsoft.siipapwin</groupId>
+	<artifactId>model</artifactId>
+	<packaging>jar</packaging>
+
+	<repositories>
+		<repository>
+			<id>luxsoftnet</id>
+			<url>http://luxsoftnet.com/m2/repository</url>
+		</repository>
+	</repositories>
+
+	<name>SiipaWin Model</name>
+
+	<description>Modelo de Dominio para SiipapWin</description>
+
+	<!-- 
+		<scm>
+		<developerConnection>scm:svn:https://svn2.hosted-projects.com/luxsoft/siipapwin-module</developerConnection>
+		</scm>
+	-->
+
+	<dependencies>
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-annotations</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>commons-collections</groupId>
+			<artifactId>commons-collections</artifactId>
+		</dependency>
+		
+		<dependency>
+			<groupId>net.java.dev.glazedlists</groupId>
+			<artifactId>glazedlists_java15</artifactId>
+			<version>1.7.0</version>
+		</dependency>
+
+		<dependency>
+			<groupId>c3p0</groupId>
+			<artifactId>c3p0</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>commons-pool</groupId>
+			<artifactId>commons-pool</artifactId>
+			<version>1.3</version>
+			<scope>compile</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>commons-dbcp</groupId>
+			<artifactId>commons-dbcp</artifactId>
+			<version>1.2.1</version>
+			<scope>compile</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>com.oracle</groupId>
+			<artifactId>ojdbc14</artifactId>
+		</dependency>
+		
+		<dependency>
+			<groupId>hsqldb</groupId>
+			<artifactId>hsqldb</artifactId>
+			<version>1.8.0.7</version>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>jmock</groupId>
+			<artifactId>jmock</artifactId>
+		</dependency>
+		
+		<dependency>
+	      <groupId>org.freemarker</groupId>
+    	  <artifactId>freemarker</artifactId>
+	      <version>2.3.10</version>
+	      <scope>compile</scope>
+    	</dependency>		
+		
+		<dependency>
+		  <groupId>javax.mail</groupId>
+    	  <artifactId>mail</artifactId>
+	      <version>1.4.1</version>
+    	  <scope>compile</scope>
+	    </dependency>
+		
+		<dependency>
+          <groupId>velocity</groupId>
+          <artifactId>velocity</artifactId>
+          <version>1.4</version>
+        </dependency>
+		
+		<dependency>
+            <groupId>commons-beanutils</groupId>
+            <artifactId>commons-beanutils</artifactId>
+            <version>1.7.0</version>
+        </dependency>
+		
+		<dependency>
+            <groupId>org.acegisecurity</groupId>
+            <artifactId>acegi-security-tiger</artifactId>
+            <version>${acegi.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.springframework</groupId>
+                    <artifactId>spring-aop</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.springframework</groupId>
+                    <artifactId>spring-core</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.springframework</groupId>
+                    <artifactId>spring-dao</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.springframework</groupId>
+                    <artifactId>spring-jdbc</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.springframework</groupId>
+                    <artifactId>spring-remoting</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.springframework</groupId>
+                    <artifactId>spring-support</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+
+	</dependencies>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>hibernate3-maven-plugin</artifactId>
+				<version>2.0</version>
+				<configuration>
+					<components>
+						<component>
+							<name>hbm2ddl</name>
+						</component>
+						<component>
+							<name>hbm2hbmxml</name>
+							<outputDirectory>target/hibernate3</outputDirectory>							 
+						</component>
+					</components>
+					<componentProperties>
+						<drop>true</drop>
+						<export>false</export>
+						<format>true</format>
+						<update>true</update>
+						<outputfilename>schema.sql</outputfilename>
+						<configurationfile>
+							target/classes/hibernate.cfg.xml
+						</configurationfile>
+					</componentProperties>
+				</configuration>
+
+			</plugin>
+
+
+
+			<!--
+				<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-scm-plugin</artifactId>
+				<version>1.0-SNAPSHOT</version>
+				<configuration>
+				<connectionType>developerConnection</connectionType>
+				</configuration>
+				</plugin>
+			-->
+
+
+		</plugins>
+
+		<extensions>
+
+			<extension>
+				<groupId>com.oracle</groupId>
+				<artifactId>ojdbc14</artifactId>
+				<version>9.0.2.0.0</version>
+			</extension>
+
+			<extension>
+				<groupId>hsqldb</groupId>
+				<artifactId>hsqldb</artifactId>
+				<version>1.8.0.7</version>
+			</extension>
+
+		</extensions>
+
+
+		<resources>
+			<resource>
+				<directory>src/main/resources</directory>
+				<filtering>true</filtering>
+			</resource>
+		</resources>
+
+
+	</build>
+	
+	<profiles>
+	
+		<!-- ================= Production Settings Profile ================= -->
+        <!-- Use "-P prod" when you want to use the settings in this profile -->
+        <!-- =============================================================== -->
+        <profile>
+			<id>qro</id>
+			<properties>
+				<db.url>jdbc:oracle:thin:@server_ofi_d:1521:qro</db.url>
+				<db.user>siipap</db.user>
+				<db.password>sis</db.password>
+				<db.driver>oracle.jdbc.driver.OracleDriver</db.driver>
+				<hibernate.dialect>org.hibernate.dialect.Oracle9Dialect</hibernate.dialect>
+				<exportador.enabled>true</exportador.enabled>
+				<exportador.path>G:\\SIIPAP\\ARCHIVOS\\COMUNICA</exportador.path> 
+				<!-- <exportador.path>G:\\SIIPAP\\ARCHIVOS\\COMUNICA\\ORACLE</exportador.path> -->
+				
+
+			</properties>
+		</profile>
+		
+		
+		<profile>
+			<id>prod</id>
+			<properties>
+				<db.url>jdbc:oracle:thin:@server_ofi_d:1521:siipapw</db.url>
+				<db.user>siipap</db.user>
+				<db.password>sis</db.password>
+				<db.driver>oracle.jdbc.driver.OracleDriver</db.driver>
+				<hibernate.dialect>org.hibernate.dialect.Oracle9Dialect</hibernate.dialect>
+				<exportador.enabled>true</exportador.enabled>
+				<exportador.path>G:\\SIIPAP\\ARCHIVOS\\COMUNICA</exportador.path> 
+				<!-- <exportador.path>G:\\SIIPAP\\ARCHIVOS\\COMUNICA\\ORACLE</exportador.path> -->
+				
+
+			</properties>
+		</profile>
+		
+		<profile>
+			<id>pruebas</id>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+			<properties>
+				<db.url>jdbc:oracle:thin:@server_ofi_d:1521:pruebas</db.url>
+				<db.user>siipapprb</db.user>
+				<db.password>pruebas</db.password>
+				<db.driver>oracle.jdbc.driver.OracleDriver</db.driver>
+				<hibernate.dialect>org.hibernate.dialect.Oracle9Dialect</hibernate.dialect>
+				<exportador.enabled>false</exportador.enabled>
+				<exportador.path>C:\\BASURA</exportador.path>				
+			</properties>
+		</profile>
+		
+	</profiles>
+	
+	<properties>
+		<acegi.version>1.0.5</acegi.version>
+		<maven.test.skip>true</maven.test.skip>
+	</properties>
+	
+</project>

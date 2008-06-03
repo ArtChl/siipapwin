@@ -1,0 +1,263 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+    <class name="com.luxsoft.siipap.ventas.domain.Venta" 
+    	   lazy="true" 	   
+    	   table="SW_VENTAS">
+        
+        <id name="id" column="VENTA_ID">        
+            <generator class="native">
+            	<param name="sequence">ventas_venta_ids</param>
+            </generator>
+        </id>
+        <version name="version"  column="VERSION"/>        
+
+        <many-to-one 
+			name="cliente"
+			column="CLIENTE_ID"
+			not-null="false"
+			cascade="save-update"			
+			foreign-key="VENTA_CLIE_FK"/>
+<!-- 
+ 
+        <many-to-one 
+			name="cliente"
+			column="CLIENTE_ID"
+			not-null="false"
+			foreign-key="VENTA_CLIE_FK"/>
+ -->
+
+        <property name="origen" not-null="true" length="3"/>
+        
+        <property  	 name="sucursal">        
+        	<column name="SUCURSAL" not-null="true" unique-key="LLAVE"/>
+        </property>
+        <property  	 name="fecha" 			type="date">
+           	<column name="FECHA" not-null="true" unique-key="LLAVE"/>
+        </property>
+                
+        <property    name="serie" 			>
+        	<column name="SERIE" length="1" not-null="true" unique-key="LLAVE"/>
+        </property>
+        
+        <property    name="tipo" 			>        
+        	<column name="TIPO" length="1" not-null="true" unique-key="LLAVE"/>
+        </property>        
+        
+        <property    name="numero">
+        	<column name="NUMERO" not-null="true" unique-key="LLAVE"/>
+        </property>
+                
+        
+        <property    name="clasificacion"/>        
+        <property    name="clave"	 		length="7"/>        
+        <property    name="nombre"	 		length="55"/>                
+        <property    name="socio" 			length="4"/>        
+        <property    name="nombreSocio"	 	length="40"/>                
+        
+        <property name="importeBruto"
+            type="com.luxsoft.siipap.utils.CantidadMonetariaCompositeUserType">
+            <column name="importebruto"			length="2"/>
+            <column name="importebruto_mon" 	length="3"/>
+        </property>
+        
+        <property name="descuentoReal" 		length="3"/>
+        <property name="descuentoFacturado" length="3"/>        
+        
+        <property name="importeManiobras"
+            type="com.luxsoft.siipap.utils.CantidadMonetariaCompositeUserType">
+            <column name="impManiobras"			length="2"/>
+            <column name="impManiobras_mon" 	length="3"/>
+        </property>
+        
+        <property    name="cortes"/>        
+        
+        <property name="precioCorte"
+            type="com.luxsoft.siipap.utils.CantidadMonetariaCompositeUserType">
+            <column name="precioCorte"			length="2"/>
+            <column name="precioCorte_mon" 		length="3"/>
+        </property>
+
+        <property name="importeCortes"
+            type="com.luxsoft.siipap.utils.CantidadMonetariaCompositeUserType">
+            <column name="impCortes"			length="2"/>
+            <column name="impCortes_mon"	 	length="3"/>
+        </property>        
+        
+        <property name="subTotal"
+            type="com.luxsoft.siipap.utils.CantidadMonetariaCompositeUserType">
+            <column name="subTotal"			length="2"/>
+            <column name="subTotal_mon" 	length="3"/>
+        </property>
+
+        <property name="impuesto"
+            type="com.luxsoft.siipap.utils.CantidadMonetariaCompositeUserType">
+            <column name="impuesto"		length="2"/>
+            <column name="impuesto_mon" length="3"/>
+        </property>
+
+        <property name="total"
+            type="com.luxsoft.siipap.utils.CantidadMonetariaCompositeUserType">
+            <column name="total"		length="2"/>
+            <column name="total_mon" 	length="3"/>
+        </property>
+        
+        <property name="kilos" 			length="3"/>
+        <property name="cantidad" 		length="3"/>        
+        
+        
+        
+		<property name="pedido" />        
+		<property name="pedidoUsuario" 		length="6"/>        
+		<property name="numeroFiscal" />        
+		<property name="tipoDePago" 		length="1"/>        
+		<property name="facturista" 		length="6"/>        
+		<property name="surtidor" 			length="15"/>        
+		<property name="comentario" 		length="50"/>        
+		<property name="fechaCancelacion" 	type="date"/>        
+		<property name="cancelo" 			length="6"/>        
+		<property name="motivoCancelacion" 		length="40"/>        
+		
+		<!-- <property name="saldo"/> -->
+		
+		<property name="pagos"
+				formula="(		   		
+		   		SELECT NVL(SUM(NVL(P.IMPORTE,0)),0) FROM SW_PAGOS P WHERE P.VENTA_ID=VENTA_ID AND P.FORMADEPAGO NOT IN('K','U')
+		   		)"		   		
+		/>
+		  
+		<property name="descuentos" 
+				formula="(		   		
+		   		SELECT NVL(SUM(NVL(D.IMPORTE,0)),0) FROM SW_NOTASDET D JOIN SW_NOTAS C ON(D.NOTA_ID=C.NOTA_ID) WHERE D.VENTA_ID=VENTA_ID AND C.SERIE IN('U','V')
+		   		)"
+		/>
+		<!-- 
+		<property name="descuento1" 
+				formula="(		   		
+		   		SELECT NVL(SUM(NVL(D.IMPORTE,0)),0) FROM SW_NOTASDET D JOIN SW_NOTAS C ON(D.NOTA_ID=C.NOTA_ID) 
+		   		 WHERE D.VENTA_ID=VENTA_ID AND C.TIPO IN('U','L')
+		   		)"
+		/> 
+		 -->
+		<property name="descuento1" 
+				formula="(		   		
+		   		SELECT NVL(SUM(NVL(D.IMPORTE,0)),0) FROM SW_NOTASDET D JOIN SW_NOTAS C ON(D.NOTA_ID=C.NOTA_ID) 
+		   		 WHERE D.VENTA_ID=VENTA_ID AND C.TIPO IN('U')
+		   		)"
+		/>
+		
+		<property name="descuento2" 
+				formula="(		   		
+		   		SELECT NVL(SUM(NVL(D.IMPORTE,0)),0) FROM SW_NOTASDET D JOIN SW_NOTAS C ON(D.NOTA_ID=C.NOTA_ID) 
+		   		 WHERE D.VENTA_ID=VENTA_ID AND C.TIPO IN('V')
+		   		)"
+		/> 
+			
+		
+		<property name="descuentoT" 
+				formula="(		   		
+		   		SELECT  NVL(SUM(-D.IMPORTE),0) FROM SW_NOTASDET D WHERE D.VENTA_ID=VENTA_ID AND D.TIPO IN('T') 
+		   		)"
+		/>
+		
+		<property name="bonificaciones" 
+				formula="(		   		
+		   		SELECT  NVL(SUM(-D.IMPORTE),0) FROM SW_NOTASDET D WHERE D.VENTA_ID=VENTA_ID AND D.TIPO IN('L') 
+		   		)"
+		   		access="field"
+		/> 
+		
+		<property name="devolucionesCred" 
+				formula="(		   		
+		   		SELECT NVL(SUM(NVL(D.IMPORTE,0)),0) FROM SW_NOTASDET D JOIN SW_NOTAS C ON(D.NOTA_ID=C.NOTA_ID) WHERE D.VENTA_ID=VENTA_ID AND C.TIPO IN('J','H','I')
+		   		)"
+		/>
+		<!-- 
+		<property name="saldo"
+				formula="
+				(
+					TOTAL-
+					(SELECT NVL(SUM(NVL(P.IMPORTE,0)),0) FROM SW_PAGOS P WHERE P.VENTA_ID=VENTA_ID AND P.FORMADEPAGO NOT IN('K','U'))
+				   	-(SELECT NVL(SUM(NVL(-D.IMPORTE,0)),0) FROM SW_NOTASDET D JOIN SW_NOTAS C ON(D.NOTA_ID=C.NOTA_ID) WHERE D.VENTA_ID=VENTA_ID AND C.SERIE IN('U','V'))
+				)"
+		/>
+		 -->
+		<property name="saldo"
+				formula="
+				(
+					TOTAL-
+					(SELECT NVL(SUM(NVL(P.IMPORTE,0)),0) FROM SW_PAGOS P WHERE P.VENTA_ID=VENTA_ID AND P.FORMADEPAGO NOT IN('K','U')) 
+				   	-(SELECT NVL(SUM(NVL(-D.IMPORTE,0)),0) FROM SW_NOTASDET D JOIN SW_NOTAS C ON(D.NOTA_ID=C.NOTA_ID) WHERE D.VENTA_ID=VENTA_ID AND C.SERIE NOT IN('M') AND C.TIPO IN('U','V')AND C.APLICABLE=0)
+				   	-(SELECT NVL(SUM(NVL(-D.IMPORTE,0)),0) FROM SW_NOTASDET D JOIN SW_NOTAS C ON(D.NOTA_ID=C.NOTA_ID) WHERE D.VENTA_ID=VENTA_ID AND C.SERIE NOT IN('M') AND C.TIPO IN('J','H','I') AND C.APLICABLE=0)
+				   	-(SELECT NVL(SUM(NVL(-D.IMPORTE,0)),0) FROM SW_NOTASDET D JOIN SW_NOTAS C ON(D.NOTA_ID=C.NOTA_ID) WHERE D.VENTA_ID=VENTA_ID AND C.SERIE NOT IN('M') AND C.TIPO IN('L','F','C','T') AND C.APLICABLE=0)
+				)"
+		/>
+			
+<!-- (SELECT  FROM  B WHERE A.VENTA_ID=B.VENTA_ID AND B.TIPO IN('T')) AS DESCUENTO_T -->
+		
+		<property name="vendedor" />        
+		<property name="cobrador" />        
+		<property name="chofer"/>        
+		<property name="vencimiento" 	type="date"/>        
+		<property name="diaPago" 	/>        
+		<property name="diaRevision" 	/>        
+			
+        
+    	 <set name="partidas"
+			inverse="true"
+			lazy="true"
+			cascade="all-delete-orphan">
+			<key column="VENTA_ID"/>
+			<one-to-many class="com.luxsoft.siipap.ventas.domain.VentaDet"/>
+		</set>
+		
+		<one-to-one name="provision"
+			cascade="save-update"
+		/>
+		
+		<one-to-one name="credito"
+			cascade="save-update"
+		/>
+		
+		<property name="mes"/>
+		
+		<property name="year"/>
+		
+		<property name="fechaReal" type="date"/>
+		
+		<property name="creado" />
+		
+		<property name="eliminado" />
+		
+		<property name="comisionVenta">
+			<column name="COMIVENT" not-null="true" default="0.0"/>
+		</property>				
+		
+		<property name="pagoComisionVendedor" column="PAGOCOMIVEN" type="date"></property>
+		
+		<property name="comisionCobrador">
+			<column name="COMICOB" not-null="true" default="0.0"/>
+		</property>		
+		
+		<property name="pagoComisionCobrador" column="PAGOCOMICOB" type="date"/>
+		
+		<property name="impComisionVent" >
+			<column name="IMPCOMIVENT" scale="2" not-null="true" default="0.0"/>
+		</property>
+		
+		<property name="impComisionCob" >
+			<column name="IMPCOMICOB" scale="2" not-null="true" default="0.0"/>
+		</property>
+		
+		<property name="cancelComiVent" length="55"/>
+		
+		<property name="pagoComisionable" >
+			<column name="PAGOCOMISIONABLE" scale="2" not-null="true" default="0.0"/>
+		</property>
+ 
+    </class>
+
+</hibernate-mapping>

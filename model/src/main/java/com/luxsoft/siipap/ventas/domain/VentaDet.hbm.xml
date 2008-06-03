@@ -1,0 +1,95 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+
+<hibernate-mapping>
+    <class name="com.luxsoft.siipap.ventas.domain.VentaDet" 
+    	   lazy="true"
+    	   table="SW_VENTASDET">
+        
+        <id name="id" column="VENTADET_ID">
+            <generator class="native">
+            	<param name="sequence">ventas_ventadet_ids</param>
+            </generator>
+        </id>
+        
+        <version name="version"/> 
+        
+        <property  	 name="tipo" >                       
+        	<column name="TIPO" length="3" not-null="true" unique-key="LLAVE01"/>
+        </property>
+        <property  	 name="sucursal">
+        	<column name="SUCURSAL" not-null="true" unique-key="LLAVE01"/>
+        </property>
+        
+        <property  	 name="serie" >        
+        	<column name="SERIE" length="1" not-null="true" unique-key="LLAVE01"/>
+        </property>
+        
+        <property  	 name="tipoFactura" >
+        	<column name="TIPOFACTURA" length="1" not-null="true" unique-key="LLAVE01"/>
+        </property>
+        
+        <property  	 name="numero">                
+           	<column name="NUMERO" not-null="true" unique-key="LLAVE01"/>
+        </property>
+        
+        <property  	 name="renglon">
+        	<column name="RENGLON"  not-null="true" unique-key="LLAVE01"/>
+        </property>
+                
+        <property  	 name="fecha" type="date"/>     
+        <property  	 name="clave" 		length="10"/>           
+        <property  	 name="descripcion" length="55"/>        
+        <property  	 name="kilos" 		length="3"/>        
+        <property  	 name="cantidad" 	length="3"/>        
+        <property  	 name="unidad" 		length="3"/>        
+        <property  	 name="factorDeConversionUnitaria" column="FACTORUNI"/>        
+        
+        
+		<property name="precioLista"/>
+        
+		<property name="precioFacturado"/>        
+
+<!-- 		<property name="importeBruto"/> -->
+        
+<!-- 		<property name="importeNeto"/>  -->
+
+		<property name="precioReal"/>
+		
+		<property name="importeReal"/>				
+        
+        <many-to-one 
+			name="venta"
+			column="VENTA_ID"
+			not-null="false"
+			foreign-key="VENTADET_VENTA_FK"/>  
+		
+		<many-to-one 
+			name="articulo"
+			column="ARTICULO_ID"
+			not-null="false"
+			foreign-key="VENTADET_ARTICULO_FK"/>
+			
+		<property name="mes"	/>
+		<property name="year"	/>					
+
+		<property name="fechaReal" type="date"	/>		
+		
+		<property name="creado"	/>
+
+		
+		<property name="eliminado" />
+		
+		<property name="devueltos"
+				formula="(	 	   		
+		   		SELECT NVL(SUM(NVL(P.CANTIDAD,0)),0) FROM SW_DEVODET P WHERE P.VENTADET_ID=VENTADET_ID AND P.NOTA_ID IS NOT NULL
+		   		)"
+		/>
+		
+		 
+    </class>
+
+</hibernate-mapping>

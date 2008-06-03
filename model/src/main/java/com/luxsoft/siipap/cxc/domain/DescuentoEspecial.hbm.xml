@@ -1,0 +1,40 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+
+	<class name="com.luxsoft.siipap.cxc.domain.DescuentoEspecial"
+		table="SW_DESC_ESP" lazy="true" >
+		
+		<id name="id" column="DESCUENTO_ID">
+			<generator class="native">
+				<param name="sequence">descuentos_ids</param>
+			</generator>
+		</id>
+		
+		<many-to-one 
+			name="venta"
+			column="VENTA_ID"
+			not-null="true"
+			foreign-key="DESCESP_VENTA_FK"
+			unique="true"
+			/>
+		
+		<many-to-one 
+			name="cliente"
+			column="CLIENTE_ID"
+			not-null="true"
+			foreign-key="DESCESP_CLIENTE_FK"
+			/>
+		
+		<property name="descuento"></property>
+		<property name="autorizo" ></property>				
+		<property name="comentario"></property>
+		<property name="fechaAutorizacion" type="date"></property>		
+		<property name="creado" />		
+
+	</class>
+
+</hibernate-mapping>

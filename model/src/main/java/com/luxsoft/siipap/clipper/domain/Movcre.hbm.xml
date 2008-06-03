@@ -1,0 +1,278 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+    
+<hibernate-mapping>
+
+<class 
+    name="com.luxsoft.siipap.clipper.domain.Movcre" 
+    table="SW_MOVCRE"
+    lazy="true">
+    
+    <id name="id"
+        column="MOVCRE_ID">
+        <generator class="native">
+            <param name="sequence">siipap_sequence</param>
+        </generator>
+    </id>
+<!-- 
+    <property name="MCRSUCURSA" not-null="true"/>
+
+    <property name="MCRIDENOPE"/>
+        
+    <property name="MCRFECHA"
+        type="date"
+        length="7"/>
+
+    <property name="MCRETAPA"
+        length="1"/>
+        
+    <property name="MCRSERIEFA"
+        length="1"/>
+
+    <property name="MCRTIPOFAC"
+        length="1"/>
+
+    <property name="MCRCONSECU"
+        length="1"/>
+
+    <property name="MCRTIPOFAL"
+        length="10"/>
+
+    <property name="MCRDESTFAC"
+        length="30"/>
+
+    <property name="MCRTIPOVTA"
+        length="3"/>
+        
+    <property name="MCRNUMDOCT"/>
+
+    <property name="MCRNODOCTO"/>
+        
+    <property name="MCRNOFISCA"/>
+        
+    <property name="MCRSERIEFI"
+        length="1"/>
+
+    <property name="MCRCLITIPO"
+        length="3"/>
+
+    <property name="MCRCLASCLI"/>
+        
+    <property name="MCRCLAVCLI"
+        length="7"/>
+        
+    <property name="MCRNOMBCLI"
+        length="55"/>
+        
+    <property name="MCRCLAVSOC"
+        length="4"/>
+
+    <property name="MCRNOMBSOC"
+        length="40"/>
+
+    <property name="MCRRFCCLIE"
+        length="20"/>
+
+    <property name="MCRCALLE"
+        length="40"/>
+        
+    <property name="MCRCOLONIA"
+        length="40"/>
+ -->
+    <property name="MCRDELEGAC"
+        length="30"/>
+        
+    <property name="MCRCODIGOP"
+        length="5"/>
+
+    <property name="MCRTELEFON"
+        length="30"/>
+
+    <property name="MCRVENDEDO"/>
+        
+    <property name="MCRCOBRADO"/>
+
+    <property name="MCRCHOFER"/>
+
+    <property name="MCRZONA"/>
+
+    <property name="MCRFEDEPCH"
+        type="date"
+        length="7"/>
+
+    <property name="MCRSTATUS"
+        length="1"/>
+
+    <property name="MCRVTO"
+        type="date"
+        length="7"/>
+
+    <property name="MCRDIAREVI"/>
+
+    <property name="MCRDIAPAGO"/>
+        
+    <property name="MCRNOMDESR"
+        length="150"/>
+        
+    <property name="MCRPORDESR"
+        length="50"/>
+
+    <property name="MCRNOMDESF"
+        length="150"/>
+
+    <property name="MCRPORDESF"
+        length="50"/>
+
+    <property name="MCRNOMCAD"
+        length="150"/>
+
+    <property name="MCRPORCAD"
+        length="50"/>
+        
+    <property name="MCRIMPARTI"/>
+
+    <property name="MCRCONCEPT"
+        length="25"/>
+        
+    <property name="MCRIMPCONC"/>
+
+    <property name="MCRIMPCORT"/>
+
+    <property name="MCRCANTCOR"/>
+        
+    <property name="MCRSUBTOT"/>
+
+    <property name="MCRIMPUEST"/>
+        
+    <property name="MCRTOTAL"/>
+        
+    <property name="MCRKGSFACT"/>
+
+    <property name="MCRCANTIDA"/>
+
+    <property name="MCRPORIVA"/>
+    
+    <property name="MCRFACTURI"
+        length="6"/>
+
+    <property name="MCRSURTIO"
+        length="15"/>
+
+    <property name="MCRCOMFAC"
+        length="50"/>
+
+    <property name="MCRNOCHTAR"
+        length="20"/>
+
+    <property name="MCRBANCO"
+        length="30"/>
+
+    <property name="MCRHORAFAC"
+        length="8"/>
+
+    <property name="MCRFECREAL"
+        type="date"
+        length="7"/>
+
+    <property name="MCRHRSREAL"
+        length="8"/>
+
+    <property name="MCRFECHCAN"
+        type="date"
+        length="7"/>
+
+    <property name="MCRCANCELO"
+        length="5"/>
+
+    <property name="MCRMOTICAN"
+        length="40"/>
+
+    <property name="MCRFEFAAFE"
+        type="date"
+        length="7"/>
+
+    <property name="MCRSUFAAFE"/>
+        
+    <property name="MCRSEFAAFE"
+        length="1"/>
+
+    <property name="MCRTIFAAFE"
+        length="1"/>
+
+    <property name="MCRNUFAAFE"/>
+
+    <property name="MCROPFAAFE"/>
+        
+    <property name="MCRTIPOMOV"
+        length="2"/>
+
+    <property name="MCRNUMMOVI"/>
+        
+    <property name="MCRARCHIVO"
+        length="8"/>
+
+    <property name="MCRMVADEV"
+        length="3"/>
+
+    <property name="MCRSUCDEV"/>
+
+    <property name="MCRFECDEV"
+        type="date"
+        length="7"/>
+
+    <property name="MCRNUMDEV"/>
+
+    <property name="MCRMOPECO"
+        length="1"/>
+
+    <property name="MCRIMPRESO"
+        type="date"
+        length="7"/>
+
+    <property name="MCRNCRPROV"/>
+        
+    <property name="MCRFORMATO"
+        length="10"/>
+
+    <property name="MCRFECOMVE"
+        length="30"/>
+        
+    <property name="MCRFECOMCO"
+        length="30"/>
+
+    <property name="MCRFECOMCH"
+        length="30"/>
+
+    <property name="MCRIMPFACT"/>
+
+    <property name="MCRSALFACT"/>
+        
+    <property name="MCRCANTENT"/>
+        
+    <property name="MCRCONMANI"
+        length="15"/>
+        
+    <property name="MCRIMPMANI"/>
+        
+    <property name="MCRNOMCOTI"
+        length="6"/>
+        
+    <property name="MCRNOMPEDI"
+        length="6"/>
+
+    <property name="MES"
+        length="6"/>
+
+    <!-- Associations  -->
+
+    <set name="partidas"
+		inverse="true"
+		cascade="all-delete-orphan">
+		<key column="MOVCRE_ID"/>
+			<one-to-many class="com.luxsoft.siipap.clipper.domain.Almace"/>
+	</set>
+
+</class>
+</hibernate-mapping>

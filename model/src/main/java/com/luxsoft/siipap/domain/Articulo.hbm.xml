@@ -1,0 +1,202 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+    <class name="com.luxsoft.siipap.domain.Articulo" 
+    	   lazy="true"
+    	   discriminator-value="A"
+    	   table="SW_ARTICULOS">
+        
+        <id name="id">
+            <generator class="native">
+           		<param name="sequence">siipap_sequence</param>
+        	</generator>
+        </id>
+        
+        <discriminator 
+	        type="string"
+        	column="TIPO"
+        	length="1"
+        />
+        
+		<!-- Propiedades simples -->
+		<property name="clave"
+			column="CLAVE"
+			length="10"
+			unique="true"
+			not-null="true"
+		/>
+		
+		<property name="descripcion1"        	
+			length="60"
+			not-null="true"
+        />
+        
+        <property name="descripcion2"	length="60"/>
+        <property name="kilos" 			length="3"/>
+        <property name="area" />        
+		
+        <property name="gramos"/>
+        <property name="largo" length="3"/>
+        <property name="ancho" length="3"/>
+        <property name="calibre"/>
+        
+        <property name="observacion" 	length="60"/>
+        
+        <property name="estado"						 
+        	type="com.luxsoft.siipap.utils.ArticuloEstadoUserType"
+        	length="1"
+        />        
+        <property name="comentarioDeSuspencion"
+        	length="60"
+        />
+                        
+        <property name="codigoOrigen"
+			length="10"
+			not-null="true"
+        />
+        
+		<property name="suspendidoEnVentas"
+			column="SUS_VENTAS"/>
+        <property name="comentarioDeSuspencionEnVenta"
+        	column="COM_SUS_VENTAS"
+        	length="60"/>
+        	
+        <property name="suspendidoEnInventarios"
+        	column="SUS_INVENTA"/>
+        <property name="comentarioDeSuspencionEnInventario"
+        	column="COM_SUS_INVENTA"
+        	length="60"/>
+
+        <property name="suspendidoEnCompras"
+        	column="SUS_COMPRAS"/>
+        <property name="comentarioDeSuspencionEnCompra"
+        	column="COM_SUS_COMPRAS"
+        	length="60"/>
+        	
+        <property name="visibleEnComentariosDeAyuda"/>
+        
+        <property name="afectaInventario"/>
+		<property name="modoDeVentaBruto"/>
+        <property name="descripcionListaDePrecios"
+        	column="DESC_LISTAPRECIOS"
+        	length="60"/>
+        <property name="paginaListaDePrecios"/>
+        <property name="subPagina"/>
+         
+        <property name="creado"/>
+		<property name="modificado"/>
+		
+        <property name="fechaDeSuspencion"
+        	type="date"/>
+        
+        <property name="artfecal"
+        	type="date"/>
+        <property name="artfebaj"
+        	type="date"/>
+        
+        <property name="precioNeto">
+			<column name="PRECIONETO" not-null="true" default="0"/>
+        </property>
+        
+        <property name="clasificacion" length="1"/>
+
+        <property name="caras">
+   			<column name="CARAS" not-null="true" default="1"/>
+   		</property>
+       			
+		<property name="acabado" 	length="20"/>
+		<property name="color" 		length="20"/>
+				
+		<property name="nacional">
+			<column name="NACIONAL" not-null="true" default="1"/>
+		</property>
+        
+        <property name="precioContado"
+            type="com.luxsoft.siipap.utils.CantidadMonetariaCompositeUserType">
+            <column name="PCONTADO"	length="5"/>
+            <column name="PCONTADO_MON" 	length="3"/>
+        </property>
+        
+        <property name="precioCredito"
+            type="com.luxsoft.siipap.utils.CantidadMonetariaCompositeUserType">
+            <column name="PCREDITO"	length="5"/>
+            <column name="PCREDITO_MON" 	length="3"/>
+        </property>
+        
+        <property name="costo"
+            type="com.luxsoft.siipap.utils.CantidadMonetariaCompositeUserType">
+            <column name="COSTO"		length="5"/>
+            <column name="COSTO_MON" 	length="3"/>
+        </property>
+        
+        <property name="artprenu"
+            type="com.luxsoft.siipap.utils.CantidadMonetariaCompositeUserType">
+            <column name="artprenu"		length="5"/>
+            <column name="artprenu_mon" 	length="3"/>
+        </property>
+        
+        <property name="artprenu2"
+            type="com.luxsoft.siipap.utils.CantidadMonetariaCompositeUserType">
+            <column name="artprenu2"		length="5"/>
+            <column name="artprenu2_mon" 	length="3"/>
+        </property>
+        
+        
+        	
+        <!-- Asociaciones many-to-one (Referencias)-->
+        
+        <many-to-one name="unidad"
+        	column="UNIDAD_ID"
+        	not-null="true"/>
+
+        <many-to-one name="unidadDeVenta"
+        	column="UNIDAD_V_ID"/>
+        	
+        <many-to-one name="familia"
+        	column="FAMILIA_ID"
+        	not-null="true"/>
+        	
+        <set name="unidades"
+        	inverse="true"
+        	lazy="true"
+        	>
+        	<key column="ARTICULO_ID"/>
+        	<one-to-many class="com.luxsoft.siipap.domain.UnidadesPorArticulo"/>
+        </set>
+
+        <!-- Asociaciones one-to-many (Colecciones)-->
+        
+        <set name="proveedores"
+        	inverse="true"
+        	cascade="save-update"
+        	lazy="true"
+        	>
+        	<key column="ARTICULO_ID"/>
+        	<one-to-many class="com.luxsoft.siipap.domain.ArticuloPorProveedor"/>
+        </set>
+        
+        <!-- Nuevos catalogos -->
+        <many-to-one name="linea"
+        	column="LINEA_ID"
+        	not-null="false"/>
+        <property name="lineaClave" column="linea" length="40"/>
+        <many-to-one name="marca"
+        	column="MARCA_ID"
+        	not-null="false"/>
+        <property name="marcaClave" column="marca" length="40"/>        	
+		<many-to-one name="clase"
+        	column="CLASE_ID"
+        	not-null="false"/>
+        <property name="claseClave" column="clase" length="40"/>        	
+        <property name="presentacion" column="PRESENTACION" length="15"></property>        
+        
+        <property name="costoP">
+        	<column name="COSTOP" not-null="true" scale="2" default="0"/>
+        </property>
+    </class>
+
+</hibernate-mapping>
+<!-- parsed in 0ms -->

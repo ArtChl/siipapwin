@@ -1,0 +1,133 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+
+    <class name="com.luxsoft.siipap.domain.Proveedor" 
+    		table="SW_PROVEEDORES"
+    		discriminator-value="C"
+    		lazy="true">
+    		
+        <id name="id">
+            <generator class="native">
+           		<param name="sequence">siipap_sequence</param>
+        	</generator>
+        </id>
+        
+        <discriminator 
+	        type="string"
+        	column="TIPO"
+        	length="1"
+        />
+        
+        <property name="clave"  
+        	length="4"
+        	not-null="true"
+        	unique="true"/>
+        	
+        <property name="nombre" 
+        	not-null="true"
+        	length="60"/>
+
+        <!--        
+        <property name="direccion"
+        	type="com.luxsoft.siipap.utils.DireccionUserType">
+        	<column name="calle" 		length="50"/>
+        	<column name="numero" 		length="6"/>
+        	<column name="numeroExterior" 		length="6"/>        	
+        	<column name="colonia" 		length="50"/>
+        	<column name="cp" 			length="5"/>
+        	<column name="ciudad" 		length="30"/>
+        	<column name="entidad" 		length="30"/>
+        	<column name="municipio" 	length="50"/>
+        	<column name="pais"		 	length="4"/>
+        </property>
+		 -->
+        
+        <component name="telefono1"	class="com.luxsoft.siipap.domain.Telefono">
+        	<property name="telefono"
+        	 	column="TEL1" length="20"
+        		access="field"/>
+        	<property name="lada"
+        		column="LAD_TEL1" length="6"
+        		access="field"/>
+       	</component>
+        <component name="telefono2"	class="com.luxsoft.siipap.domain.Telefono">
+        	<property name="telefono"
+        	 	column="TEL2" length="20"
+        		access="field"/>
+        	<property name="lada"
+        		column="LAD_TEL2" length="6"
+        		access="field"/>
+       	</component>
+       	<component name="fax"	class="com.luxsoft.siipap.domain.Telefono">
+        	<property name="telefono"
+        	 	column="FAX" length="20"
+        		access="field"/>
+        	<property name="lada"
+        		column="LAD_FAX" length="6"
+        		access="field"/>
+       	</component>
+        
+        <property name="rfc"
+        	length="20"/>        
+
+        <property name="diasDeCredito"/>
+        <property name="vencimientoEstipulado"/>
+		<property name="observaciones" length="60"/>
+		<property name="comentarioParaPedido" length="40"/>		
+		
+        <property name="representante" length="50"/>
+        <property name="cuentaContable" length="15"/>
+        <property name="activo"/>                
+        <property name="comentarioDeSuspencion"
+        	column="COM_SUSP" length="60"/>
+        <property name="fechaDeSuspencion"
+        	type="date"/>
+        <property name="fechaDeListaDePreciosVigente"
+        	type="date" column="FECHALISTA_VIG" 
+        />
+        <property name="recibeDocumentos"/>
+        <property name="monedaDefault" 	length="3"/>
+        <property name="creado" type="java.util.Date"/> 
+
+        <property name="prosusent"
+        	type="date"/>
+        <property name="prosusrev"
+        	type="date"/>
+        	
+        <property name="descuentoFinanciero"	column="DESCUENTOF" length="2"/>
+        <property name="diasDF"	/>        
+        
+        <property name="saldo"
+            type="com.luxsoft.siipap.utils.CantidadMonetariaCompositeUserType">
+            <column name="SALDO"		length="2"/>
+            <column name="SALDO_MON" 	length="3"/>
+        </property>	
+        
+        
+        <!-- Asosiaciones one-to-many (Colecciones) -->
+        <set name="articulosAsignados"
+        	inverse="true"
+        	cascade="all-delete-orphan"
+        	lazy="true"
+        	>        	
+        	<key column="PROVEEDOR_ID"/>
+        	<one-to-many class="com.luxsoft.siipap.domain.ArticuloPorProveedor"/>
+        </set>
+        
+        
+    </class>
+    
+    <query name="articulosNoAsignados"><![CDATA[
+         select articulo 
+		 from Articulo articulo 
+		 where articulo not in( select ap.articulo 
+					from ArticuloPorProveedor ap 
+					where ap.proveedor=:proveedor)
+    ]]></query>
+
+</hibernate-mapping>
+<!-- parsed in 0ms -->

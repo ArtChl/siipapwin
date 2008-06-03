@@ -1,0 +1,128 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+
+	<typedef class="com.luxsoft.siipap.utils.StringEnumUserType"
+   		name="formaDePago">
+   		<param name="enumClassname">com.luxsoft.siipap.cxc.domain.FormaDePago</param>
+	</typedef>
+	
+	<class name="com.luxsoft.siipap.cxc.domain.PagoM"
+		table="SW_PAGOM" lazy="true"
+		dynamic-insert="true"
+		dynamic-update="true"
+		discriminator-value="N"
+		>
+		
+		<id name="id" column="PAGOM_ID">        
+            <generator class="native"/>
+        </id>
+        
+        <discriminator 
+	        type="string"
+        	column="TIPO"
+        	length="1"
+        />
+                
+        <version name="version"  column="VERSION"/>
+        
+        <many-to-one 
+			name="cliente"
+			column="CLIENTE_ID"
+			foreign-key="PAGOSDESC_CLIE_FK"
+			not-null="true"/>
+			
+		<property name="tipoDeDocumento" length="1" not-null="true"/>
+		 
+        <property name="clave" length="7"/>        
+        
+        <property name="fecha" type="date" access="field"/>         
+        
+        <property name="formaDePago"
+				column="FORMADP"
+				type="formaDePago"
+				not-null="false"
+				update="false"
+				access="field"
+				length="1"/>       
+        
+        <property name="banco" length="20"/>          
+        
+		<property name="comentario" length="50"/>
+		
+		<property name="referencia" length="30"/>
+		
+		<property name="tipoDeCambio" >
+			<column name="TC" scale="4" precision="10" not-null="true" default="'1'"></column>
+		</property>
+        
+        <property name="importe"
+            type="com.luxsoft.siipap.utils.CantidadMonetariaCompositeUserType" >
+            <column name="IMPORTE"		length="2" default="0"/>
+            <column name="IMPORTE_MON" 	length="3" default="'MXN'"/>
+        </property>
+        
+        <property name="aplicado"
+        	formula="(
+        		(SELECT NVL(SUM(NVL(P.IMPORTE,0)),0) FROM SW_PAGOS P WHERE P.PAGOM_ID=PAGOM_ID )
+        	)"/>        
+        
+        <property name="disponible"            
+        	formula="(
+        		IMPORTE-
+        		(SELECT NVL(SUM(NVL(P.IMPORTE,0)),0) FROM SW_PAGOS P WHERE P.PAGOM_ID=PAGOM_ID )
+        		-(SELECT NVL(SUM(NVL(P.IMPORTE,0)),0) FROM SW_PAGOS P WHERE P.PAGOM_ID IN(SELECT X.PAGOM_ID FROM SW_PAGOM X WHERE X.ORIGEN_ID=PAGOM_ID))
+        	)"/>
+        
+       
+        <set name="pagos"
+        	inverse="true"
+        	cascade="all"
+        	access="field">
+        	<key column="PAGOM_ID" not-null="false"/>
+        	<one-to-many class="com.luxsoft.siipap.cxc.domain.Pago"/>
+        </set>
+        
+        <property name="condonar"></property>  
+        
+        <property name="cuentaDeposito"></property>   
+   		
+		<property name="creado" 
+			access="field" 
+			update="false" 
+			insert="true" />
+		
+		<property name="modificado"	
+			type="timestamp"			
+			/>
+		
+		
+		
+		<property name="year"/>
+		
+		<property name="mes"/>
+		
+		<subclass name="com.luxsoft.siipap.cxc.domain.PagoConOtros"
+ 			discriminator-value="O">
+ 			 			
+ 			<many-to-one name="origen" column="ORIGEN_ID"/>
+ 			
+		</subclass>
+		
+		<subclass name="com.luxsoft.siipap.cxc.domain.PagoConNota"
+ 			discriminator-value="T"> 			 		
+ 				
+ 			<many-to-one name="nota" column="NOTA_ID"/> 			
+ 			
+		</subclass>				
+        
+        <subclass name="com.luxsoft.siipap.cxc.domain.Anticipo"
+ 			discriminator-value="K"> 			 		 			
+		</subclass>  
+    </class>
+		
+
+</hibernate-mapping>

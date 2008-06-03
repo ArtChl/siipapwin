@@ -1,0 +1,150 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+
+	<typedef class="com.luxsoft.siipap.utils.StringEnumUserType"
+   		name="tipoBonificacion">
+   		<param name="enumClassname">com.luxsoft.siipap.cxc.domain.ConceptoDeBonificacion</param>
+	</typedef>
+
+    <class name="com.luxsoft.siipap.cxc.domain.NotaDeCredito" 
+    	   table="SW_NOTAS" 
+    	   lazy="true">
+
+        <id name="id" column="NOTA_ID">
+            <generator class="native">
+            	<param name="sequence">notas_sequence</param>
+            </generator>
+        </id>
+        
+        <version name="version"  column="VERSION"/>
+        
+
+        <many-to-one 
+			name="cliente"
+			column="CLIENTE_ID"
+			not-null="false"
+			foreign-key="NC_CLIENTE_FK"
+			/>		
+			
+		<property name="clave" 	length="7" 	not-null="false" unique-key="LLAVE"/>
+			
+		<property name="numero" 			not-null="false" unique-key="LLAVE"/>
+		
+		<property name="serie" 	length="1" 	not-null="false"  unique-key="LLAVE"/>
+		
+		<property name="tipo" 	length="1"	not-null="false"  unique-key="LLAVE"/>		
+		
+		<many-to-one 
+			name="devolucion"
+			column="DEVO_ID"
+			not-null="false"
+			foreign-key="NC_DEVO_FK"
+			/>
+			
+		<property name="fecha" type="date"/>
+		
+		<property name="numeroFiscal" />				
+		
+		<property name="descuento" />
+		
+		
+		
+		<property name="importe"
+            type="com.luxsoft.siipap.utils.CantidadMonetariaCompositeUserType">
+            <column name="importe"		length="2"/>
+            <column name="importe_mon" 	length="3"/>
+        </property>
+				
+		<property name="importeBruto"
+            type="com.luxsoft.siipap.utils.CantidadMonetariaCompositeUserType">
+            <column name="importeBruto"			length="2"/>
+            <column name="importeBruto_mon" 	length="3"/>
+        </property>
+		
+		<property name="impuesto" 
+			formula="importe*.15"/>	
+		
+		<property name="total" 
+			formula="importe*1.15"/>
+		
+		<property name="pagos"
+				formula="(		   		
+		   		SELECT ROUND(NVL(SUM(NVL(P.IMPORTE,0)),0),2) FROM SW_PAGOS P WHERE P.NOTAPAGO_ID=NOTA_ID
+		   		)"
+		/>
+		
+		<property name="pagosDeCargos"
+				formula="(		   		
+		   		SELECT ROUND(NVL(SUM(NVL(P.IMPORTE,0)),0),2) FROM SW_PAGOS P WHERE P.NOTA_ID=NOTA_ID
+		   		)"
+		
+		/>
+		
+		<property name="saldo"
+				formula="(ROUND(importe*1.15,2))+(SELECT ROUND(NVL(SUM(NVL(P.IMPORTE,0)),0),2) FROM SW_PAGOS P WHERE P.NOTAPAGO_ID=NOTA_ID)"
+		/>
+		
+		<property name="saldoDelCargo"
+			formula="(ROUND(importe*1.15,2))-(SELECT ROUND(NVL(SUM(NVL(P.IMPORTE,0)),0),2) FROM SW_PAGOS P WHERE P.NOTA_ID=NOTA_ID AND SERIE='M' AND P.FORMADEPAGO NOT IN('K','U') )"
+			
+		/>
+
+		 
+		<property name="grupo"/>
+		
+		<property name="comentario" length="70"/>
+		
+		<property name="impreso"  type="date"/>
+
+		<property name="origen" length="3" not-null="true"/>		
+		
+		<property name="numeroDevo"/>
+		
+		<property name="sucursalDevo"/>
+
+		
+		<property name="creado" />
+
+		<property name="mes"/>
+		
+		<property name="year"/>				
+		
+		<list name="partidas" cascade="all-delete-orphan">
+			<key column="NOTA_ID" not-null="true"/>
+			<list-index column="detalleIdx"/>
+			<one-to-many class="com.luxsoft.siipap.cxc.domain.NotasDeCreditoDet"/>
+   		</list>
+   		
+   		
+		
+		<property name="bonificacion"
+				column="BONIFICACION"
+				type="tipoBonificacion"
+				not-null="false"
+				update="false"
+				access="field"
+				length="20"/>
+		
+		<property name="comentario2" length="255"/>
+		
+		<property name="aplicable" >
+			<column name="APLICABLE" not-null="true" default="0"/>
+		</property>
+		
+		<property name="descuentoAnticipado">
+			<column name="DANTICIPADO" not-null="true" default="0"/>		
+		</property>
+		
+		<property name="fechaRevisionCxC" column="FECHAREVISIONCXC" type="date"/>
+		
+		<property name="fechaPagoCxC" column="FECHAPAGOCXC" type="date"></property>
+		
+    </class>
+    
+    
+
+</hibernate-mapping>

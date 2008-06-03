@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping
+>
+    <class
+        name="com.luxsoft.siipap.cxp.domain.CXP"
+        table="SW_CXP"
+        lazy="true">
+
+        <id name="id"
+            column="CXP_ID">			
+            <generator class="native">
+            	<param name="sequence">cxp_folio</param>
+            </generator>
+        </id>
+        
+        <discriminator 
+	        type="string"
+        	column="TIPO"
+        	length="3"
+        />        
+        
+        <many-to-one  name="proveedor" column="PROVEEDOR_ID" not-null="false" lazy="false" fetch="join"/>
+        <property name="clave"	 	length="4"/>
+<!--         <property name="nombre" 	length="55"/> -->
+       	<property name="referencia"	length="15" not-null="false"/>
+       	<property name="fecha"	type="date" not-null="false"/>
+       	<property name="moneda"	length="3" not-null="false"/>
+       	<property name="tc"	length="2" not-null="false"/>
+       	<property name="creado" not-null="false"/>       	
+       	<property name="modificado" not-null="false"/>       	
+       	<property name="comentario" length="30"/>
+
+		<property name="importe"
+            type="com.luxsoft.siipap.utils.CantidadMonetariaCompositeUserType">
+            <column name="importe"	length="2"/>
+            <column name="importe_mon" 	length="3"/>
+        </property>
+
+        <property name="impuesto"
+            type="com.luxsoft.siipap.utils.CantidadMonetariaCompositeUserType">
+            <column name="impuesto"	length="2"/>
+            <column name="impuesto_mon" 	length="3"/>
+        </property>
+
+        <property name="total"
+            type="com.luxsoft.siipap.utils.CantidadMonetariaCompositeUserType">
+            <column name="total"	length="2"/>
+            <column name="total_mon" 	length="3"/>
+        </property>
+        
+        <property name="importeMN"
+            type="com.luxsoft.siipap.utils.CantidadMonetariaCompositeUserType">
+            <column name="importeMN"	length="2"/>
+            <column name="importeMN_mon" 	length="3"/>
+        </property>
+
+        <property name="impuestoMN"
+            type="com.luxsoft.siipap.utils.CantidadMonetariaCompositeUserType">
+            <column name="impuestoMN"	length="2"/>
+            <column name="impuestoMN_mon" 	length="3"/>
+        </property>
+
+        <property name="totalMN"
+            type="com.luxsoft.siipap.utils.CantidadMonetariaCompositeUserType">
+            <column name="totalMN"	length="2"/>
+            <column name="totalMN_mon" 	length="3"/>
+        </property>
+       	
+        
+        <many-to-one  name="factura" column="FACTURA_ID" not-null="false" lazy="false" fetch="join" cascade="save-update"/>
+        
+        <many-to-one  name="requisicion" column="REQUISICIONDE_ID" not-null="false" />
+        
+        <subclass name="com.luxsoft.siipap.cxp.domain.CXPFactura"
+			discriminator-value="FAC" 			
+			lazy="true"> 			
+			
+			
+			
+			<!-- 	
+			<one-to-one 
+				name="analisis"
+				property-ref="cargo"/>
+			 -->
+			<!-- 
+			<many-to-one  name="recibo"
+			   column="CRECIBOSDE_ID"
+			   cascade="save-update"
+			   unique="true"/>
+			   -->
+			   
+		   	<property name="saldo" 
+		   		formula="(
+		   		select total+nvl(sum(sc.total),0) from SW_CXP sc where sc.factura_id=cxp_id and sc.factura_id is not null
+	   		)"/>
+	   		
+	   		<property name="saldoMN" 
+		   		formula="(
+		   		select totalMN+nvl(sum(sc.totalMN),0) from SW_CXP sc where sc.factura_id=cxp_id and sc.factura_id is not null
+	   		)"/>
+	   		
+			<!-- 
+	        <property name="saldo"
+    	        type="com.luxsoft.siipap.utils.CantidadMonetariaCompositeUserType">
+        	    <column name="saldo"	length="2"/>
+            	<column name="saldo_mon" 	length="3"/>
+	        </property>
+
+    	    <property name="saldoMN"
+        	    type="com.luxsoft.siipap.utils.CantidadMonetariaCompositeUserType">
+            	<column name="saldoMN"	length="2"/>
+	            <column name="saldoMN_mon" 	length="3"/>
+    	    </property>
+    	     -->
+    	     
+    	    <property name="descuentoFinanciero" column="DESCUENTOF" length="2"/>
+    	    
+    	    <property name="vencimiento" type="date"/>
+    	    <property name="vencimientoDF" type="date"/>    	    
+			
+		</subclass>
+        
+        <subclass name="com.luxsoft.siipap.cxp.domain.CXPPago"
+			discriminator-value="PAG" 			
+			lazy="true">
+			
+			<!--  <many-to-one  name="factura" column="FACTURA_ID" not-null="false" lazy="false" fetch="join" cascade="save-update"/>
+			-->
+		</subclass>			
+
+        <subclass name="com.luxsoft.siipap.cxp.domain.CXPNCredito"
+			discriminator-value="CRE" 			
+			lazy="true">			
+
+			<property name="documento" length="20"/>
+
+		</subclass>
+		
+		<subclass name="com.luxsoft.siipap.cxp.domain.CXPNCargo"
+			discriminator-value="CAR" 			
+			lazy="true">
+
+		</subclass>			
+		
+
+    </class>
+
+</hibernate-mapping>

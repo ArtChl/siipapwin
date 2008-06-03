@@ -1,0 +1,54 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+    
+<hibernate-mapping>
+
+    <class
+        name="com.luxsoft.siipap.inventarios.domain.CostoPromedio"
+        table="SW_PROMEDIOS"
+        lazy="true">
+
+        <id name="id"
+            column="PROMEDIO_ID">			
+            <generator class="native">
+            	<param name="sequence">inventario_sequence</param>
+            </generator>
+        </id>
+        
+        <natural-id>
+			<many-to-one name="articulo" 
+				column="ARTICULO_ID" 
+				fetch="join"
+				not-null="true"/>
+		    <property name="periodo" 	length="7" not-null="true"/>		    
+		</natural-id>
+		
+		<property name="year"></property>				
+		<property name="mes"></property>						
+       
+       <property name="costo"
+            type="com.luxsoft.siipap.utils.CantidadMonetariaCompositeUserType">
+            <column name="COSTO"		length="2"/>
+            <column name="COSTO_MON" 	length="3"/>
+       </property>
+       <!-- 
+       <set name="entradas" table="PROMEDIO_ENTS">
+       		<key column="PROMEDIO_ID" not-null="true" />
+       		<many-to-many class="com.luxsoft.siipap.inventarios.domain.Entrada"/>
+       </set>
+        -->
+        
+       <set name="entradas" table="SW_PROMEDIO_ENTRADAS" cascade="none">
+       		<key column="PROMEDIO_ID"/>
+       		<many-to-many 
+       			column="ENTRADA_ID" 
+       			unique="false"      			
+       			class="com.luxsoft.siipap.inventarios.domain.Entrada"/>
+       </set>
+        
+
+</class>
+
+</hibernate-mapping>

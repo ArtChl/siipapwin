@@ -1,0 +1,73 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+    <class name="com.luxsoft.siipap.ventas.domain.DevolucionDet" 
+    	   lazy="true" 	   table="SW_DEVODET">
+        
+        <id name="id" column="DEVODET_ID">        
+            <generator class="native">
+            	<param name="sequence">devolucion_det_ids</param>
+            </generator>
+        </id>
+        
+        <version name="version"  column="VERSION"/>    
+        
+        <many-to-one 
+			name="ventaDet"
+			column="VENTADET_ID"
+			not-null="false"
+			foreign-key="DEVODE_VENDET_FK"/>
+        
+        <many-to-one 
+			name="devolucion"
+			column="DEVO_ID"
+			not-null="false"
+			foreign-key="DEVODE_DEVO_FK"/>
+			
+		<many-to-one 
+			name="articulo"
+			column="ARTICULO_ID"
+			not-null="false"
+			foreign-key="DEVODE_ART_FK"/>
+		
+		<many-to-one 
+			name="nota"
+			column="NOTA_ID"
+			not-null="false"
+			foreign-key="DEVODE_NOTA_FK"/>			        
+
+        <property    name="renglon"/>   
+
+        <property    name="cxcnumero"/>           
+        
+        <property    name="tipocxc" 	length="1"/>           
+
+        <property    name="clave" 	length="10"/>   
+                     
+        <property    name="importe" />                
+        
+        <property    name="cantidad"/>  
+
+        <property    name="sucursal"/>  
+                
+        <property    name="numero"/>        
+        
+        <property    name="factorDeConversionUnitaria" column="UNIXUNI"/>
+
+        <property    name="fecha" type="date"/>
+        
+        <property    name="fechaReal" type="date"/>                
+        
+        <property    name="mes"/>
+        
+        <property    name="year"/>                        
+
+		<property name="creado" />
+
+ 
+    </class>
+
+</hibernate-mapping>

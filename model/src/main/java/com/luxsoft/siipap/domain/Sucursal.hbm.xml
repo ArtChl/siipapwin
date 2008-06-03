@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+    
+    <class name="com.luxsoft.siipap.domain.Sucursal"
+           table="SW_SUCURSALES"
+           lazy="true">
+      
+    <id name="id" column="SUCURSAL_ID">
+       <generator class="native">
+      		<param name="sequence">siipap_sequence</param>
+       	</generator>
+	</id>
+	
+	<property name="clave"	not-null="true"	unique="true"/>		
+	<property name="nombre" length="50" not-null="true"/>
+        
+	<property name="SUCCLAVE"/>
+	
+	<property name="SUCNOMBRE" length="30"/>	
+
+	<property name="SUCDIREC" length="60"/>	
+
+	<property name="SUCTEL1" length="10"/>		
+
+	<property name="SUCTEL2" length="10"/>		
+
+	<property name="SUCFAX" length="10"/>		
+
+	<property name="SUCVENTA" length="1"/>		
+
+	<property name="SUCTIPFAC" length="15"/>		
+
+	<property name="SUCFACNEG" length="1"/>		
+
+	<property name="SUCCOMPR" length="1"/>		
+
+	<property name="SUCMATRIZ" length="1"/>		
+
+	<property name="SUCPMOCOT" length="4"/>		
+
+	<property name="SUCPMOPED" length="4"/>		
+
+	<property name="SUCPMOFCO" length="4"/>		
+
+	<property name="SUCPMOFCR" length="4"/>		
+
+	<property name="SUCPMOPAG" length="4"/>		
+
+	<property name="SUCPMOINV" length="4"/>		
+
+	<property name="SUCPMOGEN" length="4"/>		
+
+	<property name="SUCFACCOB" length="1"/>		
+
+	<property name="SUCFACVEN" length="1"/>		
+
+	<property name="SUCPMOSOL" length="4"/>		
+
+	<property name="SUCPASSWO" length="10"/>		
+
+	<property name="SUCDEPPED" length="1"/>		
+
+	<property name="SUCLPREC" length="1"/>		
+
+	<property name="SUCPASSWU" length="10"/>		
+
+	<property name="SUCFECHA" type="date"/>		
+
+	<property name="SUCPROMIN"/>		
+
+	<property name="SUCPROMAX"/>		
+
+	<property name="SUCCONCOT"/>		
+
+	<property name="SUCCONPED"/>		
+
+	<property name="SUCANTCOT"/>		
+
+	<property name="SUCANTPED"/>		
+
+	<property name="SUCCONDEP"/>		            
+
+    </class>
+
+</hibernate-mapping>
+

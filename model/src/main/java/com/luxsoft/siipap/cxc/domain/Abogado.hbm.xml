@@ -1,0 +1,42 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 6/06/2007 12:41:35 AM by Hibernate Tools 3.2.0.b9 -->
+<hibernate-mapping>
+    <class name="com.luxsoft.siipap.cxc.domain.Abogado" table="SW_ABOGADOS">
+        <id name="id" type="java.lang.Long" access="field">
+            <column name="ABOGADO_ID" />
+            <generator class="seqhilo"></generator>
+        </id>
+        <property name="clave" type="long" access="field">
+            <column name="CLAVE" not-null="true" unique="true" />
+        </property>
+        <property name="nombre" type="java.lang.String" access="field">
+            <column name="NOMBRE" length="40" />
+        </property>
+        <property name="telefono" type="java.lang.String" access="field">
+            <column name="TLEFONO" length="30" />
+        </property>
+        <property name="direccion" type="com.luxsoft.siipap.domain.Direccion" access="field">
+            <column name="direccion" />
+        </property>
+        <property name="activo" type="boolean" access="field">
+            <column name="activo" not-null="true" />
+        </property>
+        <property name="observaciones" type="java.lang.String" access="field">
+            <column name="OBSERVACIONES" length="40" />
+        </property>
+        <property name="email" type="java.lang.String" access="field">
+            <column name="email" />
+        </property>
+        <property name="rfc" type="java.lang.String" access="field">
+            <column name="rfc" />
+        </property>
+        <property name="baja" type="java.util.Date" access="field">
+            <column name="baja" />
+        </property>
+        <property name="alta" type="java.util.Date" access="field">
+            <column name="alta" />
+        </property>
+    </class>
+</hibernate-mapping>

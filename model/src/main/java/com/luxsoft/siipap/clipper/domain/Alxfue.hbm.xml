@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+    <class
+        name="com.luxsoft.siipap.clipper.domain.Alxfue"
+        table="SW_ALXFUE"
+        lazy="true">
+
+        <id name="id"
+            column="ALXFUE_ID">			
+            <generator class="native">
+            	<param name="sequence">siipap_sequence</param>
+            </generator>
+        </id>
+        
+	    <property name="ALMSUCUR"/>
+
+	    <property name="ALMTIPO"/>
+
+	    <property name="ALMNUMER"/>
+
+	    <property name="ALMRENGL"/>
+
+	    <property name="ALMFECHA"
+            type="date"
+            length="7"/>
+
+	    <property name="ALMARTIC"/>
+
+	    <property name="ALMNOMBR"/>
+
+	    <property name="ALMKILOS"/>
+
+	    <property name="ALMCANTI"/>
+
+	    <property name="ALMCANTATE"/>
+
+	    <property name="ALMSERIE"/>
+
+	    <property name="ALMTIPFA"/>
+
+	    <property name="ALMPRECI"/>
+
+	    <property name="ALMPREFA"/>
+
+	    <property name="ALMTIPIVA"/>
+
+	    <property name="ALMOBSER"/>
+
+	    <property name="ALMFECH2"
+            type="date"
+            length="7"/>
+
+	    <property name="ALMCANT2"/>
+
+	    <property name="ALMNUCORE"/>
+
+	    <property name="ALMCOSTO"/>
+
+	    <property name="ALMPRECPR"/>
+
+	    <property name="ALMNOMDES"/>
+
+	    <property name="ALMPORDES"/>
+
+	    <property name="ALMNOMCAR"/>
+	    
+	    <property name="ALMPORCAR"/>
+
+	    <property name="ALMUNIDMED"/>
+
+	    <property name="ALMUNIXUNI"/>
+
+	    <property name="ALMDEVANFA"/>
+
+	    <property name="ALMSALENFA"/>
+
+	    <property name="ALMRENGFA"/>
+
+	    <property name="ALMGRUPOIM"/>
+
+	    <property name="ALMHORA"/>
+
+	    <property name="ALMSEGS"/>
+
+	    <property name="ALMUSUAR"/>
+
+	    <property name="ALMFEREAL"
+            type="date"
+            length="7"/>
+
+
+        <!-- Associations -->
+        
+
+    </class>
+
+</hibernate-mapping>

@@ -1,0 +1,73 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+
+	<typedef class="com.luxsoft.siipap.utils.StringEnumUserType"
+   		name="formaDePago">
+   		<param name="enumClassname">com.luxsoft.siipap.cxc.domain.FormaDePago</param>
+	</typedef>
+	
+	
+	
+    <class name="com.luxsoft.siipap.cxc.domain.Deposito" 
+    	   lazy="true" 	   
+    	   table="SW_DEPOSITOS">
+        
+        <id name="id" column="DEOPSITO_ID">        
+            <generator class="native">
+            	<param name="sequence">depositos_ids</param>
+            </generator>
+        </id>
+        
+        <property name="cuentaDestino" length="50" not-null="true"/>
+        
+        <property name="banco" length="30" not-null="true"/>
+        
+        <property name="cuenta" length="30" not-null="true"/>        
+        
+        <property name="origen" length="3" not-null="true"/>
+        
+		<property name="sucursalId" not-null="true"/>
+        
+        <property name="fecha" type="date"></property>
+        
+        <property name="formaDePago"
+				column="FORMADP"
+				type="formaDePago"
+				not-null="false"
+				update="false"
+				access="field"
+				length="1"/> 
+        
+        <property name="importe"
+            type="com.luxsoft.siipap.utils.CantidadMonetariaCompositeUserType" >
+            <column name="IMPORTE"		length="2" default="0"/>
+            <column name="IMPORTE_MON" 	length="3" default="'MXN'"/>
+        </property> 
+        
+        <property name="folio" >
+        	<column name="FOLIO" default="0"></column>
+        </property>
+        
+        <set name="partidas"
+        	access="field" 
+        	table="SW_DEPOSITOSDET">
+        	<key column="DEPOSITO_ID" not-null="false"/>
+        	<composite-element class="com.luxsoft.siipap.cxc.domain.DepositoUnitario">
+        		<parent name="deposito"/>
+        		<property name="banco" not-null="true" length="20"/>
+        		<property name="numero" not-null="true"/>        		
+        		<property name="importe">        		
+        			<column name="IMPORTE" not-null="true" length="2"></column>
+        		</property>
+        		<property name="grupo"/>
+        	</composite-element>
+        </set>
+
+ 
+    </class>
+
+</hibernate-mapping>

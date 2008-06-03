@@ -1,0 +1,163 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+
+	<class name="com.luxsoft.siipap.cxc.domain.Provision"
+		table="SW_PROVISION" lazy="true" >
+		
+		<id name="id" column="PROVISION_ID">
+			<generator class="foreign">
+				<param name="property">venta</param>
+			</generator>
+		</id>
+		
+		<one-to-one name="venta"
+					constrained="true"/>
+		
+		<!-- 
+		<id name="id" column="PROVISION_ID">
+			<generator class="native">
+				<param name="sequence">provision_ids</param>
+			</generator>
+		</id>		
+		 -->	
+
+		<property name="descuento1" />
+		
+		<property name="descuento2" />
+		
+		<property name="descuentoConCargo">
+			<column name="DESCUENTO" not-null="true" default="0">
+			</column>
+		</property>
+		 
+		 <property name="cargoCalculado"/>
+
+	
+		<property name="diasAtraso"/>		
+		
+		 <!-- 
+		 <many-to-one 
+			name="venta"
+			column="VENTA_ID"
+			not-null="true"
+			unique="true"			 			
+			foreign-key="PROV_VENTA_FK"
+			/>
+		 -->
+		 
+		<property name="vencimiento" type="date"/>
+		
+		
+		<property name="provision" type="com.luxsoft.siipap.utils.CantidadMonetariaCompositeUserType">
+        		<column name="PROVISION"		length="2"/>
+        		<column name="PROVISION_MON" 	length="3"/>
+	   	</property>	
+		
+		<!-- 
+		<many-to-one 
+			name="descCliente"
+			column="DES_CLIE_ID"
+			not-null="false"
+			foreign-key="PROV_DESC1_FK"
+			/>
+
+		<many-to-one 
+			name="descVolumen"
+			column="DES_VOL_ID"
+			not-null="false"
+			unique="true"
+			foreign-key="PROV_DESC2_FK"
+			/>
+			
+		 
+		 
+		<property name="notaDesc1"
+			formula="(NVL((select b.notadet_id from sw_notasdet b where b.venta_id=venta_id and b.tipo='U'),0))">
+		</property>				 
+		-->
+		
+		<property name="creado" type="date"/>
+		<property name="aplicado"/>
+		<property name="importe"
+			formula="(select sum(b.IMPORTE) from SW_PROVISIONDET b where b.provision_id=provision_id)">
+		</property>
+		
+		<property name="importeDescuento1"
+			formula="NVL((select sum(b.IMPORTEDESC1) from SW_PROVISIONDET b where b.provision_id=provision_id),0)"
+		/>
+		
+		
+		<list name="partidas" cascade="all-delete-orphan">
+			<key column="PROVISION_ID" not-null="true"/>
+			<list-index column="detalleIdx"/>
+			<one-to-many class="com.luxsoft.siipap.cxc.domain.ProvisionDet"/>
+   		</list>
+
+
+	</class>
+	
+	<class name="com.luxsoft.siipap.cxc.domain.ProvisionDet"
+		table="SW_PROVISIONDET" lazy="true" >
+		
+		<id name="id" column="PROVISIONDET_ID">
+			<generator class="native">
+				<param name="sequence">provision_ids</param>
+			</generator>
+		</id>
+		
+		<many-to-one 
+			name="provision"
+			column="PROVISION_ID"
+			not-null="true"
+			insert="false"
+			update="false"
+			foreign-key="PROVDET_PROV_FK"/>  
+		
+		 
+		 <property name="importe" type="com.luxsoft.siipap.utils.CantidadMonetariaCompositeUserType">
+        		<column name="IMPORTE"		length="2"/>
+        		<column name="IMPORTE_MON" 	length="3"/>
+	   	</property>
+	   	
+	   	 <property name="importeDesc1" type="com.luxsoft.siipap.utils.CantidadMonetariaCompositeUserType">
+        		<column name="IMPORTEDESC1"			length="2"/>
+        		<column name="IMPORTEDESC1_MON" 	length="3"/>
+	   	</property>
+	   	
+	   	<many-to-one 
+			name="ventaDet"
+			column="VENTADET_ID"
+			not-null="true"
+			foreign-key="PROVDET_VENTADET_FK"
+			unique="true"			
+			/>	
+		
+		<!-- 
+		<many-to-one 
+			name="descArticulo"
+			column="DESCUENTO_ID"
+			not-null="false"
+			foreign-key="PROVDET_DESCART_FK"
+			/>
+		 -->	
+		<many-to-one 
+			name="articulo"
+			column="ARTICULO_ID"
+			not-null="false"
+			foreign-key="PROVDET_ARTICULO_FK"
+			/>
+
+		
+		<property name="clave" length="10"/>
+		
+		<property name="familia" length="10"/>
+		
+		<property name="descuento"/>
+		
+	</class>
+
+</hibernate-mapping>

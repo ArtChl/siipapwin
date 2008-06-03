@@ -1,0 +1,53 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+    <class name="com.luxsoft.siipap.domain.Precio" 
+    	table="SW_PRECIOS"
+    	lazy="true">
+    
+	    <id name="id" >
+            <generator class="native">
+           		<param name="sequence">siipap_sequence</param>
+        	</generator>
+        </id>
+        
+        <many-to-one name="lista"
+        	column="LISTA_ID"
+        	not-null="true"/>
+
+        <many-to-one name="articuloProveedor"
+        	column="ARTPROV_ID"
+			class="com.luxsoft.siipap.domain.ArticuloPorProveedor"
+        	not-null="false"/>        
+
+        
+        <!--<property name="moneda" length="3"/>        -->
+        <property name="descuento1" length="4"/>
+        <property name="descuento2" length="4"/>
+        <property name="descuento3" length="4"/>
+        <property name="descuento4" length="4"/>
+        <property name="descuento5" length="4"/>
+        <property name="descuento6" length="4"/>
+        <property name="descuento7" length="4"/>
+        <property name="descuento8" length="4"/>
+        <property name="financiero" length="4"/>
+        
+        <property name="neto"
+            type="com.luxsoft.siipap.utils.CantidadMonetariaCompositeUserType">
+            <column name="NETO"		length="5"/>
+            <column name="NETO_MON" length="3"/>
+        </property>
+        
+        <property name="precio"
+            type="com.luxsoft.siipap.utils.CantidadMonetariaCompositeUserType">
+            <column name="IMPORTE"		length="5"/>
+            <column name="IMPORTE_MON" 	length="3"/>
+        </property>
+        
+    </class>
+
+</hibernate-mapping>
+<!-- parsed in 0ms -->

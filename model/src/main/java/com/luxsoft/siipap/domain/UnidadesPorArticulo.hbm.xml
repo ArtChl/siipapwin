@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+    <class name="com.luxsoft.siipap.domain.UnidadesPorArticulo" 
+    	lazy="true"
+    	table="SW_UNIXART" >
+    	
+        <id name="id">
+            <generator class="native">
+           		<param name="sequence">siipap_sequence</param>
+        	</generator>
+        </id>
+        
+        <many-to-one name="articulo"
+        	not-null="true"
+        	column="ARTICULO_ID"/>
+
+        <many-to-one name="unidad"
+        	not-null="true"
+        	column="UNIDAD_ID"/>
+        <property name="factor" length="3"/>
+        <property name="enVenta"/>
+        <property name="enCompras"/>
+        <property name="enInventarios"/>
+		<property name="enMaquila"/>                        
+        
+    </class>
+
+</hibernate-mapping>
+<!-- parsed in 0ms -->

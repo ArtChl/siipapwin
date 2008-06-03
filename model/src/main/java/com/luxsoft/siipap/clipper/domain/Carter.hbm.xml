@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping
+>
+    <class
+        name="com.luxsoft.siipap.clipper.domain.Carter"
+        table="LX_CARTER"
+        lazy="true">
+
+         <id name="id" column="ID">
+            <generator class="native">
+	            <param name="sequence">carter_ids</param>
+            </generator>
+        </id>
+
+
+		<property name="CARNUMERO"/>
+		<property name="CARPOSNEG" length="1"/>
+		<property name="CARIDENOPE"/>
+		<property name="CARNUMFIS"/>
+		<property name="CARFECHA"	type="date"/>
+		<property name="CARTIPO"	length="1"/>
+		<property name="CARSERIE"	length="1"/>
+		<property name="CARSUCURSA"/>
+		<property name="CARCLAVCLI" 			length="7"/>
+		<property name="CARNOMBCLI" 			length="40"/>
+		<property name="CARCLAVSOC" 			length="7"/>
+		<property name="CARIMPORTE"/>
+		<property name="CARSALDO"/>
+		<property name="CARVTO"	type="date"/>
+		<property name="CARDIAREVI"/>
+		<property name="CARDIAPAGO"/>
+		<property name="CARPLAZO"/>
+		<property name="CARCLAVVEN"/>
+		<property name="CARCLAVCOB"/>
+		<property name="CARSTATUS" 				length="1"/>
+		<property name="CARFECREVI" 			type="date"/>
+		<property name="CARCONMANI" 			length="15"/>
+		<property name="MES"/>
+		<property name="YEAR"/>    
+
+    </class>
+
+</hibernate-mapping>

@@ -1,0 +1,54 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+    <class name="com.luxsoft.siipap.ventas.domain.VentaACredito" 
+    	   lazy="true" 	   table="SW_VENTASCREDITO">
+        
+
+		<id name="id" column="VENTA_ID">
+			<generator class="foreign">
+				<param name="property">venta</param>
+			</generator>
+		</id>
+        
+		<one-to-one name="venta"
+					constrained="true"/>      
+			
+		<property name="vencimiento" type="date"></property>		
+		<property name="fechaRevision" type="date" insert="true" update="false"></property>  
+		<property name="fechaRevisionCxc" type="date"></property>  				
+
+		<property name="comentario" length="50"></property>
+		<property name="descuento">
+			<column name="DESCUENTO" scale="2" default="0" not-null="true"></column>
+		</property>
+		<property name="descuento2">
+			<column name="DESCUENTO2" scale="2" default="0" not-null="true"></column>
+		</property>
+		
+		<property name="cargo">
+			<column name="CARGO" scale="4" default="0" not-null="true"></column>
+		</property>
+		
+		<property name="plazo"/>
+		<property name="revision"/>
+		<property name="recibidaCXC"/>
+		<property name="fechaRecepcionCXC" type="date"/>
+		<property name="revisada"/>
+		<property name="diaPago" type="date" insert="true" update="false"></property>
+		<property name="reprogramarPago" type="date"></property>
+		<property name="comentarioRepPago" length="255"></property>
+		<property name="retrasoTolerado"></property>
+		
+		<property name="pagos"
+				formula="(		   		
+		   		SELECT NVL(SUM(NVL(P.IMPORTE,0)),0) FROM SW_PAGOS P WHERE P.VENTA_ID=VENTA_ID AND P.FORMADEPAGO NOT IN('T','K','U')
+		   		)"		   		
+		/>
+					
+	</class>
+
+</hibernate-mapping>

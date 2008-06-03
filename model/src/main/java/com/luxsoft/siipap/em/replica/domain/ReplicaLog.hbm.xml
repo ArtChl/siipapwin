@@ -1,0 +1,43 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+
+	<class name="com.luxsoft.siipap.em.replica.domain.ReplicaLog"
+		table="LX_REPLICALOG" lazy="true">
+
+		<id name="id" column="REPLICA_ID">
+			<generator class="native">
+				<param name="sequence">replica_sequence</param>
+			</generator>
+		</id>
+
+		<property name="entity" 	length="40" unique-key="LLAVE1"/>		
+		
+		<property name="tabla" 		length="20" unique-key="LLAVE1"/>		
+
+		<property name="tipo"		length="3"	unique-key="LLAVE1"/>
+
+		<property name="dia"		length="3"	unique-key="LLAVE1"/>		
+
+		<property name="month" unique-key="LLAVE1"/>
+		
+		<property name="year" unique-key="LLAVE1"/>		
+		
+		<property name="periodo"	/>		
+		
+		<property name="fechado"/>
+		
+		<property name="beans"/>
+		
+		<property name="registros"/>		
+		
+		<property name="creado" type="date"/>		
+	    
+
+
+	</class>
+
+</hibernate-mapping>

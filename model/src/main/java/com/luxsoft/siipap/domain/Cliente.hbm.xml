@@ -1,0 +1,220 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+ 
+  
+<hibernate-mapping>
+    <class name="com.luxsoft.siipap.domain.Cliente" 
+    	table="SW_CLIENTE">
+        
+        <id name="id" column="CLIENTE_ID">
+            <generator class="native">
+           		<param name="sequence">siipap_sequence</param>
+        	</generator>
+        </id>
+        
+        <property name="CLICLAVE"
+            column="CLICLAVE"/>
+
+        <property name="CLICLAVORI"
+            column="CLICLAVORI"/>
+
+        <property name="CLINOMBRE"
+            column="CLINOMBRE"/>
+
+        <property name="CLICALLE"
+            column="CLICALLE"/>
+
+        <property name="CLICOLON"
+            column="CLICOLON"/>
+
+        <property name="CLIDELEG"
+            column="CLIDELEG"/>
+
+        <property name="CLIPOSTAL"
+            column="CLIPOSTAL"/>
+
+        <property name="CLITEL1"
+            column="CLITEL1"/>
+
+        <property name="CLIFAX"
+            column="CLIFAX"/>
+
+        <property name="CLIRFC"
+            column="CLIRFC"/>
+
+        <property name="CLIREVISIO"
+            column="CLIREVISIO"/>
+
+        <property name="CLIPAGO"
+            column="CLIPAGO"/>
+
+        <property name="CLICOBRADO"
+            column="CLICOBRADO"/>
+
+        <property name="CLIAGENTE"
+            column="CLIAGENTE"/>
+
+        <property name="CLILIMITE"
+            column="CLILIMITE"/>
+
+        <property name="CLIFECREAL"
+            type="date"
+            column="CLIFECREAL"/>
+
+        <property name="CLIFECSIAL"
+            type="date"
+            column="CLIFECSIAL"/>
+
+        <property name="CLISUSPEN"
+            type="date"
+            column="CLISUSPEN"/>
+
+        <property name="CLICOMSUS"
+            column="CLICOMSUS"/>
+
+        <property name="CLIOBSGRAL"
+            column="CLIOBSGRAL"/>
+
+        <property name="CLICUENTA"
+            column="CLICUENTA"/>
+
+        <property name="CLICLASIFI"
+            column="CLICLASIFI"/>
+
+        <property name="CLIFECLASI"
+            type="date"
+            column="CLIFECLASI"/>
+
+        <property name="CLIOBSCLAS"
+            column="CLIOBSCLAS"/>
+
+        <property name="CLIGERGRAL"
+            column="CLIGERGRAL"/>
+
+        <property name="CLIGERCOMP"
+            column="CLIGERCOMP"/>
+
+        <property name="CLICEDULA"
+            column="CLICEDULA"/>
+
+        <property name="CLIPLAZO"
+            column="CLIPLAZO"/>
+
+        <property name="CLITIPVTO"
+            column="CLITIPVTO"/>
+
+        <property name="CLIPAGARE"
+            column="CLIPAGARE"/>
+
+        <property name="CLIOPEDEPU"
+            column="CLIOPEDEPU"/>
+
+        <property name="CLIFECDEPU"
+            type="date"
+            column="CLIFECDEPU"/>
+
+        <property name="CLIBACOCO"
+            column="CLIBACOCO"/>
+
+        <property name="CLIBACOVE"
+            column="CLIBACOVE"/>
+
+        <property name="CLIESLIDER"
+            column="CLIESLIDER"/>
+
+        <property name="CLILIDER"
+            column="CLILIDER"/>
+
+        <property name="CLIESTADO"
+            column="CLIESTADO"/>
+
+        <property name="CLICOMEDO"
+            column="CLICOMEDO"/>
+
+        <property name="CLICOTIZA"
+            column="CLICOTIZA"/>
+
+        <property name="CLICOMCOT"
+            column="CLICOMCOT"/>
+
+        <property name="CLIPEDIDO"
+            column="CLIPEDIDO"/>
+
+        <property name="CLICOMPED"
+            column="CLICOMPED"/>
+
+        <property name="CLIFACTUR"
+            column="CLIFACTUR"/>
+
+        <property name="CLICOMFAC"
+            column="CLICOMFAC"/>
+
+        <property name="CLIPORCDES"
+            column="CLIPORCDES"/>
+
+        <property name="CLIPORCDE2"
+            column="CLIPORCDE2"/>
+
+        <property name="CLITIPO"
+            column="CLITIPO"/>
+
+        <property name="CLICTRLGRA"
+            column="CLICTRLGRA"/>
+
+        <property name="CLIFORPAGO"
+            column="CLIFORPAGO"/>
+
+        <property name="CLIMOIMPNI"
+            column="CLIMOIMPNI"/>
+
+        <property name="CLIABOGADO"
+            column="CLIABOGADO"/>
+
+        <property name="CLIFEASIAB"
+            type="date"
+            column="CLIFEASIAB"/>
+
+        <property name="CLIOPERADO"
+            column="CLIOPERADO"/>
+
+        <property name="CLIUSUAR"
+            column="CLIUSUAR"/>
+
+        <property name="CLIBACOVC"
+            column="CLIBACOVC"/>
+
+        <property name="CLIFATENCL"
+            type="date"
+            column="CLIFATENCL"/>
+
+        <property name="CLIFATENMO"
+            type="date"
+            column="CLIFATENMO"/>
+
+        <property name="CLIAATENCL"
+            column="CLIAATENCL"/>
+
+        <property name="CLIAATENMO"
+            column="CLIAATENMO"/>
+
+        <property name="CLIEMAIL"
+            column="CLIEMAIL"/>
+
+        <property name="CLITELANT"
+            column="CLITELANT"/>
+
+        <property name="CLIFAXANT"
+            column="CLIFAXANT"/>
+
+        <property name="CLIGIROEMP"
+            column="CLIGIROEMP"/>
+
+        <property name="CLIMANUAL"
+            column="CLIMANUAL"/>
+       	
+    </class>
+
+</hibernate-mapping>
+<!-- parsed in 0ms -->

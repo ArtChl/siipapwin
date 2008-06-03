@@ -1,0 +1,78 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+    
+<hibernate-mapping>
+
+    <class
+        name="com.luxsoft.siipap.inventarios.domain.acumulados.Acumulado"
+        lazy="false"
+        mutable="false">
+        
+        <subselect>
+        	SELECT A.PERIODO as periodo,A.ALMTIPO as tipo,A.ALMSUCUR as sucursal,A.ALMARTIC as articulo,SUM(A.ALMCANTI/A.ALMUNIXUNI) AS movimientos,
+				SUM((A.ALMCANTI/A.ALMUNIXUNI)*B.COSTO) AS COSTO_PROM,
+				SUM((A.ALMCANTI/A.ALMUNIXUNI)*C.COSTO) AS COSTO_ULTIMO
+				FROM SW_ALMACEN2 A 
+				LEFT JOIN SW_PROMEDIOS B ON(A.ARTICULO_ID=B.ARTICULO_ID)
+				LEFT JOIN SW_COSTOULTIMO C ON(A.ARTICULO_ID=C.ARTICULO_ID AND A.PERIODO=C.PERIODO)
+				WHERE B.PERIODO='12/2005'  
+				  AND A.PERIODO='01/2005'
+				GROUP BY A.PERIODO,A.ALMTIPO,A.ALMSUCUR,A.ALMARTIC
+        </subselect>
+        <synchronize table="SW_ALMACEN2"/>
+        <synchronize table="SW_PROMEDIOS"/>
+        <synchronize table="SW_COSTOULTIMO"/>                
+        <id name="periodo"></id>
+		<!-- 
+        <composite-id>
+        	<key-property name="periodo"	length="7"/>
+        	<key-property name="tipo" 		length="3"/>
+        	<key-property name="sucursal"	/>
+        	<key-property name="articulo" 	length="10"/>
+        </composite-id>
+         -->
+		<property name="movimientos" length="3" />
+		<property name="tipo" length="3" />
+		<property name="sucursal"/>
+		<property name="articulo" length="10" />
+        
+        <!-- 
+        <id name="id"
+            column="ACUTIPO_ID">			
+        </id>
+        <natural-id>
+        	<property name="periodo" 	length="7" not-null="true"/>
+			<property name="tipo" 		length="3" not-null="true"/>
+			<property name="sucursal"/>						    
+			<property name="articulo" 	length="10" not-null="true"/>
+		</natural-id>
+		
+		<property name="saldoInicial" length="3" />
+		<property name="entradas" length="3"/>
+		<property name="salidas" length="3"/>		
+		
+		<property name="costoPromedio" length="2" />	
+		<property name="costoUltimo"   length="2" />			
+		
+	
+		<property name="saldoInicialPeps" length="3" />
+		<property name="costoInicialPeps" length="2" />
+		<property name="entradasPeps" length="3" />		
+		<property name="costoEntradasPeps" length="2" />							
+		<property name="salidasPeps" length="3" />
+		<property name="costoSalidasPeps" length="2" />
+	
+		<property name="saldoInicialUeps" length="3" />
+		<property name="costoInicialUeps" length="2" />
+		<property name="entradasUeps" length="3" />		
+		<property name="costoEntradasUeps" length="2" />							
+		<property name="salidasUeps" length="3" />
+		<property name="costoSalidasUeps" length="2" />
+		
+		 -->
+
+</class>
+
+</hibernate-mapping>

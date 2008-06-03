@@ -1,0 +1,153 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+
+	<class name="com.luxsoft.siipap.maquila.domain.MovimientoDeMaterial" 
+    	table="SW_MOVI_MAQUILA"
+    	abstract="true">
+    	
+        <id name="id" column="MOVIMIENTO_ID">
+            <generator class="native">
+	            <param name="sequence">maquila_ids</param>
+            </generator>
+        </id>
+        
+        <discriminator 
+	        type="string"
+        	column="TIPO"
+        	length="1"
+        />
+              		
+		<many-to-one name="articulo" column="BOBINA_ID" fetch="join"/> 
+		 
+ 		<property name="fecha" type="date"/>	   	   		   	
+	   	<property name="metros2" length="5"/>
+	   	<property name="kilos" length="5"/>	   	
+
+	   	
+	   	<property name="importe"
+            type="com.luxsoft.siipap.utils.CantidadMonetariaCompositeUserType">
+            <column name="IMPORTE"		length="2"/>
+            <column name="IMPORTE_MON" 	length="3"/>
+       </property>
+       
+       <!-- 
+       <property name="precioPorKilo"
+            type="com.luxsoft.siipap.utils.CantidadMonetariaCompositeUserType">
+            <column name="PKILO"		length="2"/>
+            <column name="PKILO_MON" 	length="3"/>
+       </property>
+       
+       <property name="precioPorM2"
+            type="com.luxsoft.siipap.utils.CantidadMonetariaCompositeUserType">
+            <column name="PRECIOM2"		length="2"/>
+            <column name="PRECIOM2_MON" 	length="3"/>
+       </property>
+	   	
+	   	 -->
+	   	 
+	   	<property name="precioPorKilo" column="PKILO"/>
+	   
+	   	<property name="precioPorM2"   column="PRECIOM2"/>	   	 
+	   	 
+	   	<property name="observaciones" length="100"/>
+
+ 		<property name="creado" />
+ 		
+ 		<property name="modificado" />
+
+
+ 		<subclass name="com.luxsoft.siipap.maquila.domain.EntradaDeMaterial" 
+    		discriminator-value="E"
+    		lazy="true">
+    		
+ 		
+	 		<many-to-one name="recepcion" column="RECEPCION_ID"/> 
+	 		
+	 		<many-to-one name="trasladoOrigen" cascade="save-update"/>
+	 		
+ 			<property name="entradaDeMaquilador" length="15"/>
+ 			
+		   	<property name="factura" length="40"/>	   	
+		   	
+		   	<property name="fabricante" length="70"/>
+		   	
+		   	<property name="bobinas" />	   	
+		   	
+		   	<property name="disponibleKilos" 
+		   		formula="(
+		   		select kilos+nvl(sum(sc.kilos),0) from SW_MOVI_MAQUILA sc where sc.entrada=movimiento_id
+		   		)"/>
+		   	
+		   	<property name="disponibleEnM2" formula="(
+		   		select metros2+nvl(sum(sc.metros2),0) from SW_MOVI_MAQUILA sc where sc.entrada=movimiento_id
+		   		)"/>		   	
+		   	
+		   	<many-to-one name="analisis" column="ANALISIS_ID"/> 
+		   	
+ 		</subclass>
+ 		
+ 		<subclass name="com.luxsoft.siipap.maquila.domain.SalidaACorte"
+ 			discriminator-value="C">
+ 			
+ 			<one-to-one name="entradaReceptora" property-ref="origen"/>
+ 			
+ 			<many-to-one name="orden" column="ORDEN_ID"/>
+ 			
+ 			<many-to-one name="destino"/>
+ 			
+ 			<many-to-one name="entrada" cascade="save-update"/>
+ 			
+		   	<property name="estimadoMillares" length="5"/>
+		   	<property name="millaresEntregados" length="5"/>
+
+		   	<property name="costoDefinitivo" type="com.luxsoft.siipap.utils.CantidadMonetariaCompositeUserType">
+        	    <column name="COSTO"		length="2"/>
+            	<column name="COSTO_MON" 	length="3"/>
+    	   </property>
+		   	
+		   <property name="costoEstimado" type="com.luxsoft.siipap.utils.CantidadMonetariaCompositeUserType">
+           		<column name="COSTOE"		length="2"/>
+           		<column name="COSTOE_MON" 	length="3"/>
+	   	   </property>
+	   	   
+	   	   <property name="precioPorKiloHojeado" column="PRECIO_HOJ"/>
+<!-- 
+		   <property name="costoPorMillarEstimado" type="com.luxsoft.siipap.utils.CantidadMonetariaCompositeUserType">
+           		<column name="COSTOXMILLE"		length="2"/>
+           		<column name="COSTOXMILLE_MON" 	length="3"/>
+	   	   </property>
+
+		   <property name="costoPorMillarDefinitivo" type="com.luxsoft.siipap.utils.CantidadMonetariaCompositeUserType">
+           		<column name="COSTOXMILL"		length="2"/>
+           		<column name="COSTOXMILL_MON" 	length="3"/>
+	   	   </property>
+ -->
+ 		
+ 		</subclass>
+ 		
+ 		<subclass name="com.luxsoft.siipap.maquila.domain.SalidaDeMaterial"
+ 			discriminator-value="S">
+ 			
+ 			<many-to-one name="entrada" cascade="save-update"/>
+ 			
+ 			<subclass name="com.luxsoft.siipap.maquila.domain.SalidaDeBobinas"
+ 				discriminator-value="B">
+ 				
+	 			<many-to-one name="destino" column="COM_ID" cascade="save-update"/>
+ 			
+		</subclass>
+ 			
+ 			
+		</subclass>
+
+       		
+	</class>	
+        		
+
+</hibernate-mapping>
+
+<!-- parsed in 15ms -->

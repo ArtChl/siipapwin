@@ -1,0 +1,325 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+    
+<hibernate-mapping>
+
+<class 
+    name="com.luxsoft.siipap.clipper.domain.Mococa" 
+    table="SW_MOCOCA"
+    lazy="true">
+    
+    <id name="id"
+        column="MOCOCA_ID">
+        <generator class="native">
+            	<param name="sequence">siipap_sequence</param>
+            </generator>
+    </id>
+
+    <property name="MCASUCURSA" not-null="true"/>
+
+    <property name="MCANUMDOCT"
+    	not-null="true"
+        length="3"/>
+
+    <property name="MCAIDENOPE" 
+        not-null="true"/>
+
+    <property name="MCAFECHA"
+        type="date"/>
+    
+    <property	name="MCASERIEFA"	
+		length="1"/>
+		            
+    <property	name="MCATIPOFAC"
+		length="1"/>                
+    
+    <!---      /**** Propiedades generales *****/ -->
+
+    <property name="MCAETAPA"
+        length="1"/>
+
+    <property name="MCACONSECU"
+        length="1"/>
+    
+    <property name="MCATIPOFAL"
+        length="10"/>
+
+    <property name="MCADESTFAC"
+        length="30"/>
+        
+    <property name="MCATIPOVTA"
+        length="3"/>
+    
+    <property name="MCANODOCTO"
+        length="126"/>
+        
+    <property name="MCANOFISCA"
+        length="126"/>
+
+    <property name="MCASERIEFI"
+        length="1"/>
+
+    <property name="MCACLITIPO"
+        length="3"/>
+        
+    <property name="MCACLASCLI"
+        length="126"/>
+        
+    <property name="MCACLAVCLI"
+        length="7"/>
+        
+    <property name="MCANOMBCLI"
+        length="55"/>
+        
+    <property name="MCACLAVSOC"
+        length="4"/>
+        
+    <property name="MCANOMBSOC"
+        length="40"/>
+        
+    <property name="MCARFCCLIE"
+        length="20"/>
+        
+    <property name="MCACALLE"
+        length="40"/>
+        
+    <property name="MCACOLONIA"
+        length="40"/>
+        
+    <property name="MCADELEGAC"
+        length="30"/>
+        
+    <property name="MCACODIGOP"
+        length="5"/>
+        
+    <property name="MCATELEFON"
+        length="30"/>
+        
+    <property name="MCAVENDEDO"
+        length="126"/>
+        
+    <property name="MCACOBRADO"
+        length="126"/>
+        
+    <property name="MCACHOFER"
+        length="126"/>
+        
+    <property name="MCAZONA"
+        length="126"/>
+
+    <property name="MCAFEDEPCH"
+        type="date"
+        length="7"/>
+        
+    <property name="MCAVTO"
+        type="date"
+        length="7"/>
+        
+    <property name="MCADIAREVI"
+        length="126"/>
+        
+    <property name="MCADIAPAGO"
+        length="126"/>
+        
+    <property name="MCANOMDESR"
+        length="150"/>
+        
+    <property name="MCAPORDESR"
+        length="50"/>
+
+    <property name="MCANOMDESF"
+        length="150"/>
+        
+    <property name="MCAPORDESF"
+        length="50"/>
+        
+    <property name="MCANOMCAD"
+        length="150"/>
+        
+    <property name="MCAPORCAD"
+        length="50"/>
+        
+    <property name="MCAIMPARTI"
+        length="126"/>
+        
+    <property name="MCACONCEPT"
+        length="25"/>
+        
+    <property name="MCAIMPCONC"
+        length="126"/>
+
+    <property name="MCAIMPCORT"
+        length="126"/>
+        
+    <property name="MCACANTCOR"
+        length="126"/>
+        
+    <property name="MCASUBTOT"
+        length="126"/>
+        
+    <property name="MCAIMPUEST"
+        length="126"/>
+        
+    <property name="MCATOTAL"
+        length="126"/>
+        
+    <property name="MCAKGSFACT"
+        length="126"/>
+
+    <property name="MCACANTIDA"
+        length="126"/>
+        
+    <property name="MCAPORIVA"
+        length="126"/>
+        
+    <property name="MCAFACTURI"
+        length="6"/>
+        
+    <property name="MCASURTIO"
+        length="15"/>
+
+    <property name="MCACOMFAC"
+        length="50"/>
+        
+    <property name="MCANOCHTAR"
+        length="20"/>
+        
+    <property name="MCABANCO"
+        length="30"/>
+        
+    <property name="MCAHORAFAC"
+        length="8"/>
+        
+    <property name="MCAFECREAL"
+        type="date"
+        length="7"/>
+        
+    <property name="MCAHRSREAL"
+        length="8"/>
+        
+    <property name="MCAFECHCAN"
+        type="date"
+        length="7"/>
+        
+    <property name="MCACANCELO"
+        length="5"/>
+        
+    <property name="MCAMOTICAN"
+        length="40"/>
+        
+    <property name="MCAFEFAAFE"
+        type="date"
+        length="7"/>
+        
+    <property name="MCASUFAAFE"
+        length="126"/>
+        
+    <property name="MCASEFAAFE"
+        length="1"/>
+        
+    <property name="MCATIFAAFE"
+        length="1"/>
+        
+    <property name="MCANUFAAFE"
+        length="126"/>
+        
+    <property name="MCAOPFAAFE"
+        length="126"/>
+        
+    <property name="MCATIPOMOV"
+        length="2"/>
+        
+    <property name="MCANUMMOVI"
+        length="126"/>
+        
+    <property name="MCAARCHIVO"
+        length="8"/>
+        
+    <property name="MCAMVADEV"
+        length="3"/>
+        
+    <property name="MCASUCDEV"
+        length="126"/>
+        
+    <property name="MCAFECDEV"
+        type="date"
+        length="7"/>
+        
+    <property name="MCANUMDEV"
+        length="126"/>
+        
+    <property name="MCAMOPECO"
+        length="1"/>
+        
+    <property name="MCAIMPRESO"
+        type="date"
+        length="7"/>
+        
+    <property name="MCANCRPROV"
+        length="126"/>
+        
+    <property name="MCAFORMATO"
+        length="10"/>
+        
+    <property name="MCAFECOMVE"
+        length="30"/>
+        
+    <property name="MCAFECOMCH"
+        length="30"/>
+        
+    <property name="MCASALFACT"
+        length="126"/>
+        
+    <property name="MCALIDER"
+        length="7"/>
+        
+    <property name="MCAIMPARIN"
+        length="126"/>
+        
+    <property name="MCASUBTOTI"
+        length="126"/>
+        
+    <property name="MCAIMPUESI"
+        length="126"/>
+        
+    <property name="MCATOTALI"
+        length="126"/>
+        
+    <property name="MCACTRLGRA"
+        length="1"/>
+        
+    <property name="MCAFORMPAG"
+        length="1"/>
+        
+    <property name="MCACANTENT"
+        length="126"/>
+        
+    <property name="MCACONMANI"
+        length="15"/>
+        
+    <property name="MCAIMPMANI"
+        length="126"/>
+
+    <property name="MCANOMPEDI"
+        length="6"/>
+
+    <property name="MCANOMCOTI"
+        length="6"/>
+
+    <property name="MES"
+        column="MES"
+        length="6"/>
+
+    <!-- Associations -->
+  
+    <set name="partidas"
+		inverse="true"
+		cascade="all-delete-orphan">
+		<key column="MOCOCA_ID"/>
+			<one-to-many class="com.luxsoft.siipap.clipper.domain.Almace"/>
+	</set>
+  
+</class>
+</hibernate-mapping>

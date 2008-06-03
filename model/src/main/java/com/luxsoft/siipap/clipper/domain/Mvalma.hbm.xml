@@ -1,0 +1,158 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+    
+<hibernate-mapping>
+
+<class 
+    name="com.luxsoft.siipap.clipper.domain.Mvalma" 
+    table="SW_MVALMA"
+    lazy="true">
+
+    <id name="id"
+        column="MVALMA_ID">
+        <generator class="native">
+           	<param name="sequence">siipap_sequence</param>
+        </generator>
+    </id>
+    
+	<natural-id>
+		<property name="MVASUCUR" />
+	    <property name="MVATIPO" length="3"/>
+	    <property name="MVANUMER"/>
+	    <property name="MVASERIE" length="1"/>
+	    <property name="MVATIPFA" length="1"/>
+	</natural-id>
+    
+
+    <property name="MVAFECHA"
+        type="date"/>
+
+    <property name="MVACOMEN"
+        length="40"/>
+
+    <property name="MVACLIENTE"
+        length="7"/>
+
+    <property name="MVANOMBCLI"
+        length="55"/>
+
+    <property name="MVACLAVSOC"
+        length="7"/>
+
+    <property name="MVADESDES"
+        length="40"/>
+
+    <property name="MVAPORDES"
+        length="70"/>
+
+    <property name="MVADESCAR"
+        length="40"/>
+
+    <property name="MVAPORCAR"
+        length="70"/>
+
+    <property name="MVANOCOR"/>
+
+    <property name="MVAIMCOR"/>
+
+    <property name="MVASUCUSO"/>
+
+    <property name="MVASUCURE"/>
+
+    <property name="MVATIPMRE"
+        length="3"/>
+
+    <property name="MVASERDRE"
+        length="1"/>
+
+    <property name="MVATIPDRE"
+        length="1"/>
+
+    <property name="MVANUMERE"/>
+
+    <property name="MVAFECHRE"
+        type="date"/>
+
+    <property name="MVAMOVCRE"/>
+
+    <property name="MVAREFERDE"
+        length="1"/>
+
+    <property name="MVASUCUAT"/>
+        
+    <property name="MVATIPMAT"
+        length="3"/>
+        
+    <property name="MVANUMEAT"/>
+        
+    <property name="MVAOPERA"
+        length="1"/>
+        
+    <property name="MVAUSUAR"
+        length="10"/>
+        
+    <property name="MVAFEREAL"
+        type="date"/>
+
+    <property name="MVASUCCXC"/>
+        
+    <property name="MVAIDECXC"/>
+        
+    <property name="MVASERCXC"
+        length="1"/>
+        
+    <property name="MVATIPCXC"
+        length="1"/>
+
+    <property name="MVANUMCXC"/>
+        
+    <property name="MVAFECCXC"
+        type="date"/>
+        
+    <property name="MVAVENDORE"/>
+        
+    <property name="MVACONCEPT"/>
+        
+    <property name="MVAIMPCONC"/>
+        
+    <property name="periodo"
+        length="7"/>
+        
+    <property name="MVANOMBSO"
+        length="40"/>
+
+    <property name="MVACALLE"
+        length="40"/>
+
+    <property name="MVACOLONIA"
+        length="40"/>
+
+    <property name="MVADELEGAC"
+        length="40"/>
+
+    <property name="MVATELEFON"
+        length="40"/>
+
+    <property name="MVADIREC"        length="60"/>
+        
+    <property name="MVAKGSFACT"        length="6"/>
+     
+     <property name="creado"
+     	column="CREADO"
+    	type="java.util.Date"/>
+
+    <!-- Associations -->
+    
+        <set name="partidas"
+		inverse="true"
+		cascade="all-delete-orphan">
+		<key column="MVALMA_ID"/>
+			<one-to-many class="com.luxsoft.siipap.clipper.domain.Almace"/>
+	</set>
+    
+  
+
+</class>
+</hibernate-mapping>

@@ -1,0 +1,104 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+
+    <class name="com.luxsoft.siipap.cxc.domain.Pago" 
+    	   table="SW_PAGOS" 
+    	   lazy="true">
+    	   
+        <id name="id" column="PAGO_ID">
+            <generator class="native">
+            	<param name="sequence">pagos_sequence</param>
+            </generator>
+        </id>
+        
+        <version name="version"  column="VERSION"/>
+        
+		<many-to-one 
+			name="nota"
+			column="NOTA_ID"
+			not-null="false"
+			foreign-key="PAG_NOTA_FK"/>        
+			
+		<many-to-one 
+			name="notaDelPago"
+			column="NOTAPAGO_ID"
+			not-null="false"
+			foreign-key="PAG_NOTA_FK2"/>
+
+		<many-to-one 
+			name="venta"
+			column="VENTA_ID"
+			not-null="false"
+			foreign-key="PAG_VENTA_FK"/>
+		
+		<many-to-one 
+			name="cliente"
+			column="CLIENTE_ID"
+			not-null="false"
+			foreign-key="PAG_CLIE_FK"/>
+
+		<property name="clave" length="7" />
+		
+        <property name="fecha" type="date"/>
+
+        <property name="fechaReal" type="date"/>
+        
+        <property name="sucursal"/>        
+        
+		<property name="origen" length="3" not-null="true"/>        
+		
+        <property name="numero"/>        
+        
+        <property name="institucion"/>                
+		
+		<property name="formaDePago" length="1"/>		        
+		
+		<property name="descFormaDePago" length="30"/>	
+			
+		<property name="referencia" length="20"/>		
+		
+		<property name="descReferencia" length="30"/>		
+
+		
+		<property name="importe"
+            type="com.luxsoft.siipap.utils.CantidadMonetariaCompositeUserType">
+            <column name="importe"		length="2"/>
+            <column name="importe_mon" 	length="3"/>
+        </property>
+        
+		<property name="comentario" length="50"/>	
+
+        <property name="corte" type="date"/>						
+        
+		<property name="estado" length="1"/>    
+		
+		<property name="tipoDocto" length="1"/>
+		
+		<many-to-one 
+			name="pagoM"
+			column="PAGOM_ID"
+			not-null="false"
+			foreign-key="PAGO_PAGOM_FK"/>    		
+
+   		<property name="mes" />
+
+   		<property name="year" />   				
+        
+   		<property name="creado" />
+   		
+   		<property name="tarjetaTip" length="1"/>
+   		
+   		<many-to-one 
+			name="cheque"
+			column="CHEQUE_ID"
+			not-null="false"
+			foreign-key="PAGO_CHEQUE_FK"/>    		
+   		
+
+    </class>
+
+</hibernate-mapping>

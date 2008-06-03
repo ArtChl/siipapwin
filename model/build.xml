@@ -1,0 +1,312 @@
+<?xml version="1.0"?>
+
+<!--
+  Build file for Luxor based projects.
+
+  This script requires a "lib" directory containing the necessary third party JAR files.
+  See project.properties for the definitions of the properties used in this file.
+
+  Building Luxor requires J2SE 1.5+; the releases are built with Sun's JDK 1.5.0.
+-->
+
+
+<project name="SiipapWin-Model" basedir="." default="usage">
+
+	<property file="build.properties"/>
+	<property file="project.properties"/>
+
+
+	<path id="lib">
+		<fileset dir="${lib.dir}">
+			<include name="**/**.jar" />
+		</fileset>
+	</path>
+
+	<target name="usage">
+
+		<echo message=""/>
+		<echo message="${name} build file"/>
+		<echo message="------------------------------------------------------"/>
+		<echo message=""/>
+		<echo message="Among the available targets are:"/>
+		<echo message=""/>
+		<echo message=" schema"/>
+		<echo message=""/>
+
+	</target>
+
+	
+
+	
+
+	<!-- ***************************************************************** -->
+	<!-- D I S T    Deploys the application for local distribution or 	   -->
+	<!-- 			testing   											   -->
+	<!-- ***************************************************************** -->
+
+	<!-- ***************************************************************** -->
+	<!-- D E P L O Y     Deploys application to Production distribution	   -->
+	<!-- ***************************************************************** -->
+
+	<target name="sign-bin-jars" description="">
+		<echo message="Signning jars for use in Java WebStart deployment" />
+
+		<signjar jar="${dist.dir}/${jar.name}" alias="papel" storepass="sistemas" verbose="true" />
+	</target>
+
+	<target name="deploy-bin" 
+		description="Manda al servidor de produccion los archivos de la aplicacion para su distribucion via WebStart" 
+		depends="sign-bin-jars">
+
+		<echo message="Sending only newer  jar/zip files"/>
+
+		<ftp server="${deploy.ftp.server}"
+			remotedir="${deploy.ftp.directory}/lib"
+			userid="${deploy.ftp.userid}"
+			password="${deploy.ftp.password}"
+			depends="yes"
+			binary="yes"
+			verbose="yes"
+		>
+			
+			<fileset dir="${dist.dir}">
+				<include name="*${jar.name}"/>
+			</fileset>
+			
+		</ftp>
+
+	</target>
+	
+	<target name="deploy-lib" 
+		description="Manda al servidor de produccion las librerias y recursos de la aplicacion para su distribucion via WebStart" >
+
+		<echo message="Sending only newer  jar/zip files"/>
+
+		<ftp server="${deploy.ftp.server}"
+			remotedir="${deploy.ftp.directory}/lib"
+			userid="${deploy.ftp.userid}"
+			password="${deploy.ftp.password}"
+			depends="yes"
+			binary="yes"
+			verbose="true"
+		>			
+			<fileset dir="${lib.dir}">
+				<include name="*.jar"/>
+				<include name="images.zip"/>
+			</fileset>
+		</ftp>
+
+	</target>	
+
+	<target name="deploy-all"
+		depends="deploy-bin,deploy-lib"
+		description="Manda todo para su distribucion via WebStart" >
+	</target>
+	
+	<target name="deploy-test" 
+			>
+			<echo message="Sending only newer  jar/zip files"/>
+
+			<ftp server="ftp.luxsoftnet.com"
+				remotedir=""
+				userid="m2"
+				password="m2"
+				depends="yes"
+				binary="yes"
+				verbose="true"
+			>
+				<fileset file="/basura/b7.7z"></fileset>
+			</ftp>
+
+		</target>
+	
+
+	<!-- ***************************************************************** -->
+	<!-- MISC		Several utility tasks								   -->
+	<!-- ***************************************************************** -->
+
+	<target name="gen-key" description="Generates a key in keystore">
+		<genkey alias="papel" storepass="sistemas" 
+			  dname="CN=Papel SA, OU=Software Division, O=PapelSA.org, C=MX"
+			validity="30"/>
+	</target>
+	
+	<target name="sign-lib-jars"  description="">
+		<echo message="Signning jars for use in Java WebStart deployment" />
+
+		<signjar alias="papel" storepass="sistemas" verbose="true" >
+			<fileset dir="${lib.dir}">
+				<include name="*.jar"/>
+				<include name="**/images.zip"/>
+			</fileset>
+		</signjar>
+	</target>
+
+	<target name="webstart-jnlp-deploy" description="Deploies only the jnlp file">
+
+		<ftp server="${deploy.ftp.server}"
+			remotedir="${deploy.ftp.directory}"
+			userid="${deploy.ftp.userid}"
+			password="${deploy.ftp.password}"
+			depends="yes"
+			binary="no"
+			verbose="yes"
+		>
+			<fileset dir="${basedir}">
+				<include name="*.jnlp"/>
+			</fileset>
+		</ftp>
+
+	</target>
+	
+	<!-- ***************************************************************** -->
+	<!-- DB Tasks														   -->
+	<!-- ***************************************************************** -->
+	
+	<!-- Path to hibernate tools -->
+	<path id="hibernate.tools.path">
+		<fileset dir="${hibernate.tools.dir}">
+			<include name="**/*.jar"/>
+			<include name="**/*.properties"/>			
+		</fileset>
+		<path location="${lib.dir}/${jdbc.driver.jar}"/>
+	</path>
+	
+	<taskdef name="hibernatetool"
+		classname="org.hibernate.tool.ant.HibernateToolTask">
+		<classpath refid="hibernate.tools.path"/>
+	</taskdef>
+	
+	<target name="hbm2ddl" description="Genera un  esquema nuevo de la base de datos">
+		
+		<hibernatetool destdir="${basedir}/target">
+
+			<classpath>
+				<path location="${target.classes.dir}"/>
+				<path location="${basedir}/src/test/resources"/>
+			</classpath>
+			<!--<configuration configurationfile="${basedir}/target/classes/hibernate.cfg.xml"/>-->
+			<annotationconfiguration configurationfile="${basedir}/target/classes/hibernateAnnotation.cfg.xml"/>
+			
+			<hbm2ddl  
+				export="false"
+				update="false"
+				drop="true"
+				create="true"
+				console="true"					
+				outputfilename="schema2.sql"
+				format="true"/>
+		</hibernatetool>		
+	</target>
+	
+	<target name="hbm2java" description="Genera JavaBeans a partir de hbm.xml files">
+		
+		<hibernatetool destdir="taget/hibernate3">
+			<classpath>
+				<path location="${target.classes.dir}"/>
+				<path location="${basedir}/src/test/resources"/>				
+			</classpath>
+			<annotationconfiguration configurationfile="${basedir}/src/main/resources/hibernate.cfg.xml"/>			
+			<hbm2java jdk5="true"/>
+			
+		</hibernatetool>		
+	</target>
+	
+	<target name="java2hbmxml" 
+		description="Genera archivos hbm a partir de annotated claesses">
+		
+		<hibernatetool destdir="target/hibernate3/beans">
+			<classpath>
+				<path location="${target.classes.dir}"/>
+				<path location="${basedir}/src/test/resources"/>				
+			</classpath>
+			<annotationconfiguration configurationfile="${basedir}/target/classes/hibernateAnnotation.cfg.xml"/>			
+			<hbm2hbmxml />			
+		</hibernatetool>		
+	</target>
+	
+	
+	<target name="hbm2doc" description="Genera Docs de las tablas y entidades">
+			<delete dir="${generated.dir}/hibernatedocs"/>
+			<mkdir dir="${generated.dir}/hibernatedocs"/>
+			
+			<hibernatetool destdir="${generated.dir}/hibernatedocs">
+				<classpath>
+					<path location="${target.classes.dir}"/>
+				</classpath>
+					
+				<configuration configurationfile="${basedir}/hibernate.cfg.xml"/>
+				<hbm2doc/>
+			</hibernatetool>		
+	</target>
+	
+	<!-- =================================================================== -->
+	<!--            Export the data                                          -->
+	<!-- ===================================================================
+	
+	<taskdef name="dbunit" 
+	    classname="org.dbunit.ant.DbUnitTask" >
+		<classpath>			
+			<path location="${lib.dir}/org/dbunit/dbunit/2.2/dbunit-2.2.jar"/>						
+			<path location="${lib.dir}/com/oracle/ojdbc14/9.0.2.0.0/${jdbc.driver.jar}"/>
+		</classpath>
+	</taskdef>
+	
+	<target name="db-export" 
+		description="Exports the current data in the database">
+		<dbunit driver="${database.driver_class}" 
+			url="${database.url}"
+	        userid="${database.username}" 
+			password="${database.password}">
+	        <export 
+	        	dest="${basedir}/db-ventas.xml" 
+	        	format="flat">
+	        	<query name="SW_VENTAS" sql="SELECT * FROM SW_VENTAS WHERE YEAR=2006 " />
+			</export>
+		</dbunit>
+	</target>
+	
+	<target name="db-load-CatalogosBasicos"  
+		depends="hbm2ddl"
+		description="Carga los catalogos basicos de entidades para pruebas">
+
+	    <property name="file" value="metadata/sql/sample-data.xml"/>
+		
+		<dbunit driver="${database.driver_class}"
+	         supportBatchStatement="false" url="${database.url}"
+	         userid="${database.username}" password="${database.password}">
+	        	
+			<operation type="CLEAN_INSERT" src="${file}" format="xml"/>
+	       	
+		</dbunit>
+    </target>
+
+	<target name="db-load-Inventarios"  
+			depends="db-load-CatalogosBasicos"
+			description="Carga datos de prueba para las entidades de inventarios">
+			
+			<dbunit driver="${database.driver_class}"
+		         supportBatchStatement="false" url="${database.url}"
+		         userid="${database.username}" password="${database.password}">
+		        	
+				<operation type="CLEAN_INSERT" src="metadata/sql/sample-data-inventarios.xml" format="xml"/>
+		       	
+			</dbunit>
+	</target>
+	 -->
+	<!-- DataBase Manager para HSQLDB -->
+	<target name="dataBaseManager" 
+			description="Arranca la base de datos HSQLDB con un nombre apripiado">
+		<java
+			classname="org.hsqldb.util.DatabaseManagerSwing"
+			fork="yes"
+			classpath="${lib.dir}/hsqldb/hsqldb/1.8.0.7/hsqldb-1.8.0.7.jar"
+			failonerror="true">
+			<arg value='-url'/>
+			<arg value='${database.url}/kernell/'/>
+			<arg value='-driver'/>
+			<arg value='${database.driver_class}'/>
+		</java>
+	</target>
+	
+</project>

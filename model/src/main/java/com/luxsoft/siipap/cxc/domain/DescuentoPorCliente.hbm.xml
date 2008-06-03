@@ -1,0 +1,101 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+
+	<class name="com.luxsoft.siipap.cxc.domain.AbstractDescuento"
+		table="SW_DESC_CTE" lazy="true" discriminator-value="A"
+		>
+		
+		<id name="id" column="DESCUENTO_ID">
+			<generator class="native">
+				<param name="sequence">descuentos_ids</param>
+			</generator>
+		</id>
+		
+		<discriminator 
+	        type="string"
+        	column="TIPO"
+        	length="1"
+        />
+		
+		<property name="clave"  length="7"></property>
+		<property name="nombre" length="55"></property>
+		<property name="descSiipap" length="5"></property>
+		
+		<property name="descuento"></property>
+		<property name="adicional"></property>		
+		
+		<property name="tipoFac" length="15"></property>
+				
+		<property name="activo"></property>
+		
+		
+		<many-to-one 
+			name="cliente"
+			column="CLIENTE_ID"
+			not-null="false"
+			foreign-key="DESC_CLIENTE_FK"
+			/>	
+		<property name="autorizo" length="30"></property>
+		<property name="comentario" length="55"></property>
+		<property name="fechaAutorizacion" type="date"></property>
+
+		<property name="alta" type="date"/>
+		<property name="baja"></property>
+		<property name="creado" type="date"/>
+		<property name="modificado" />		
+		<property name="precioNeto"/>
+		
+		<subclass name="com.luxsoft.siipap.cxc.domain.DescuentoPorCliente"
+			discriminator-value="C">
+		</subclass>
+		
+		<subclass name="com.luxsoft.siipap.cxc.domain.DescuentoPorArticulo"
+			discriminator-value="A">
+			
+			<property name="gramMax"/>
+			<property name="gramMin"/>
+			<property name="claveFamilia" length="10"/>
+			<property name="porPrecioKilo"/>
+			
+ 			<many-to-one 
+				name="articulo"
+				column="ARTICULO_ID"
+				not-null="false"
+				foreign-key="DESC_ARTIC_FK"
+			/>
+			
+			<property name="claveArticulo"  length="10"></property>
+			
+			<many-to-one 
+				name="familia"
+				column="FAMILIA_ID"
+				not-null="false"
+				foreign-key="DESC_FAM_FK"
+			/>
+
+			<property name="precioKilo" type="com.luxsoft.siipap.utils.CantidadMonetariaCompositeUserType">
+        		<column name="PRECIOK"		length="2"/>
+        		<column name="PRECIOK_MON" 	length="3"/>
+	   	   	</property>			
+
+			<property name="costo" type="com.luxsoft.siipap.utils.CantidadMonetariaCompositeUserType">
+        		<column name="COSTO"		length="2"/>
+        		<column name="COSTO_MON" 	length="3"/>
+	   	   	</property>			
+
+			<property name="ultimoCosto" type="com.luxsoft.siipap.utils.CantidadMonetariaCompositeUserType">
+        		<column name="COSTOU"		length="2"/>
+        		<column name="COSTOU_MON" 	length="3"/>
+	   	   	</property>			
+
+	 		
+		</subclass>	  
+
+
+	</class>
+
+</hibernate-mapping>

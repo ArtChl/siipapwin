@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+
+    <class name="com.luxsoft.siipap.cxc.domain.Socios" 
+    	   table="U050008" 
+    	   lazy="true">
+    	   
+        <id name="clave">
+            <generator class="native">
+            	<param name="sequence">siipap_sequence</param>
+            </generator>
+        </id>
+   
+        <property name="nombre"  	length="50"/>
+        <property name="vendedor" 		length="20"/>
+        <property name="lugar"	length="20"/>
+        <property name="bacoco" 	length="20"/>
+        <property name="bacove" 	length="20"/>
+        
+  
+    </class>
+
+</hibernate-mapping>

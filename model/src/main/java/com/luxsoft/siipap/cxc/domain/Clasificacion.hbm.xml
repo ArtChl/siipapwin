@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+
+    <class name="com.luxsoft.siipap.cxc.domain.Clasificacion" 
+    	   table="SW_CLASIFICACION" 
+    	   lazy="true">
+    	   
+        <id name="clave">
+            <generator class="native">
+            	<param name="sequence">siipap_sequence</param>
+            </generator>
+        </id>
+        
+        <property name="descripcion" 			length="20"/>
+        <property name="tipofact" 				length="10"/>
+        <property name="comentarios" 			length="20"/>
+        <property name="permitirVenta" 			length="10"/>
+        <property name="solicitarAutorizacion" 	length="10"/>
+        <property name="observaciones" 			length="25"/>
+        <property name="fechaBaja" 				length="10"/>
+        <property name="fechaAlta" 				length="10"/>
+        <property name="sucPermiteVta"		 	length="10"/>
+        <property name="creacion" 				length="10"/>
+    
+
+    </class>
+
+</hibernate-mapping>

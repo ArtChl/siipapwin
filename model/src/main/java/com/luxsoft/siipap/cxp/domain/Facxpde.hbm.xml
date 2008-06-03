@@ -1,0 +1,138 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+
+<hibernate-mapping>
+    <class name="com.luxsoft.siipap.cxp.domain.Facxpde" 
+    	   lazy="true"
+    	   table="SW_FACXPDE">
+        
+        <id name="id" column="FACXPDE_ID">
+            <generator class="native">
+            	<param name="sequence">cxp_ids</param>
+            </generator>
+        </id>
+        
+        
+
+	<!-- Propiedades simples -->
+		
+		<property name="NUMERO"
+			length="8"/>
+
+        <property name="REFERENCIA"
+            length="50"/>
+        
+        <property name="ARTCLAVE"
+            length="10"/>
+
+        <property name="ARTNOMBR" column="ARTNOMBRE"
+            length="55"/>
+
+        <property name="UNIDAD"
+			length="3"/>
+
+        <property name="CANTIDAD"/>  
+	     
+        <property name="LLAVED" length="100"/>		
+
+        <property name="DESCUENTO1"/>
+        
+        <property name="DESCUENTO2"/>
+        
+        <property name="DESCUENTO3"/>
+        
+        <property name="DESCUENTO4"/>
+        
+        <property name="DESCUENTO5"/>
+        
+        <property name="DESCUENTO6"/>
+        
+        <property name="DESCUENTO7"/>
+        
+        <property name="DESCUENTO8"/>
+        
+        <property name="DESCUENTOF"/>
+        
+        <property name="LISTA"         length="10"/>
+
+        <property name="MONEDAP"       length="4"/>
+
+        <property name="TCP"/>
+
+        <property name="CLAVE"            length="4"/>
+
+        <property name="FACREM"/>
+
+        <property name="FECREM"            type="date"/>
+
+        <property name="RENGL"        	length="38"/>
+
+       <property name="SUCURSAL"/>
+
+        <property name="PROVNOMBR"            length="55"/>
+
+        <property name="PROVCLAVE"            length="10"/>
+
+        <property name="NUMCOM"/>
+
+        <property name="FECCOM"        	type="date"/>
+
+        <property name="SUCCOM"/>
+
+        <property name="TIPCOM"            length="1"/>
+
+        <property name="COM"/>
+
+        <property name="CANTDEV"/>
+
+        <property name="DEVO"            length="1"/>
+
+        <property name="FENT"			type="date"/>
+        	
+		<many-to-one 
+			name="facxp"
+			column="FACXP_ID"
+			class="com.luxsoft.siipap.cxp.domain.Facxp"
+			not-null="true"/>
+			
+		<many-to-one 
+			name="compraIngresada"
+			column="COM_ID"
+			cascade="save-update"
+			not-null="true"/>
+		
+		
+		<property name="costo"
+            type="com.luxsoft.siipap.utils.CantidadMonetariaCompositeUserType">
+            <column name="costo"	length="2"/>
+            <column name="costo_mon" 	length="3"/>
+        </property>
+    
+        <property name="importe"
+            type="com.luxsoft.siipap.utils.CantidadMonetariaCompositeUserType">
+            <column name="importe"	length="2"/>
+            <column name="importe_mon" 	length="3"/>
+        </property>
+    
+        <property name="neto"
+            type="com.luxsoft.siipap.utils.CantidadMonetariaCompositeUserType">
+            <column name="neto"	length="2"/>
+            <column name="neto_mon" 	length="3"/>
+        </property>						
+		
+		<property name="netoMN"
+            type="com.luxsoft.siipap.utils.CantidadMonetariaCompositeUserType">
+            <column name="netoMN"	length="2"/>
+            <column name="netoMN_mon" 	length="3"/>
+        </property>
+        
+        <property name="creado" />
+ 		<property name="modificado" />
+        
+
+    </class>
+
+</hibernate-mapping>

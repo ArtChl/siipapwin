@@ -1,0 +1,55 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+    <class name="com.luxsoft.siipap.cxp.domain.Crecibos" 
+    	   lazy="true"
+    	   table="SW_CRECIBOS">
+        
+        <id name="id" column="CRECIBOS_ID">
+            <generator class="native">
+            	<param name="sequence">cxp_ids</param>
+            </generator>
+        </id>
+
+		<many-to-one name="proveedor" column="PROVEEDOR_ID" not-null="true"/>		    
+		
+		<property name="NUMERO" />
+		<property name="CLAVE" length="4"/>
+		<property name="PROVEEDOR" length="55"/>
+		<property name="CXP" />
+		<property name="CRECIBO" />
+		<property name="FCRECIBO" type="date" />
+		<property name="tc1" length="3"/>
+		<property name="tc2" length="3"/>
+		<property name="tc3" length="3"/>
+		<property name="tc4" length="3"/>
+		<property name="tc5" length="3"/>								
+ 
+        <property name="importeNC"
+            type="com.luxsoft.siipap.utils.CantidadMonetariaCompositeUserType">
+            <column name="importenc"		length="2"/>
+            <column name="importenc_mon" 	length="3"/>
+        </property>
+        
+		<property name="conceptoNC" length="100"/> 
+		<property name="ELABORO" length="20"/>		       
+
+        <set name="partidas"
+				inverse="true"
+				lazy="true"
+				cascade="all-delete-orphan">
+				<key column="CRECIBOS_ID"/>
+				<one-to-many class="com.luxsoft.siipap.cxp.domain.Crecibosde"/>
+		</set>
+
+		<property name="creado" />
+ 		<property name="modificado" />
+		
+
+ 
+    </class>
+
+</hibernate-mapping>

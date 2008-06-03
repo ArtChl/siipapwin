@@ -1,0 +1,82 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+    <class name="com.luxsoft.siipap.cxp.domain.AnalisisDet" 
+    	   lazy="true"
+    	   table="SW_ANALISISDET">
+        
+        <id name="id" column="ANALISISDET_ID">
+            <generator class="native">
+            	<param name="sequence">cxp_analisis_ids</param>
+            </generator>
+        </id>        
+        <version name="version"  column="VERSION"/>
+        
+        <many-to-one 
+			name="analisis"
+			column="ANALISIS_ID"
+			class="com.luxsoft.siipap.cxp.domain.Analisis"
+			not-null="false"/>  <!-- Este atributo se cambio para permitir el funcionamiento de AnalisisForm y sus correspondinentes colaboradores, pero no parece ser la solucion adecuada -->      
+		        
+        <property name="ARTCLAVE"   length="10"/>
+        <property name="ARTNOMBR" 	length="55"/>
+        <property name="cantidad" 	length="3"/>  
+        <property name="UNIDAD" 	length="3"/>	     	    
+			
+		<many-to-one 
+			name="entrada"
+			column="COM_ID"
+			cascade="save-update"
+			not-null="false"/> 
+
+		<many-to-one 
+			name="precio"
+			column="PRECIO_ID"/>
+
+        <property name="desc1" length="3"/>
+        <property name="desc2" length="3"/>
+        <property name="desc3" length="3"/>
+        <property name="desc4" length="3"/>
+        <property name="desc5" length="3"/>
+        <property name="desc6" length="3"/>
+        <property name="desc7" length="3"/>
+        <property name="desc8" length="3"/>                                                        
+        <property name="tc" 	length="4"/>        
+
+        <property    name="numero"/>		
+		
+		<property name="costo"
+            type="com.luxsoft.siipap.utils.CantidadMonetariaCompositeUserType">
+            <column name="COSTO"		length="2"/>
+            <column name="COSTO_MON" 	length="3"/>
+        </property>
+    
+        <property name="importe"
+            type="com.luxsoft.siipap.utils.CantidadMonetariaCompositeUserType">
+            <column name="IMPORTE"		length="2"/>
+            <column name="IMPORTE_MON" 	length="3"/>
+        </property>
+    
+
+        <property name="neto"
+            type="com.luxsoft.siipap.utils.CantidadMonetariaCompositeUserType">
+            <column name="NETO"			length="2"/>
+            <column name="NETO_mon" 	length="3"/>
+        </property>
+
+        <property name="netoMN"
+            type="com.luxsoft.siipap.utils.CantidadMonetariaCompositeUserType">
+            <column name="NETOMN"		length="2"/>
+            <column name="NETOMN_mon" 	length="3"/>
+        </property>
+        
+        
+        <property name="creado" />
+         
+
+    </class>
+
+</hibernate-mapping>

@@ -1,0 +1,39 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+    
+<hibernate-mapping>
+
+    <class
+        name="com.luxsoft.siipap.inventarios.domain.acumulados.Acumulado"
+        lazy="false"
+        table="SW_ACUMULADOS">
+        
+        <id name="id" column="ACUMULADO_ID">
+            <generator class="native">
+	            <param name="sequence">inventario_sequence</param>
+            </generator>
+        </id>
+        
+        <natural-id>
+        	<property name="periodo" 	length="7"/>
+	        <property name="articulo" 	length="10"/>
+	        <property name="tipo"		length="3"/>
+	    </natural-id>
+	    
+        <property name="saldoInicial"/>
+        <property name="movimientos"/>
+        <property name="unixuni"/>
+        <property name="costoPromedioIni" 	length="2"/>
+        <property name="costoPromedio" 	length="2"/>
+        <property name="costoPepsIni" 		length="2"/>        
+        <property name="costoPeps" 		length="2"/>
+        <property name="costoUepsIni" 		length="2"/>        
+        <property name="costoUeps" 		length="2"/>
+        <property name="costoUltimoIni" 	length="2"/>                        
+        <property name="costoUltimo" 	length="2"/>                        
+
+	</class>
+
+</hibernate-mapping>

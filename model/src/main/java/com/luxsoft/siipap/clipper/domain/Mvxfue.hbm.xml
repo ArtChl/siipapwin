@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+    <class
+        name="com.luxsoft.siipap.clipper.domain.Mvxfue"
+        table="SW_MVXFUE"
+        lazy="true">
+
+        <id name="id"
+            column="MVXFUE_ID">			
+            <generator class="native">
+            	<param name="sequence">siipap_sequence</param>
+            </generator>
+        </id>
+        
+	    <property name="MVAESTADO"/>
+
+		<property name="MVASUCUR"/>
+
+		<property name="MVATIPO"/>
+
+		<property name="MVANUMER"/>
+
+		<property name="MVASERIE"/>
+
+		<property name="MVATIPFA"/>
+
+	    <property name="MVAFECHA"
+            type="date"
+            length="7"/>
+
+		<property name="MVACOMEN"/>
+
+		<property name="MVACLIENTE"/>
+
+		<property name="MVANOMBCLI"/>
+
+		<property name="MVACLAVSOC"/>
+
+		<property name="MVADESDES"/>
+
+		<property name="MVAPORDES"/>
+
+		<property name="MVADESCAR"/>
+
+		<property name="MVAPORCAR"/>
+
+		<property name="MVANOCOR"/>
+
+		<property name="MVAIMCOR"/>
+
+		<property name="MVASUCUSO"/>
+
+		<property name="MVASUCURE"/>
+
+		<property name="MVATIPMRE"/>
+
+		<property name="MVASERDRE"/>
+
+		<property name="MVATIPDRE"/>
+
+		<property name="MVANUMERE"/>
+
+	    <property name="MVAFECHRE"
+            type="date"
+            length="7"/>
+
+		<property name="MVAMOVCRE"/>
+
+		<property name="MVAREFERDE"/>
+
+		<property name="MVASUCUAT"/>
+
+		<property name="MVATIPMAT"/>
+
+		<property name="MVANUMEAT"/>
+
+		<property name="MVAOPERA"/>
+
+		<property name="MVAUSUAR"/>
+
+	    <property name="MVAFEREAL"
+            type="date"
+            length="7"/>
+
+		<property name="MVASUCCXC"/>
+
+		<property name="MVAIDECXC"/>
+
+		<property name="MVASERCXC"/>
+
+		<property name="MVATICXC"/>
+
+		<property name="MVANUMCXC"/>
+
+	    <property name="MVAFECCXC"
+            type="date"
+            length="7"/>
+
+		<property name="MVAVENDORE"/>
+
+		<property name="MVACONCEPT"/>
+
+		<property name="MVAIMPCONC"/>
+
+        <!-- Associations -->
+        
+
+    </class>
+
+</hibernate-mapping>

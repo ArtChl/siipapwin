@@ -1,0 +1,94 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+
+    <class name="com.luxsoft.siipap.cxc.domain.ChequeDevuelto" 
+    	   table="SW_CHEQUESDEVUELTOS" 
+    	   lazy="true">
+
+        <id name="id" column="ID">
+            <generator class="native"/>
+        </id>
+        
+        <many-to-one 
+			name="cliente"
+			column="CLIENTE_ID"
+			not-null="true"
+			lazy="false"
+			fetch="join"/>
+        
+        <many-to-one 
+			name="origen"
+			column="PAGOM_ID"
+			not-null="false"
+			fetch="join"
+			lazy="false"/>
+			
+		<property name="fecha" type="date"/>
+		
+		<property name="banco"/>
+		
+		<property name="numero"/>
+		
+		<property name="sucursalId"/>
+		
+		<property name="importe" scale="2"/>
+
+		<property name="comentario"/>
+		
+		<property name="juridico">
+			<column name="JURIDICO" default="0"/>
+		</property>
+												
+		<property name="mes"/>
+				
+		<property name="year"/>
+				
+		<property name="creado"/>
+		
+		<property name="saldo"
+				formula="
+				(
+					IMPORTE-
+					(SELECT NVL(SUM(NVL(P.IMPORTE,0)),0) FROM SW_PAGOS P WHERE P.CHEQUE_ID=ID AND P.FORMADEPAGO NOT IN('K','U')) 
+				)"
+				access="field"
+		/>
+		<property name="pagosAplicados"
+			formula="
+				(					
+					(SELECT NVL(SUM(NVL(P.IMPORTE,0)),0) FROM SW_PAGOS P WHERE P.CHEQUE_ID=ID AND P.FORMADEPAGO NOT IN('K','U')) 
+				)"
+				access="field"
+		/>
+		<property name="cargosAplicados"
+			formula="
+			(
+				(SELECT NVL(SUM(NVL(P.IMPORTE,0)),0) FROM SW_NOTASDET P WHERE P.CHEQUE_ID=ID ) 
+			
+			)"
+			access="field"
+		/>
+		
+		 <set name="pagos"
+ 			access="field"						
+			fetch="select"
+			cascade="save-update,delete">
+			<key column="CHEQUE_ID"/>
+			<one-to-many class="com.luxsoft.siipap.cxc.domain.Pago"/>
+		</set>		
+		
+		<set name="cargos"
+			access="field"			
+			fetch="select"
+			cascade="save-update,delete">
+			<key column="CHEQUE_ID"/>
+			<one-to-many class="com.luxsoft.siipap.cxc.domain.NotasDeCreditoDet"/>
+		</set>		
+
+    </class>
+
+</hibernate-mapping>

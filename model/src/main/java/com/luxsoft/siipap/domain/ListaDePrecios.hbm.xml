@@ -1,0 +1,58 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+    <class name="com.luxsoft.siipap.domain.ListaDePrecios" 
+    	table="SW_LISTAS"
+    	lazy="true">
+
+        <id name="id" >
+            <generator class="native">
+           		<param name="sequence">siipap_sequence</param>
+        	</generator>
+        </id>
+        
+        <property name="numero" 
+        	not-null="true"
+        	unique="false"/>
+	
+        <property name="descripcion" length="60"
+        	not-null="true"/>
+        
+        <component name="periodo"	class="com.luxsoft.siipap.domain.Periodo">
+        	<property name="fechaInicial"
+        	 	type="date" column="FECHA_INI"/>
+        	<property name="fechaFinal"
+	        	type="date"	column="FECHA_FIN" />
+       	</component>
+       	
+        <many-to-one name="proveedor"
+        	column="PROVEEDOR_ID"
+        	not-null="true"/>
+        	
+        <property name="creado"/>
+		<property name="modificado"/>
+		
+		<property name="descDesc1" length="50"/>
+		<property name="descDesc2" length="50"/>
+		<property name="descDesc3" length="50"/>
+		<property name="descDesc4" length="50"/>
+		<property name="descDesc5" length="50"/>
+		<property name="descDesc6" length="50"/>
+		<property name="descDesc7" length="50"/>
+		<property name="descDesc8" length="50"/>
+		
+		<set name="precios" 
+			inverse="true"
+			cascade="all-delete-orphan"
+			lazy="true">
+			<key column="LISTA_ID"/>
+			<one-to-many class="com.luxsoft.siipap.domain.Precio"/>
+		</set>	
+		
+    </class>
+
+</hibernate-mapping>
+<!-- parsed in 0ms -->

@@ -1,0 +1,38 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+
+	<class name="com.luxsoft.siipap.maquila.domain.RecepcionDeMaterial" 
+    	table="SW_RECEPCIONES_MAQUILA"
+    	lazy="true">
+    	
+        <id name="id" column="RECEPCION_ID">
+            <generator class="native">
+	            <param name="sequence">maquila_ids</param>
+            </generator>
+        </id>
+              		
+		<many-to-one name="almacen"
+        	column="ALMACEN_ID"/> 
+        	
+		<property name="entradaDeMaquilador" length="15" not-null="true"/>
+        	
+	   	<property name="fecha" type="date"/>
+	   	<property name="observaciones" length="100"/>
+	   	 
+	   	<set name="entradas"
+				inverse="true"
+				lazy="true"
+				cascade="all-delete-orphan">
+				<key column="RECEPCION_ID"/>
+				<one-to-many class="com.luxsoft.siipap.maquila.domain.EntradaDeMaterial"/>
+		</set>
+       	
+	</class>	
+        		
+
+</hibernate-mapping>
+<!-- parsed in 15ms -->

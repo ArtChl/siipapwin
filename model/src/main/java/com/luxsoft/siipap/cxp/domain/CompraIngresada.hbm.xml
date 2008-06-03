@@ -1,0 +1,54 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+
+<hibernate-mapping>
+    <class name="com.luxsoft.siipap.cxp.domain.CompraIngresada" 
+    	   lazy="true"
+    	   table="SW_COMS">
+        
+        <id name="id" column="COM_ID">
+            <generator class="native">
+            	<param name="sequence">cxp_ids</param>
+            </generator>
+        </id>        
+        
+        <natural-id>
+        	<many-to-one 
+				name="com"
+				column="ENTRADA_ID"
+				cascade="save-update"
+				lazy="false"/>
+        </natural-id>
+        
+
+		<many-to-one 
+			name="analisis"
+			column="FACXPDE_ID"
+			class="com.luxsoft.siipap.cxp.domain.Facxpde"
+			not-null="false"
+			fetch="join"
+			lazy="false"/>
+			
+		<many-to-one 
+			name="dec"
+			column="DEC_ID"
+			cascade="save-update"
+			not-null="false"
+			fetch="join"
+			lazy="false"/>
+
+		
+		<property name="cantidadIngresada" length="3"/>
+		<property name="cantidadAnalizada" length="3"/>
+		<property name="cantidadDevuelta"  length="3"/>		
+
+        <property name="creado" />
+        <property name="modificado" />    
+			
+
+    </class>
+
+</hibernate-mapping>

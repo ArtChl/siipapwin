@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+    
+<hibernate-mapping>
+
+    <class
+        name="com.luxsoft.siipap.inventarios.domain.acumulados.SaldoPorTipo"
+        lazy="false"
+        table="SW_SALDOSPORTIPO">
+        
+        <composite-id>
+        	<key-property name="periodo" length="7"/>
+        	<key-property name="sucursal" length="7"/>
+        	<key-property name="tipo" length="3"/>         	
+         	<key-many-to-one name="articulo" column="ARTICULO_ID"/>
+        </composite-id>
+         
+	     <property name="clave" 	length="10"/>
+        <property name="saldo" 	length="4"/>            
+<!--         <property name="movimientos" 	length="4"/>         -->
+                    
+
+	</class>
+
+</hibernate-mapping>

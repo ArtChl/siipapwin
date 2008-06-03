@@ -1,0 +1,63 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+
+<hibernate-mapping>
+    <class name="com.luxsoft.siipap.cxp.domain.RequisicionDetalle" 
+    	   lazy="true"
+    	   table="SW_REQUISICIONDE">
+        
+        <id name="id" column="REQUISICIONDE_ID">
+            <generator class="native">
+            	<param name="sequence">cxp_ids</param>
+            </generator>
+        </id>
+        
+        <natural-id>
+			<many-to-one name="proveedor" column="PROVEEDOR_ID" fetch="join" lazy="false" not-null="true"/>
+			<property name="factura"  length="12"/>			
+        </natural-id>
+	
+        <many-to-one 
+			name="requisicion"
+			column="REQUISICION_ID"
+			class="com.luxsoft.siipap.cxp.domain.Requisicion"
+			not-null="true"
+			insert="false"
+			update="false"
+			/>
+			
+		<many-to-one 
+			name="cargo"
+			column="CARGO_ID"
+			class="com.luxsoft.siipap.cxp.domain.CXPFactura"
+			lazy="false"
+			fetch="join"
+			not-null="true"/>
+
+		<property name="descuentoFinanciero"  length="2"/>
+		
+    
+        <property name="importe"
+            type="com.luxsoft.siipap.utils.CantidadMonetariaCompositeUserType">
+            <column name="importe"	length="2"/>
+            <column name="importe_mon" 	length="3"/>
+        </property>
+        
+        <property name="importeMN"
+            type="com.luxsoft.siipap.utils.CantidadMonetariaCompositeUserType">
+            <column name="importeMN"		length="2"/>
+            <column name="importeMN_mon" 	length="3"/>
+        </property>
+        
+    
+   		<property name="numero"/>         
+        <property name="creado" />
+ 		<property name="modificado" />
+        
+
+    </class>
+
+</hibernate-mapping>

@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+
+    <class name="com.luxsoft.siipap.cxc.domain.Cobrador" 
+    	   table="SW_COBRADOR" 
+    	   lazy="true">
+    	   
+        <id name="clave">
+            <generator class="assigned"/>
+        </id>
+        <property name="nombre" not-null="true"/>
+        <property name="comision" >
+        	<column name="COMISION" not-null="true" 
+        	default="0.0" 
+        	scale="2"/>
+        </property>
+        <property name="alta" type="date"></property>
+        <property name="baja" type="date"></property> 
+        <property name="activo">
+        	<column name="ACTIVO" default="1"/>
+        </property>
+  
+    </class>
+
+</hibernate-mapping>

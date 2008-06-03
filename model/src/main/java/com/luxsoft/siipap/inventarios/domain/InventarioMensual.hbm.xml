@@ -1,0 +1,105 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+
+	<class name="com.luxsoft.siipap.inventarios.domain.InventarioMensual"
+		table="SW_INVENTARIOM" lazy="true" >
+		
+		<id name="id" column="ID">
+			<generator class="native"/>
+		</id>
+		
+		<version name="version"  column="VERSION"/>
+		
+		<many-to-one 
+			name="articulo"
+			column="ARTICULO_ID"
+			not-null="true"
+			foreign-key="INVM_ARTICULO_FK"
+			/>	
+			
+		<property name="clave"  length="12" unique-key="IDX1"/>
+		
+		<property name="factor"/>
+		
+		<property name="inicial" scale="3">
+			<column name="INICIAL" scale="3" default="0" not-null="true"/>
+		</property>
+		
+			
+		<property name="costoInicial"
+            type="com.luxsoft.siipap.utils.CantidadMonetariaCompositeUserType" generated="insert">
+            <column name="COSTOINI"			length="2" default="0" />
+            <column name="COSTOINI_MON" 	length="3" default="'MXN'"/>
+        </property>
+        
+        <property name="cxp" scale="3"/>
+			
+		<property name="costoCxp"
+            type="com.luxsoft.siipap.utils.CantidadMonetariaCompositeUserType" generated="insert">
+            <column name="COSTOCXP"			length="2" default="0"/>
+            <column name="COSTOCXP_MON" 	length="3" default="'MXN'"/>
+        </property>
+		
+		<property name="maq" scale="3"/>
+			
+		<property name="costoMaq"
+            type="com.luxsoft.siipap.utils.CantidadMonetariaCompositeUserType" generated="insert">
+            <column name="COSTOMAQ"			length="2" default="0"/>
+            <column name="COSTOMAQ_MON" 	length="3" default="'MXN'"/>
+        </property>
+        
+        <property name="gastosMaq"
+            type="com.luxsoft.siipap.utils.CantidadMonetariaCompositeUserType" generated="insert">
+            <column name="GASTOSMAQ"			length="2" default="0"/>
+            <column name="GASTOSMAQ_MON"	 	length="3" default="'MXN'"/>
+        </property>
+        
+        <property name="kilosMaq" scale="3"/>
+        
+        
+        <property name="saldo" scale="3"/>
+			
+		<property name="costo"
+            type="com.luxsoft.siipap.utils.CantidadMonetariaCompositeUserType" generated="insert">
+            <column name="COSTO"			length="2" default="0"/>
+            <column name="COSTO_MON" 		length="3" default="'MXN'"/>
+        </property>
+		
+		<property name="costoPromedio"
+            type="com.luxsoft.siipap.utils.CantidadMonetariaCompositeUserType" generated="insert">
+            <column name="COSTOP"			length="2" default="0"/>
+            <column name="COSTOP_MON" 		length="3" default="'MXN'"/>
+        </property>       
+        
+        <property name="ventas" >
+        	<column name="VENTASN" scale="3" default="0" not-null="true">
+        	</column>
+        </property>
+        
+        <property name="comsSinAnalizar" scale="3">
+			<column name="COMSNA" scale="3" default="0" not-null="true"/>
+		</property>
+        
+		<property name="year" unique-key="IDX1"/>
+		
+		<property name="mes" unique-key="IDX1"/>
+		
+		<property name="movimientos" >
+			<column name="MOVS" scale="3" default="0" not-null="true"/>
+		</property>
+		
+		<property name="movimientosCosto" >
+			<column name="MOVS_COSTO" scale="2" default="0" not-null="true"/>
+		</property>
+		
+		
+		<property name="creado" />
+		<property name="modificado" />		
+
+	</class>
+
+</hibernate-mapping>

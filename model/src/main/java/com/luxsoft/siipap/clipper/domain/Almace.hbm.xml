@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping
+>
+    <class
+        name="com.luxsoft.siipap.clipper.domain.Almace"
+        table="SW_ALMACEN2"
+        lazy="true">
+
+        <id name="id"
+            column="ALMACEN_ID">			
+            <generator class="native">
+            	<param name="sequence">inventario_sequence</param>
+            </generator>
+        </id>
+        
+        <discriminator 
+	        type="string"
+        	column="MOVIMIENTO"
+        	length="1"
+        />
+        
+        <natural-id>
+        	<property name="ALMSUCUR"/>
+    	    <property name="ALMTIPO" 	length="3"/>	        
+	        <property name="ALMNUMER"/>
+            <property name="ALMSERIE"  	length="1"/>
+            <property name="ALMTIPFA"   length="1"/>
+    	    <property name="ALMRENGL"/>
+        </natural-id>
+
+        <property name="ALMARTIC" 	not-null="true" length="10"/>
+        <property name="ALMCANT2"/>
+        <property name="ALMCANTI"/>
+        <property name="ALMCOSTO"/>
+        <property name="ALMDEVANFA"/>
+        <property name="ALMFECCXC" 	type="date"/>
+        <property name="ALMFECH2"  	type="date"/>
+        <property name="ALMFECHA"  	type="date"/>
+        <property name="ALMFEREAL" 	type="date"/>
+        <property name="ALMGRUPOIM"/>
+        <property name="ALMHORA"  	length="8"/>
+        <property name="ALMIDECXC"/>
+        <property name="ALMKILOS"/>
+        <property name="ALMNOMBR"  	length="60"/>
+        <property name="ALMNOMCAR" 	length="150"/>
+        <property name="ALMNOMDES" 	length="150"/>
+        <property name="ALMNUCORE"/>
+        <property name="ALMNUMCXC"/>
+        <property name="ALMOBSER" 	length="30"/>
+        <property name="ALMPORCAR"	length="50"/>
+        <property name="ALMPORDES" 	length="50"/>
+        <property name="ALMPRECI"/>
+        <property name="ALMPRECPR"/>
+        <property name="ALMPREFA"/>
+        <property name="ALMPREFAI"/>
+        <property name="ALMRENGLFA"/>
+        <property name="ALMSALENFA"/>
+        <property name="ALMSEGS"/>
+        <property name="ALMSERCXC" 	length="1"/>
+        <property name="ALMSUCCXC"/>
+        <property name="ALMSUCODE"/>
+        <property name="ALMTIPCXC" 	length="1"/>
+        <property name="ALMTIPIVA" 	length="1"/>
+        <property name="ALMUNIDMED"	length="3"/>
+        <property name="ALMUNIXUNI"/>
+        <property name="ALMUSUAR"    length="10"/>
+		<property name="ALMGRAMS"/> 
+        <property name="ALMPREKIL"/>            	
+        	
+        <!-- Associations -->
+        
+        <many-to-one
+            name="mvcomp"            
+            column="MVCOMP_ID"
+            not-null="false"
+        />
+        
+        <many-to-one
+            name="mvalma"            
+            column="MVALMA_ID"
+            not-null="false"
+        />
+        
+        <many-to-one
+            name="mococa"            
+            column="MOCOCA_ID"
+            not-null="false"
+        />
+        <many-to-one
+            name="mocomo"            
+            column="MOCOMO_ID"
+            not-null="false"
+        />
+        <many-to-one
+            name="movcre"            
+            column="MOVCRE_ID"
+            not-null="false"
+        />
+
+    </class>
+
+</hibernate-mapping>

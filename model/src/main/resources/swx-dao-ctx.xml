@@ -1,0 +1,463 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+       http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.0.xsd
+       http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.0.xsd">
+  
+
+
+	<description>
+		DAO Context para SiipapWin 
+	</description>
+	
+	<bean id="jdbcResources"
+		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="locations">
+            <list>
+                <value>classpath:jdbc.properties</value>
+            </list>
+        </property>
+	</bean>
+		
+	
+	
+<!-- TYEST DATASOURCE
+	<bean id="dataSource"
+		class="org.apache.commons.dbcp.BasicDataSource"
+		destroy-method="close">
+		<property name="driverClassName" value="oracle.jdbc.driver.OracleDriver"/>
+		<property name="url" value="oracle:thin:@localhost:1521:siipapw"/>
+		<property name="username" value="siipap"/>
+		<property name="password" value="sys"/>
+	</bean>
+	
+	 
+	<bean id="dataSource"
+		class="org.apache.commons.dbcp.BasicDataSource"
+		destroy-method="close">
+		<property name="driverClassName" value="${db.driver}"/>
+		<property name="url" value="${db.url}"/>
+		<property name="username" value="${db.user}"/>
+		<property name="password" value="${db.password}"/>
+	</bean>
+-->
+   
+ 
+	<bean id="dataSource" 
+		class="com.mchange.v2.c3p0.ComboPooledDataSource" 
+		destroy-method="close">
+		<property name="driverClass" value="${db.driver}"/>
+		<property name="jdbcUrl" value="${db.url}"/>
+		<property name="user" value="${db.user}"/>
+		<property name="password" value="${db.password}"/>
+	</bean>
+
+
+
+	<bean id="jdbcTemplate"
+		class="org.springframework.jdbc.core.JdbcTemplate">
+		<property name="dataSource">
+			<ref bean="dataSource" />
+		</property>
+	</bean>
+
+
+
+	<!-- Hibernate SessionFactory -->
+	<bean id="sessionFactory"
+		class="org.springframework.orm.hibernate3.LocalSessionFactoryBean">
+		<property name="dataSource">
+			<ref local="dataSource" />
+		</property>
+		
+		<property name="hibernateProperties">
+			<props>
+				<!-- <prop key="hibernate.dialect">${hibenrate.dialect}</prop> -->
+				<prop key="hibernate.dialect">org.hibernate.dialect.Oracle9Dialect</prop>				
+				<prop key="hibernate.show_sql">false</prop>
+				<prop key="hibernate.format_sql">true</prop>
+				<prop key="hibernate.jdbc.fetch_size">3</prop>
+				<prop key="hibernate.jdbc.batch_size">20</prop>
+				<prop key="hibernate.max_fetch_depth">2</prop>
+				<prop key="hibernate.cache.use_second_level_cache">false</prop>
+
+			</props>
+		</property>	
+
+		<property name="mappingResources">
+			<list>
+
+				<!-- Core objects del sistema  -->
+				<value>com/luxsoft/siipap/domain/ZonaPostal.hbm.xml</value>
+				<value>com/luxsoft/siipap/domain/Familia.hbm.xml</value>
+				<value>com/luxsoft/siipap/domain/Unidad.hbm.xml</value>
+				<value>com/luxsoft/siipap/domain/Articulo.hbm.xml</value>
+				<value>com/luxsoft/siipap/domain/Linea.hbm.xml</value>				
+				<value>com/luxsoft/siipap/domain/UnidadesPorArticulo.hbm.xml</value>
+				<value>com/luxsoft/siipap/domain/Sucursal.hbm.xml</value>
+				<value>com/luxsoft/siipap/domain/Proveedor.hbm.xml</value>
+				<value>com/luxsoft/siipap/domain/ArticuloPorProveedor.hbm.xml</value>
+				<value>com/luxsoft/siipap/domain/ListaDePrecios.hbm.xml</value>
+				<value>com/luxsoft/siipap/domain/Precio.hbm.xml</value>
+
+				<!-- Entidades relacionadas con Inventarios	-->		
+					
+				<value>com/luxsoft/siipap/clipper/domain/Almace.hbm.xml</value>				
+				<value>com/luxsoft/siipap/clipper/domain/Mvcomp.hbm.xml</value>								
+				<value>com/luxsoft/siipap/clipper/domain/Mvalma.hbm.xml</value>								
+				<value>com/luxsoft/siipap/clipper/domain/Mococa.hbm.xml</value>												
+				<value>com/luxsoft/siipap/clipper/domain/Mocomo.hbm.xml</value>				
+				<value>com/luxsoft/siipap/clipper/domain/Movcre.hbm.xml</value>					
+					
+				<value>com/luxsoft/siipap/inventarios/domain/Movimiento.hbm.xml</value>	
+				<value>com/luxsoft/siipap/inventarios/domain/Transformacion.hbm.xml</value>				
+				<value>com/luxsoft/siipap/inventarios/domain/CostoPromedio.hbm.xml</value>	
+				<value>com/luxsoft/siipap/inventarios/domain/CostoUltimo.hbm.xml</value>
+				<value>com/luxsoft/siipap/inventarios/domain/acumulados/Acumulado.hbm.xml</value>					
+				<value>com/luxsoft/siipap/inventarios/domain/acumulados/Saldo.hbm.xml</value>				
+				<value>com/luxsoft/siipap/inventarios/domain/acumulados/SaldoPorTipo.hbm.xml</value>				
+				<value>com/luxsoft/siipap/inventarios/domain/InventarioMensual.hbm.xml</value>
+				
+				<value>com/luxsoft/siipap/inventarios2/domain/Concepto.hbm.xml</value>				
+				<value>com/luxsoft/siipap/inventarios2/domain/MoviDoc.hbm.xml</value>								
+				<value>com/luxsoft/siipap/inventarios2/domain/Movi.hbm.xml</value>												
+				
+				<!-- Entidades relacionadas con CXP -->	
+					
+				<value>com/luxsoft/siipap/cxp/domain/AnalisisDeEntrada.hbm.xml</value>				
+				<value>com/luxsoft/siipap/cxp/domain/Analisis.hbm.xml</value>
+				<value>com/luxsoft/siipap/cxp/domain/AnalisisDet.hbm.xml</value>				
+				<value>com/luxsoft/siipap/cxp/domain/CXP.hbm.xml</value>				
+				<value>com/luxsoft/siipap/cxp/domain/Crecibos.hbm.xml</value>			
+				<value>com/luxsoft/siipap/cxp/domain/Crecibosde.hbm.xml</value>												
+				<value>com/luxsoft/siipap/cxp/domain/Requisicion.hbm.xml</value>
+				<value>com/luxsoft/siipap/cxp/domain/RequisicionDetalle.hbm.xml</value>				
+
+				
+
+				<!-- Entidades relacionadas con Maquila -->
+					
+				<value>com/luxsoft/siipap/maquila/domain/Bobina.hbm.xml</value>											
+				<value>com/luxsoft/siipap/maquila/domain/Maquilador.hbm.xml</value>
+				<value>com/luxsoft/siipap/maquila/domain/Almacen.hbm.xml</value>
+				<value>com/luxsoft/siipap/maquila/domain/RecepcionDeMaterial.hbm.xml</value>				
+				<value>com/luxsoft/siipap/maquila/domain/MovimientoDeMaterial.hbm.xml</value>				
+				<value>com/luxsoft/siipap/maquila/domain/OrdenDeCorte.hbm.xml</value>				
+				<value>com/luxsoft/siipap/maquila/domain/MaterialHojeado.hbm.xml</value>
+				<value>com/luxsoft/siipap/maquila/domain/AnalisisDeEntradas.hbm.xml</value>															
+				
+
+				<!-- Entidades relacionadas con Ventas -->
+				<value>com/luxsoft/siipap/ventas/domain/Venta.hbm.xml</value>
+				<value>com/luxsoft/siipap/ventas/domain/VentaDet.hbm.xml</value>
+				<value>com/luxsoft/siipap/ventas/domain/Devolucion.hbm.xml</value>
+				<value>com/luxsoft/siipap/ventas/domain/DevolucionDet.hbm.xml</value>
+				<value>com/luxsoft/siipap/ventas/domain/VentaACredito.hbm.xml</value>				
+
+				<!-- Entidades relacionadas con CXC -->
+				<value>com/luxsoft/siipap/cxc/domain/Cliente.hbm.xml</value>
+				<value>com/luxsoft/siipap/cxc/domain/NotaDeCredito.hbm.xml</value>
+				<value>com/luxsoft/siipap/cxc/domain/NotaDeCreditoDet.hbm.xml</value>
+				<value>com/luxsoft/siipap/cxc/domain/Juridico.hbm.xml</value>
+				<value>com/luxsoft/siipap/cxc/domain/ChequeDevuelto.hbm.xml</value>
+				<value>com/luxsoft/siipap/cxc/domain/Pago.hbm.xml</value>
+				<value>com/luxsoft/siipap/cxc/domain/Provision.hbm.xml</value>
+				<value>com/luxsoft/siipap/cxc/domain/DescuentoPorVolumen.hbm.xml</value>
+				<value>com/luxsoft/siipap/cxc/domain/DescuentoPorCliente.hbm.xml</value>				
+				<value>com/luxsoft/siipap/cxc/domain/DescuentoEspecial.hbm.xml</value>								
+				<value>com/luxsoft/siipap/cxc/domain/PagoM.hbm.xml</value>												
+				<value>com/luxsoft/siipap/cxc/domain/CXC.hbm.xml</value>																
+				<value>com/luxsoft/siipap/cxc/domain/Cobrador.hbm.xml</value>																				
+				<value>com/luxsoft/siipap/cxc/domain/Comision.hbm.xml</value>				
+				<value>com/luxsoft/siipap/cxc/domain/Vendedor.hbm.xml</value>				
+				<value>com/luxsoft/siipap/cxc/domain/Deposito.hbm.xml</value>								
+
+
+				
+				<!-- EM -->				
+				<value>com/luxsoft/siipap/em/replica/domain/ReplicaLog.hbm.xml</value>	
+				<value>com/luxsoft/siipap/clipper/domain/Carter.hbm.xml</value>						
+				
+											
+
+			</list>
+		</property>
+		
+		<property name="entityInterceptor" ref="interceptor"/> 
+		
+	</bean>
+	
+	
+	<bean id="interceptor" class="com.luxsoft.siipap.cxc.managers.CXCInterceptor2">
+		<property name="exportadorClientes" ref="exportadorClientes"/>
+	</bean>
+	
+
+	<!-- Transaction manager for a single Hibernate SessionFactory (alternative to JTA) -->
+	
+	<bean id="transactionManager"
+		class="org.springframework.orm.hibernate3.HibernateTransactionManager">
+		<property name="sessionFactory">
+			<ref local="sessionFactory" />
+		</property>
+	</bean>
+	
+		
+
+	<!-- DAOS  -->
+	<bean id="universalDao"
+		class="com.luxsoft.siipap.dao2.hibernate.UniversalDaoHibernate"
+		autowire="byType"/>
+	
+	<bean id="lineaDao"
+		class="com.luxsoft.siipap.dao.LineaDaoImpl" autowire="byType" />
+	
+	<bean id="marcaDao" class="com.luxsoft.siipap.dao.MarcaDaoImpl"
+		autowire="byType" />	
+		
+	<bean id="claseDao" class="com.luxsoft.siipap.dao.ClaseDaoImpl"
+		autowire="byType" />
+
+	<bean id="familiaDao"
+		class="com.luxsoft.siipap.dao.FamiliaDaoImpl" autowire="byType" />
+		
+		<bean id="unidadDao"
+		class="com.luxsoft.siipap.dao.UnidadDaoImpl" autowire="byType" />
+		
+	<bean id="articuloDao"
+		class="com.luxsoft.siipap.dao.ArticuloDaoImpl" autowire="byType" />
+
+	<bean id="clienteDao"
+		class="com.luxsoft.siipap.cxc.dao.ClienteDaoImpl" autowire="byType" />
+
+
+	<bean id="ventasDao"
+		class="com.luxsoft.siipap.ventas.dao.VentasDaoImpl" autowire="byType" />
+
+	<bean id="notasDeCreditoDao"
+		class="com.luxsoft.siipap.cxc.dao.NotaDeCreditoDaoImpl"
+		autowire="byType" />
+
+	
+
+	<bean id="juridicoDao"
+		class="com.luxsoft.siipap.cxc.dao.JuridicoDaoImpl" autowire="byType" />
+
+	<bean id="pagoDao" class="com.luxsoft.siipap.cxc.dao.PagoDaoImpl"
+		autowire="byType" />
+		
+	 <bean id="pagoMDao" class="com.luxsoft.siipap.cxc.dao.PagoMDaoImpl"
+		autowire="byType" />
+
+	<bean id="devolucionDao"
+		class="com.luxsoft.siipap.ventas.dao.DevolucionDaoImpl"
+		autowire="byType" />
+
+
+	<bean id="descuentoPorVolumenDao"
+		class="com.luxsoft.siipap.cxc.dao.DescuentoPorVolumenDaoImpl"
+		autowire="byType" />
+
+	<bean id="descuentoPorClienteDao"
+		class="com.luxsoft.siipap.cxc.dao.DescuentoPorClienteDaoImpl"
+		autowire="byType" />
+	
+	<bean id="descuentoPorArticuloDao"
+		class="com.luxsoft.siipap.cxc.dao.DescuentoPorArticuloDaoImpl"
+		autowire="byType"> 
+	</bean>
+	
+	<bean id="descuentoEspecialDao"
+		class="com.luxsoft.siipap.cxc.dao.DescuentoEspecialDaoImpl"
+		autowire="byType"> 
+	</bean>
+	
+	<bean id="cobradorDao"
+		 class="com.luxsoft.siipap.cxc.dao.CobradorDaoImpl"
+		 autowire="byType">
+	 </bean>
+	
+	<bean id="provisionDao"
+		class="com.luxsoft.siipap.cxc.dao.ProvisionDaoImpl"
+		autowire="byType"> 
+	</bean>
+	
+	<bean id="costoPromedioDao"
+		class="com.luxsoft.siipap.inventarios.dao.CostoPromedioDaoImpl"
+		autowire="byType"> 
+	</bean>
+
+	<bean id="movimientoDao"
+		class="com.luxsoft.siipap.inventarios.dao.MovimientoDaoImpl"
+		autowire="byType" />
+
+	
+	<bean id="conceptoDao"
+		class="com.luxsoft.siipap.inventarios2.dao.ConceptoDaoImpl"
+		autowire="byType" />
+
+	<bean id="moviDocDao"
+		class="com.luxsoft.siipap.inventarios2.dao.MoviDaoImpl"
+		autowire="byType" />
+
+	<bean id="depositosDao"
+		class="com.luxsoft.siipap.cxc.dao.DepositosDaoImpl">
+		<property name="sessionFactory" ref="sessionFactory"/>
+	</bean>
+
+	
+	<bean id="replicaLogDao"
+		class="com.luxsoft.siipap.em.replica.dao.ReplicaLogDaoImpl"
+		autowire="byType" />
+	
+	<bean id="analisisDeEntradaDao"
+		class="com.luxsoft.siipap.cxp.dao.AnalisisDeEntradaDaoImpl"
+		autowire="byType"> 
+	</bean>
+	
+	<bean id="recepcionDeMaterialDao" 
+		class="com.luxsoft.siipap.maquila.dao.RecepcionDeMaterialDaoImpl"
+		autowire="byType"/>
+		
+	<bean id="salidaDeMaterialDao"
+		class="com.luxsoft.siipap.maquila.dao.SalidaDeMaterialDaoImpl"
+		autowire="byType"/>
+
+
+
+	<!-- Managers Beans  -->
+	
+	<bean id="catalogosManager"
+		class="com.luxsoft.siipap.managers.CatalogosManager">
+		<property name="lineaDao" ref="lineaDao"/>
+		<property name="marcaDao" ref="marcaDao"/>
+		<property name="cobradorDao" ref="cobradorDao"/>
+	</bean>
+	
+	<bean id="ventasManager"
+		class="com.luxsoft.siipap.ventas.managers.VentasManagerImpl">
+		<property name="sessionFactory" ref="sessionFactory"/>
+		<property name="descuentoPorClienteDao" ref="descuentoPorClienteDao"/>
+		<property name="descuentoPorArticuloDao" ref="descuentoPorArticuloDao"/>
+		<property name="descuentoPorVolumenDao" ref="descuentoPorVolumenDao"/>
+		<property name="descuentoEspecialDao" ref="descuentoEspecialDao"/>
+		<property name="ventasDao" ref="ventasDao"/>
+	</bean>
+	
+	<bean id="cxcManager"
+		class="com.luxsoft.siipap.cxc.managers.CXCManager">
+		<property name="clienteDao" ref="clienteDao"/>
+		<property name="ventasDao" ref="ventasDao"/>		
+		<property name="pagoDao" ref="pagoDao"/>		
+		<property name="notaDeCreditoDao" ref="notasDeCreditoDao"/>
+		<property name="notasManager" ref="notasManager"/>
+		<property name="ventasManager" ref="ventasManager"/>
+	</bean>
+	
+	<bean id="pagosManager"
+		class="com.luxsoft.siipap.cxc.managers.PagosManagerImpl">
+		<property name="pagoMDao" ref="pagoMDao"></property>
+		<property name="ventasManager" ref="ventasManager"></property>
+		<property name="sessionFactory" ref="sessionFactory"></property>
+	</bean>
+	
+	<bean id="notasManager"
+   		class="com.luxsoft.siipap.cxc.managers.NotasManagerImpl">
+		<property name="sessionFactory" ref="sessionFactory"/>   		
+   		<property name="notaDeCreditoDao" ref="notasDeCreditoDao"/>
+   		<property name="provisionDao" ref="provisionDao"/>
+   		<property name="devolucionDao" ref="devolucionDao"/>   		
+		<property name="pagoDao" ref="pagoDao"/>		   		
+		<property name="ventasDao" ref="ventasDao"/>
+	</bean>
+	
+	<bean id="descuentosManager"
+       		class="com.luxsoft.siipap.cxc.managers.DescuentosManager">
+       		<property name="clienteDao" ref="clienteDao"/>
+       		<property name="articuloDao" ref="articuloDao"/>
+       		<property name="descuentoPorClienteDao" ref="descuentoPorClienteDao"/>
+       		<property name="descuentoPorArticuloDao" ref="descuentoPorArticuloDao"/>
+       		<property name="descuentoEspecialDao" ref="descuentoEspecialDao"/>
+       		<property name="descuentoPorVolumenDao" ref="descuentoPorVolumenDao"/>
+       		<property name="costoPromedioDao" ref="costoPromedioDao"></property>
+	</bean>
+	
+	<bean id="juridicoManager"
+		class="com.luxsoft.siipap.cxc.managers.JuridicoManagerImpl">
+		<property name="sessionFactory" ref="sessionFactory"/>
+	</bean>
+	
+	<bean id="chequesDevueltosManager"
+		class="com.luxsoft.siipap.cxc.managers.ChequesDevManagerImpl">
+		<property name="sessionFactory" ref="sessionFactory"/>
+	</bean>
+	
+	<bean id="depositosManager"
+		class="com.luxsoft.siipap.cxc.managers.DepositosManagerImpl">
+		<property name="sessionFactory" ref="sessionFactory"/>
+		<property name="universalDao" ref="universalDao"/>
+		<property name="pagoMDao" ref="pagoMDao"/>
+		<property name="destino" value="SCOT"/>
+	</bean>
+	
+	<bean id="inventariosManager"
+		class="com.luxsoft.siipap.inventarios.services.InventariosManagerImpl">
+		<property name="sessionFactory" ref="sessionFactory"/>
+		<property name="analisisDeEntradaDao" ref="analisisDeEntradaDao"/>
+		<property name="articuloDao" ref="articuloDao"/>
+		<property name="movimientoDao" ref="movimientoDao"/>
+		<property name="costoPromedioDao" ref="costoPromedioDao"/>
+		<property name="jdbcTemplate" ref="jdbcTemplate"/>
+	</bean>
+	
+	<bean id="inventariosManagerQro"
+		class="com.luxsoft.siipap.inventarios.services.InventariosManagerQro">
+		<property name="sessionFactory" ref="sessionFactory"/>
+		<property name="analisisDeEntradaDao" ref="analisisDeEntradaDao"/>
+		<property name="articuloDao" ref="articuloDao"/>
+		<property name="movimientoDao" ref="movimientoDao"/>
+		<property name="costoPromedioDao" ref="costoPromedioDao"/>
+		<property name="jdbcTemplate" ref="jdbcTemplate"/>
+	</bean>
+	
+	
+	<!-- Maquila -->
+	<bean id="maquilaManager"
+		class="com.luxsoft.siipap.maquila.manager.MaquilaManagerImpl">
+		<property name="sessionFactory" ref="sessionFactory"/>
+		<property name="recepcionDeMaterialDao" ref="recepcionDeMaterialDao"/>
+		<property name="salidaDeMaterialDao" ref="salidaDeMaterialDao"/>
+	</bean>
+     
+     <!-- Servicios -->
+     
+     <bean id="actualizarClientes"
+     	class="com.luxsoft.siipap.cxc.services.ActualizadorDeClientesImpl">
+     	<property name="sessionFactory" ref="sessionFactory"></property>     	
+     	<property name="clienteDao" ref="clienteDao"></property>
+		<property name="notaDeCreditoDao" ref="notasDeCreditoDao"></property>
+		<property name="pagoDao" ref="pagoDao"></property>
+		<property name="ventasDao" ref="ventasDao"></property>
+		<property name="template" ref="jdbcTemplate"/>
+     </bean>
+     
+     <bean id="exportadorClientes"
+     	class="com.luxsoft.siipap.clipper.ExportadorCliente">
+     	<property name="dataSource" ref="dataSource"/>
+     	<property name="directorioDestino" value="${exportador.path}"/>
+     	
+     </bean>
+     
+     <bean id="analisisContableInventarios"
+     	class="com.luxsoft.siipap.inventarios.services.AnalisisContableDeInventarios">
+     	<property name="jdbcTemplate" ref="jdbcTemplate"/>
+     	<property name="manager" ref="inventariosManager"/>
+     </bean>
+	
+	<tx:annotation-driven/>
+
+</beans>

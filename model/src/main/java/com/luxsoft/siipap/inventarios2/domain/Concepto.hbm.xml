@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd" >
+
+<hibernate-mapping>	
+
+	<class name="com.luxsoft.siipap.inventarios2.domain.Concepto"
+		table="SW_CONCEPTO" lazy="true">
+
+		<id name="id" column="CONCEPTO_ID">
+			<generator class="native"/>
+		</id>
+		
+		<property name="tipo" >
+			<column name="TIPO" not-null="true" length="1" unique-key="CNC_IDX1" check="E,S"/>
+		</property>
+		
+		<property name="clave" not-null="true" length="3" unique-key="CNC_IDX1"/>
+		
+		<property name="descripcion" length="255" not-null="true"/>		
+		
+		<property name="cuenta" length="20" not-null="true"/>
+		
+		<property name="automatico" >
+			<column name="AUTO" not-null="true" default="0"/>
+		</property>
+				
+		<property name="creado" type="timestamp" /><!-- update="false" insert="false" generated="insert"/>		 -->
+
+		<property name="modificado" type="time" /> <!--  update="false" insert="false" generated="always"/> -->
+
+		
+	</class>
+</hibernate-mapping>

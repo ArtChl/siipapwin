@@ -1,0 +1,84 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+
+	<class name="com.luxsoft.siipap.maquila.domain.MaterialHojeado" 
+    	table="SW_HOJEADO"
+    	abstract="true">
+    	
+        <id name="id" column="HOJEADO_ID">
+            <generator class="native">
+	            <param name="sequence">maquilados_ids</param>
+            </generator>
+        </id>
+        
+        <discriminator 
+	        type="string"
+        	column="TIPO"
+        	length="1"
+        />
+        
+		<property name="version"/>	   	   		   	
+         
+		<many-to-one name="articulo" column="ARTICULO_ID" fetch="join" not-null="true"/> 
+		
+		
+		<property name="clave"			length="10" not-null="true"/>		
+		<property name="descripcion" 	length="60"	not-null="true"/>
+	   	<property name="cantidad" 		length="5"/>		 		
+	   	<property name="metros2" 		length="5"/>		 
+	   	<property name="kilos" 			length="5"/>	   			 
+ 		<property name="fecha" 			type="date"/>	
+	   	<property name="comentario" 		length="60"/>		 		 		   	   		   	
+	   	
+	   	<property name="costo" type="com.luxsoft.siipap.utils.CantidadMonetariaCompositeUserType">
+        	<column name="COSTO"		length="2"/>
+        	<column name="COSTO_MON" 	length="3"/>
+   	   	</property>
+ 
+ 		<property name="creado" />
+ 		
+ 
+		<subclass name="com.luxsoft.siipap.maquila.domain.EntradaDeHojas"
+			discriminator-value="E">
+			
+	 		<many-to-one name="origen" 
+	 			column="CORTE_ID" 
+	 			unique="true" 
+	 			not-null="true"
+	 			cascade="save-update"	 			
+	 		/>
+	 		<property name="disponible" 
+		   		formula="(
+		   		select cantidad-nvl(sum(sc.cantidad),0) from SW_HOJEADO sc where sc.origen_id=hojeado_id
+		   		)"/>  						
+	 		
+		</subclass>
+
+
+ 		<subclass name="com.luxsoft.siipap.maquila.domain.SalidaDeHojas"
+ 			discriminator-value="S"> 		
+ 			
+	 		<many-to-one name="destino" column="COM_ID"/>
+	 		  
+	 		<many-to-one name="origen" column="ORIGEN_ID"/>
+	 		
+	 		<property name="precioPorKiloFlete"/>
+	 		
+	 		<property name="gastos" type="com.luxsoft.siipap.utils.CantidadMonetariaCompositeUserType">
+    	    	<column name="GASTOS"		length="2"/>
+        		<column name="GASTOS_MON" 	length="3"/>
+	   	   	</property>			
+	 		
+ 		</subclass>
+
+       		
+	</class>	
+        		
+
+</hibernate-mapping>
+
+<!-- parsed in 15ms -->

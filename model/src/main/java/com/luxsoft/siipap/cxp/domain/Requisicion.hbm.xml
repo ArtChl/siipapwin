@@ -1,0 +1,58 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+    <class name="com.luxsoft.siipap.cxp.domain.Requisicion" 
+    	   lazy="true"
+    	   table="SW_REQUISICION">
+        
+        <id name="id" column="REQUISICION_ID">
+            <generator class="native">
+            	<param name="sequence">cxp_ids</param>
+            </generator>
+        </id>
+
+		<many-to-one name="proveedor" column="PROVEEDOR_ID" fetch="join" lazy="false" not-null="true"/>
+		
+        <property name="fecha"		type="date"/>		
+		<property name="tipoDePago"	length="15"/>        
+		<property name="moneda"	length="3"/>		
+		<property name="tipoDeCambio"	length="2"/>		
+		<property name="numero"	unique="true"/>
+		<property name="creado"/>
+		<property name="observaciones" length="50"/>		
+		<property name="modificado"/>	
+		
+		<property name="importe"
+            type="com.luxsoft.siipap.utils.CantidadMonetariaCompositeUserType">
+            <column name="importe"	length="2"/>
+            <column name="importe_mon" 	length="3"/>
+        </property>			
+        
+        <property name="elaboro"  length="15"/>
+        
+        <list name="partidas"
+			cascade="all-delete-orphan">
+			<key column="REQUISICION_ID" not-null="true"/>
+			<index column="RENGLON"/>
+			<one-to-many class="com.luxsoft.siipap.cxp.domain.RequisicionDetalle"/>					
+        </list>
+        
+        <!-- 
+        <set name="partidas"
+				inverse="true"
+				lazy="false"
+				fetch="join"
+				cascade="all-delete-orphan">
+				<key column="REQUISICION_ID"/>
+				<one-to-many class="com.luxsoft.siipap.cxp.domain.RequisicionDetalle"/>
+		</set>
+		 -->
+		<property name="aplicada"/>
+		<property name="ncaplicada"/>		
+ 
+    </class>
+
+</hibernate-mapping>

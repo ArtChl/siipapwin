@@ -1,0 +1,69 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+    
+<hibernate-mapping>
+
+    <class
+        name="com.luxsoft.siipap.clipper.domain.Arsald"
+        table="SW_OLDARSALD"
+        lazy="true">
+
+        <id name="id"
+            column="ARSALD_ID">			
+            <generator class="native">
+            	<param name="sequence">siipap_sequence</param>
+            </generator>
+        </id>
+        
+        <natural-id>
+		    <property name="SASUCURSAL"/>
+		    <property name="SAARTICULO" length="10"/>
+		    <property name="periodo" 	length="6"/>
+		</natural-id>    
+
+	    <property name="SASALDINI"/>
+        
+	    <property name="SASALDACT"/>
+        
+    	<property name="SASALANTAJ"/>
+        
+	    <property name="SASALDESAJ"/>
+
+    	<property name="SAULTOPER" type="date" />
+        
+	    <property name="SAFECHAJU"  type="date"/>
+
+	    <property name="SASALDEXTE"/>
+        
+	    <property name="SAFECHEXTE" type="date"/>
+
+	    <property name="SAINIDETAJ"/>
+        
+	    <property name="SATOTPEDPE"/>
+
+	    <property name="SAULTPEDEL" type="date"/>
+
+	    <property name="SAULTENTPE" type="date"/>
+
+	    <property name="SATOTPEDCL"/>
+
+	    <property name="SAULTVENTA" type="date"/>
+        
+	    <property name="SAACUVENTA"/>
+        
+	    <property name="SAACUIMPVT"/>
+        
+	    <property name="SAACUDEVVE"/>
+
+	    <property name="SAACUIMPDV"/>
+
+	    <property name="SAMOVXATE"/>
+
+	    <property name="SAUNIENCOR"/>
+        
+	    <property name="SAMODENCOR" length="20"/>  
+
+</class>
+</hibernate-mapping>

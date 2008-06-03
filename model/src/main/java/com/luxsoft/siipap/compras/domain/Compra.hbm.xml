@@ -1,0 +1,81 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd" >
+
+<hibernate-mapping>
+
+	<typedef class="com.luxsoft.siipap.utils.StringEnumUserType"
+   		name="estadoDeCompra">
+   		<param name="enumClassname">com.luxsoft.siipap.compras.domain.Estado</param>
+	</typedef>
+
+	<typedef class="com.luxsoft.siipap.utils.StringEnumUserType"
+   		name="tipoDeCompra">
+   		<param name="enumClassname">com.luxsoft.siipap.compras.domain.Tipo</param>
+	</typedef>
+
+
+	<class name="com.luxsoft.siipap.compras.domain.Compra"
+		table="SW_COMPRAS" lazy="true">
+
+		<id name="id" column="COMPRA_ID">
+			<generator class="native">
+				<param name="sequence">compras_ids</param>
+			</generator>
+		</id>
+		<version name="version"  column="VERSION"/>		
+
+		<many-to-one name="proveedor" 
+			column="PROVEEDOR_ID"
+			not-null="true" />
+
+		<property name="clave" length="4" not-null="true"/>
+
+		<property name="nombre" length="55" not-null="true"/>
+
+		<property name="fecha" type="date" />
+		
+		<property name="comentario1" length="255"/>
+		<property name="comentario2" length="255"/>
+		<property name="entrega" type="date"/>
+		
+		<property name="estado"
+				column="ESTADO"
+				type="estadoDeCompra"
+				not-null="false"
+				update="false"
+				access="field"
+				length="20"/>
+				
+		<property name="tipo"
+				column="TIPO"
+				type="tipoDeCompra"
+				not-null="false"
+				update="false"
+				access="field"
+				length="20"/>
+				
+		<property name="importe"
+            type="com.luxsoft.siipap.utils.CantidadMonetariaCompositeUserType" generated="insert">
+            <column name="IMPORTE"			length="2" default="0"/>
+            <column name="IMPORTE_MON" 		length="3" default="'MXN'"/>
+        </property>
+        
+		<property name="moneda" length="3"/>
+
+		
+		<property name="creado" update="false" insert="false" generated="insert"/>		
+
+		<property name="modificado" update="false" insert="false" generated="always"/>
+
+		<list name="partidas" cascade="all-delete-orphan">
+			<key column="COMPRA_ID" not-null="true" />
+			<list-index column="RENGLON" />
+			<one-to-many
+				class="com.luxsoft.siipap.compras.domain.CompraUnitaria" />
+		</list>
+
+
+	</class>
+</hibernate-mapping>

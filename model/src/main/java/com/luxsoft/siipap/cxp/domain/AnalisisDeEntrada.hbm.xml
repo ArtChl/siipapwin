@@ -1,0 +1,108 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+
+<hibernate-mapping>
+    <class name="com.luxsoft.siipap.cxp.domain.AnalisisDeEntrada" 
+    	   lazy="true"
+    	   table="SW_COMS2">
+        
+        <id name="id" column="COM_ID">
+            <generator class="native">
+            	<param name="sequence">cxp_ids</param>
+            </generator>
+        </id>
+        
+        <version name="version"/>
+        
+        <many-to-one 
+			name="com"
+			column="ENTRADA_ID"
+			cascade="save-update"
+			lazy="false"
+			fetch="join"
+			not-null="true"/>
+			
+		<many-to-one 
+			name="dec"
+			column="DEC_ID"
+			cascade="save-update"
+			not-null="false"/>
+		
+		 
+		
+		<property name="ingresada" type="big_decimal" column="INGRESADA" />
+		<property name="analizada" column="ANALIZADA" precision="10"/>
+		<!-- 
+		<property name="porAnalizar" formula="INGRESADA-ANALIZADA"/>
+		 -->
+         
+        <property name="clave"     		length="10"/>
+        <property name="descripcion" 	length="55"/>
+        <property name="factorUnitario"/>  
+        <property name="unidad"			length="3"/>        
+
+
+	    <property name="SUCURSAL"/>
+        <property name="COM"/>
+        <property name="renglon"/>        
+
+        <property name="FACREM"/>
+        <property name="FECREM"            type="date"/>
+
+        <property name="PROVNOMBR"            length="55"/>
+        <property name="PROVCLAVE"            length="10"/>
+        <property name="NUMCOM"/>
+        <property name="FECCOM"        	type="date"/>
+        <property name="SUCCOM"/>
+        <property name="TIPCOM"            length="1"/>
+
+        <property name="FENT"			type="date"/>
+		
+		<property name="creado"	/>
+		
+			<!-- MAQUILA  -->
+		
+		<property name="analizadoHojas" 
+		   		formula="(
+		   		select nvl(sum(h.cantidad),0) from SW_HOJEADO h where h.com_id=com_id
+   		)"/>
+		
+		<property name="analizadoBobinas" 
+		   		formula="(
+		   		select nvl(sum(h.kilos),0) from SW_MOVI_MAQUILA h where h.com_id=com_id
+   		)"/>
+		 
+		<property name="analizadoCXP" 
+		   		formula="(
+		   		select nvl(sum(h.cantidad),0) from SW_ANALISISDET h where h.com_id=com_id
+   		)"/>
+   		
+   		<property name="porAnalizar" 
+		   		formula="(		   		
+		   		(select nvl(sum(h.ALMCANTI/h.ALMUNIXUNI),0) from SW_ALMACEN2 h where h.ALMTIPO='COM' and h.almacen_id=entrada_id	)+
+		   		(select nvl(sum(h.ALMCANTI/h.ALMUNIXUNI),0) from SW_ALMACEN2 h where h.ALMTIPO='DEC' and h.almacen_id=entrada_id	)+		   		
+		   		(select nvl(sum(h.ALMCANTI/h.ALMUNIXUNI),0) from SW_ALMACEN2 h where h.ALMTIPO='XCO' and h.almacen_id=entrada_id	)-
+		   		(select nvl(sum(h.cantidad),0) from SW_ANALISISDET h where h.com_id=com_id	)-
+		   		(select nvl(sum(h.cantidad),0) from SW_HOJEADO h where h.com_id=com_id)+
+		   		(select nvl(sum(h.kilos),0)    from SW_MOVI_MAQUILA h where h.com_id=com_id)		   		
+		   		)"
+		/>
+		<!-- 
+		<property name="porAnalizar" 
+		   		formula="(		   		
+		   		(select nvl(sum(h.ALMCANTI/h.ALMUNXUNI),0) from SW_ALMACEN2 h where h.ALMTIPO='COM' h.almacen_id=entrada_id	)+
+		   		(select nvl(sum(h.ALMCANTI/h.ALMUNXUNI),0) from SW_ALMACEN2 h where h.ALMTIPO='DEC' h.destino_id=entrada_id	)+
+		   		(select nvl(sum(h.ALMCANTI/h.ALMUNXUNI),0) from SW_ALMACEN2 h where h.ALMTIPO='XCO' h.destino_id=entrada_id	)-		   		
+		   		(select nvl(sum(h.cantidad),0) from SW_ANALISISDET h where h.com_id=com_id	)-
+		   		(select nvl(sum(h.cantidad),0) from SW_HOJEADO h where h.com_id=com_id)+
+		   		(select nvl(sum(h.kilos),0)    from SW_MOVI_MAQUILA h where h.com_id=com_id)
+		   		)"
+		/>
+		 -->
+		
+    </class>
+
+</hibernate-mapping>

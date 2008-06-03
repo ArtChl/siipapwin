@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-configuration PUBLIC
+		"-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+		"http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>
+    <session-factory name="sessionFactory">    
+
+        <property name="hibernate.dialect">${hibernate.dialect}</property>
+        <property name="hibernate.connection.driver_class">${db.driver}</property>
+        <property name="hibernate.connection.url">${db.url}</property>    
+        <property name="hibernate.connection.username">${db.user}</property>          
+        <property name="hibernate.connection.password">${db.password}</property>
+        <property name="hibernate.show_sql">false</property>
+        <property name="hibernate.jdbc.batch_size">20</property>
+        <property name="hibernate.cache.use_second_level_cache">false</property>
+
+        <mapping class="com.luxsoft.siipap.tesoreria.domain.Banco"/>        
+		<mapping class="com.luxsoft.siipap.tesoreria.domain.Cuenta"/>                 
+         
+    </session-factory>
+    
+   
+</hibernate-configuration>

@@ -1,0 +1,79 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+
+    <subclass name="com.luxsoft.siipap.inventarios.domain.Movimiento" 
+    	extends="com.luxsoft.siipap.clipper.domain.Almace"
+    	discriminator-value="M"
+    	lazy="true">
+        <!--
+        
+        -->
+        <!--     Referencias o relaciones many-to-one  -->
+        
+        <many-to-one name="articulo"
+        	column="ARTICULO_ID"
+        	not-null="false"/> 
+       
+       <property name="costo"
+            type="com.luxsoft.siipap.utils.CantidadMonetariaCompositeUserType">
+            <column name="COSTO"		length="2"/>
+            <column name="COSTO_MON" 	length="3"/>
+       </property>
+       
+       
+        <property name="creado" 
+        	type="java.util.Date" 
+        	not-null="true"
+        />
+        	
+        <property name="modificado"
+        	type="java.util.Date" 
+        	not-null="true"
+        />
+        <property name="periodo" length="7"/>
+        
+        
+		<subclass name="com.luxsoft.siipap.inventarios.domain.Entrada"
+			discriminator-value="E" 			
+			lazy="true"> 
+			
+			<many-to-one name="origen"
+				class="com.luxsoft.siipap.inventarios.domain.Salida"
+				column="ORIGEN_ID"				
+				not-null="false"/>
+				
+										
+			<many-to-one name="precio"
+				class="com.luxsoft.siipap.domain.Precio"
+				column="PRECIO_ID"
+				cascade="none"
+				not-null="false"/>
+
+			<many-to-one name="devolucion"
+				class="com.luxsoft.siipap.inventarios.domain.Salida"
+				column="DEVOLUCION_ID"				
+				not-null="false"/>				
+			
+		</subclass>
+		
+		<subclass name="com.luxsoft.siipap.inventarios.domain.Salida"			
+			discriminator-value="S"			
+			lazy="true">
+			
+			<many-to-one name="destino"
+				class="com.luxsoft.siipap.inventarios.domain.Entrada"
+				column="DESTINO_ID"				
+				not-null="false"/>
+	        
+		</subclass>	
+		
+        
+    </subclass>
+    
+
+</hibernate-mapping>
+<!-- parsed in 15ms -->

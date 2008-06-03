@@ -1,0 +1,61 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+
+	<class name="com.luxsoft.siipap.cxc.domain.DescuentoPorVolumen"
+		table="SW_DESC_VOL" lazy="true" >
+		
+		<id name="id" column="DESCUENTO_ID">
+			<generator class="native">
+				<param name="sequence">descuentos_ids</param>
+			</generator>
+		</id>
+		
+		<!-- 
+
+	private Date baja;
+	private boolean activo=true;
+	private double maximo;
+	private double descuento;
+	private int year;
+	private int mes;
+	private Date creado;
+		 -->
+        
+		
+		<property name="clave"  length="7"></property>
+		<property name="nombre" length="55"></property>
+		
+		<property name="origen" length="3"></property>
+		<property name="descuento"></property>
+		<property name="maximo"></property>
+
+		
+
+		
+		<property name="activo"></property>
+		
+		<property name="factivacion" type="date"/>
+		
+		<property name="baja"></property>
+		
+		<many-to-one 
+			name="cliente"
+			column="CLIENTE_ID"
+			not-null="false"
+			foreign-key="DESCVOL_CLIENTE_FK"
+			/>	
+			
+		<property name="year"></property>
+		<property name="mes"></property>		
+		
+		<property name="creado" type="date"/>
+		
+		
+
+	</class>
+
+</hibernate-mapping>

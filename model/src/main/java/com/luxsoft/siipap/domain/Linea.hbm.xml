@@ -1,0 +1,52 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+	"-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+	"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="com.luxsoft.siipap.domain">
+  
+  <class 
+  	name="Linea" 
+  	table="SW_LINEAS">
+  	
+  	<id name="id" column="LINEA_ID">
+        <generator class="native">
+            <param name="sequence">catalogos_ids</param>
+        </generator>
+    </id>
+    
+    <property name="nombre" length="40" not-null="true"/>
+  	<property name="descripcion"/>
+  	
+  	
+  </class>
+  
+  <class 
+  	name="Marca" 
+  	table="SW_MARCAS">
+  	
+  	<id name="id" column="MARCA_ID">
+        <generator class="native">
+            <param name="sequence">catalogos_ids</param>
+        </generator>
+    </id>
+  	
+  	<property name="nombre" length="40" not-null="true"/>	
+  	
+  </class>
+  
+  <class 
+  	name="Clase" 
+  	table="SW_CLASES">
+  	
+  	<id name="id" column="CLASE_ID">
+        <generator class="native">
+            <param name="sequence">catalogos_ids</param>
+        </generator>
+    </id>
+    
+    <property name="nombre" length="40" not-null="true"/>	
+  	
+  	
+  </class>
+  
+</hibernate-mapping>

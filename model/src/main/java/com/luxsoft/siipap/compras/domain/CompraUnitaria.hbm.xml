@@ -1,0 +1,80 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd" >
+
+
+<hibernate-mapping>
+
+
+	<class name="com.luxsoft.siipap.compras.domain.CompraUnitaria"
+		table="SW_COMPRADET" lazy="true">
+
+		<id name="id" column="COMPRADET_ID">
+			<generator class="native">
+				<param name="sequence">compras_ids</param>
+			</generator>
+		</id>
+		<version name="version"  column="VERSION"/>	
+
+		<many-to-one name="compra" 
+			column="COMPRA_ID" 
+			not-null="true"/>
+
+		<many-to-one name="artxProveedor" 
+			column="ARTXPROV_ID"
+			not-null="true" />
+		
+		<property name="clave" length="14" not-null="true"/>
+		
+		<property name="descripcion" length="60" not-null="true"/>
+
+		<property name="cantidad" >
+			<column name="CANTIDAD" scale="3" default="0"/>
+		</property>
+		
+		<property name="devueltos" >
+			<column name="DEVUELTOS" scale="3" default="0"/>
+		</property>
+		
+		<property name="recibido" >
+			<column name="RECIBIDO" scale="3" default="0"/>
+		</property>
+		
+		<property name="precioLista"
+            type="com.luxsoft.siipap.utils.CantidadMonetariaCompositeUserType" generated="insert">
+            <column name="PRECIOL"			length="2" default="0"/>
+            <column name="PRECIOL_MON" 		length="3" default="'MXN'"/>
+        </property>	
+        
+        <property name="descuento">
+			<column name="DESCUENTO" default="0.0" precision="3" scale="3"/>
+		</property>
+		
+		<property name="importe"
+				formula="(		   		
+		   		CANTIDAD+DESCUENTO+PRECIOL
+		   		)"
+		/>
+        
+		
+		<property name="comentario" length="255"/>
+		
+		
+		<property name="estado"
+				column="ESTADO"
+				type="estadoDeCompra"
+				not-null="false"
+				update="false"
+				access="field"
+				length="20"/>
+    
+			
+		<property name="ultimaEntrada" type="date"/>
+		
+		<property name="modificado" insert="false" update="false" generated="always"/>
+		
+		<property name="creado" insert="false" update="false" generated="insert"/>
+
+	</class>
+</hibernate-mapping>

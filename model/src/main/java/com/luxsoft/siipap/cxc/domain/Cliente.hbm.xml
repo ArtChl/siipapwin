@@ -1,0 +1,204 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+
+	<class name="com.luxsoft.siipap.cxc.domain.Cliente"			     
+		table="SW_CLIENTES" lazy="true">
+
+		<id name="id" column="CLIENTE_ID">
+			<generator class="native">
+				<param name="sequence">cliente_sequence</param>
+			</generator>
+		</id>
+		
+		<version name="version"  column="VERSION"/>		
+
+		<property name="clave"         		length="7" unique="true"/>
+		<property name="nombre"        		length="55"/>
+		<property name="calle"  			length="50"/>
+		<property name="colonia" 			length="50"/>
+		<property name="ciudad" 			length="50"/>		
+		<property name="estado" 			length="50"/>				
+		<property name="entidad"			length="50"/>
+		<property name="cpostal" 			length="5"/>
+		<property name="numeroExterior" />		
+		<property name="numeroInterior" />				
+		
+		<property name="telefono1" 			length="30"/>
+		<property name="telefono2" 			length="30"/>
+		<property name="telefono3" 			length="30"/>				
+		<property name="fax" 				length="15"/>
+		
+		<property name="rfc" 				length="20"/>
+		
+		<property name="correoelectronico1"	length="60"/>
+		<property name="correoelectronico2"	length="60"/>
+		<property name="correoelectronico3"	length="60"/>
+		
+		<property name="paginaWeb"			length="60"/>
+		<property name="newsLetter"	/>		
+		
+		<property name="gerentegeneral" 	length="30"/>
+		<property name="gerentedecompras" 	length="30"/>
+		<property name="cedula" 			length="1"/>
+		<property name="cuentacontable" 	length="12"/>
+<!-- 
+		<many-to-one name="clasificacion"
+    	    	column="CLASIFICACION"
+        		not-null="true"/> 
+      -->   		
+  		<property name="clasificacion"/>
+		<property name="fecha_clasif"  		type="date"/>
+		<property name="observaciones" 		length="50"/>
+		<property name="dia_revision" />
+		<property name="dia_pago" />
+		<property name="cobrador"/>
+		<property name="vendedor"/>
+		<property name="abogado"/>
+		<property name="operador"/>
+		<property name="ordenDeCompra" />				
+		<property name="plazo" 				length="22"/>
+		<property name="tipo_vencimiento" 	length="1" not-null="true"/>
+		<property name="pagare" 			length="1"/>
+		<property name="status" 			length="1"/>
+		<property name="cotizacion" 		length="1"/>
+		<property name="pedido" 			length="1"/>
+		<property name="factura" 			length="1"/>
+
+		<property name="limite_cred"
+            type="com.luxsoft.siipap.utils.CantidadMonetariaCompositeUserType">
+            <column name="importe"		length="2"/>
+            <column name="importe_mon" 	length="3"/>
+        </property>
+        
+	    <property name="tipo_venta" 		length="3"/>
+	   	<property name="forma_pago" 		length="10"/>
+	    <property name="fecha_alta" 		type="date"/>	    
+	    <property name="fecha_suspension" 	type="date"/>
+	    
+	    <property name="fecha_Atencion" 	type="date"/>
+	    <property name="fecha_Modif_Mos" 	type="date"/>	    
+	    <property name="atencion_Cliente" 	length="12"/>	    
+	    <property name="atencion_Mos" 		length="12"/>
+	    <property name="tel_Anterior" 		length="50"/>
+		<property name="fax_Anterior" 		length="15"/>
+	    	    	    
+	    
+	    <property name="creado" 			length="10"/>
+	    
+	    <one-to-one name="credito"
+			cascade="save-update"
+		/>
+
+
+	</class>
+	
+	<class name="com.luxsoft.siipap.cxc.domain.ClienteCredito"			     
+		table="SW_CLIENTES_CREDITO" lazy="true">
+		
+		<id name="id" column="CLIENTE_ID">
+			<generator class="foreign">
+				<param name="property">cliente</param>
+			</generator>
+		</id>
+		
+		<one-to-one name="cliente"
+					constrained="true"/>
+					
+		<property name="clave" length="7" not-null="true"/>
+		<property name="nombre" length="55" not-null="true"/>
+		<property name="dia_revision"/>
+		<property name="dia_pago"/>
+		<property name="cobrador"></property>
+		<property name="operador"></property>
+		<property name="ordenDeCompra"/>
+		<property name="plazo"></property>
+		<property name="tipo_vencimiento"></property>
+		<property name="pagare"/>
+		<property name="limite" type="com.luxsoft.siipap.utils.CantidadMonetariaCompositeUserType">
+        		<column name="LIMITE"		length="2" default="0"/>
+        		<column name="LIMITE_MON" 	length="3" default="'MXN'"/>
+   	   	</property>
+
+		<property name="notaAnticipada" >
+			<column name="CNOTA" default="0" not-null="true">
+			</column>
+		</property>	
+		<property name="corporativo" length="30"></property>	
+		<property name="saldoInicial" scale="2"/>		
+		<property name="respaldo" scale="2"/>		
+		
+		<property name="comentarioCxc" />
+		<property name="comentariosVentas"/>
+		
+		<property name="chequep">
+			<column name="CHEQUEP" default="0" not-null="true"/>
+		</property>
+		
+		<property name="suspenderDescuento">
+			<column name="SUSPDESCTO" default="0" not-null="true"/>
+		</property>
+		
+		<property name="cuenta" length="12"/>
+		
+		<property name="comisionCobrador">
+			<column name="COMICOB" default="0" not-null="true"/>
+		</property>
+		
+		<property name="comisionVendedor">
+			<column name="COMIVEND" default="0" not-null="true"/>
+		</property>
+
+		<property name="calendario" >
+			<column name="CALENDARIO" default="0" not-null="true"/>
+		</property>
+		
+		<set name="fechasRevision" table="SW_FECHAS_REVISION" access="field">
+			<key column="CLIENTE_ID"/>
+			<element type="date" column="REVISION" not-null="true"/>
+		</set>
+
+		<set name="fechasPago" table="SW_FECHAS_PAGO" access="field">
+			<key column="CLIENTE_ID"/>
+			<element type="date" column="PAGO" not-null="true"/>
+		</set>
+		<property name="vendedor">
+			<column name="VENDEDOR" not-null="true" default="0"></column>
+		</property>
+		
+		 <property name="clasificacionCxc" column="CLASIFIC_CXC" length="1"/> 
+		
+		<property name="modificado"/>		
+		<property name="creado"/>
+		
+		
+		<!-- 
+
+		<property name="saldoVencido"
+			formula="(		   		
+		   		SELECT NVL(P.SALDO_VENC,0) FROM V_CLIENTESCRE P WHERE P.CLAVE=CLAVE 
+		   		)">
+		</property>
+		
+		<property name="saldo"
+			formula="(		   		
+		   		SELECT NVL(P.SALDO,0) FROM V_CLIENTESCRE P WHERE P.CLAVE=CLAVE 
+		   		)">
+		</property>
+		
+		<property name="ultimoPago"
+			formula="(		   		
+		   		SELECT P.ULTIMOPAGO FROM V_CLIENTESCRE P WHERE P.CLAVE=CLAVE 
+		   		)">
+
+		</property>
+		
+ -->
+						
+		
+	</class>
+
+</hibernate-mapping>

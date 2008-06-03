@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping
+>
+    <class
+              
+        name="com.luxsoft.siipap.em.replica.legacy.Pagcre"
+        table="PAGCRE"
+        lazy="true">
+
+        <id name="id"
+            column="ID">			
+        </id>
+        
+<!-- 
+private	int PCRCOBRADO;//		Numeric	15
+private	Date PCRFECHA;//		Date	10
+private	String  PCRHORA;//		Char	8
+private	String PCRTIPO;//		Char	1
+private	String PCRNOMTIPO;//	Char	13
+private	String PCRCLIENTE;//	Char	7
+private	double PCRREFEREN;	//	Numeric;	15
+private	String PCRREFTIPO;//	Char	1
+private	double PCRREFSUC;//		Numeric	15
+private	double PCRIMPORTE;//	Numeric	15
+private	String PCRNOCOMPR;//	Char	20
+private	String PCRINSTITU;//	Char	30
+private	String PCRSALDFAC;//	Char	1
+private	String PCRCOMENTA;//	Char	50
+private	double PCRNOTCRED;//	Numeric	15
+private	String PCRTIPCRED;//	Char	1
+private	String PCROTRPROD;//	Char	1
+private	double PCRIDENOPE;//	Numeric	15
+private	double PCRSUCCRED;//	Numeric	15
+private	Date PCRFECCRED;//		Date	10
+private	String PCRSERCRED;//	Char	1
+
+ -->
+		<property name="PCRCOBRADO" 		    length="15"/>
+		<property name="PCRFECHA" 				type="date"/>
+		<property name="PCRHORA" 				length="8"/>
+		<property name="PCRTIPO" 				length="1"/>
+		<property name="PCRNOMTIPO" 			length="13"/>
+		<property name="PCRCLIENTE" 			length="7"/>
+		<property name="PCRREFEREN" 			length="15"/>
+		<property name="PCRREFTIPO" 			length="1"/>
+		<property name="PCRREFSUC" 				length="15"/>
+		<property name="PCRIMPORTE" 			length="15"/>
+		<property name="PCRNOCOMPR" 			length="20"/>
+		<property name="PCRINSTITU" 			length="30"/>
+		<property name="PCRSALDFAC" 			length="1"/>
+		<property name="PCRCOMENTA" 			length="50"/>
+		<property name="PCRNOTCRED" 			length="15"/>
+		<property name="PCRTIPCRED" 			length="1"/>
+		<property name="PCROTRPROD" 			length="1"/>
+		<property name="PCRIDENOPE" 			length="15"/>
+		<property name="PCRSUCCRED" 			length="15"/>
+		<property name="PCRFECCRED" 			type="date"/>
+		<property name="PCRSERCRED" 			length="1"/>
+
+
+    </class>
+
+</hibernate-mapping>

@@ -1,0 +1,82 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+    <class name="com.luxsoft.siipap.maquila.domain.AnalisisDeEntradas" 
+    	   lazy="true"
+    	   table="SW_ANALISIS_MAQ">
+        
+        <id name="id" column="ANALISIS_ID">        
+            <generator class="native">
+            	<param name="sequence">maquila_analisis_ids</param>
+            </generator>
+        </id>
+        
+        <version name="version"  column="VERSION"/>
+        
+        
+        <many-to-one name="proveedor" >		    
+        	<column name="PROVEEDOR_ID" not-null="true" unique-key="PROVFAC"/>
+        </many-to-one>
+        
+        <property 	 name="factura" 	length="15" not-null="true">
+        	<column name="FACTURA" 		not-null="true" unique-key="PROVFAC"/>        
+        </property>
+        
+        <property  	 name="fecha" 		type="date" not-null="true"/>        
+        <property    name="moneda" length="3" not-null="true"/>        
+        <property    name="tc" not-null="true"/>
+        
+            
+		<property name="importeAnalizado"
+            type="com.luxsoft.siipap.utils.CantidadMonetariaCompositeUserType">
+            <column name="importe"		length="2"/>
+            <column name="importe_mon" 	length="3"/>
+        </property>
+
+        <property name="impuestoAnalizado"
+            type="com.luxsoft.siipap.utils.CantidadMonetariaCompositeUserType">
+            <column name="impuesto"		length="2"/>
+            <column name="impuesto_mon" length="3"/>
+        </property>
+
+        <property name="totalAnalizado"
+            type="com.luxsoft.siipap.utils.CantidadMonetariaCompositeUserType">
+            <column name="total"	length="2"/>
+            <column name="total_mon" 	length="3"/>
+        </property>
+
+        <property name="importef"
+            type="com.luxsoft.siipap.utils.CantidadMonetariaCompositeUserType">
+            <column name="importeF"			length="2"/>
+            <column name="importeF_mon" 	length="3"/>
+        </property>
+
+        <property name="impuestof"
+            type="com.luxsoft.siipap.utils.CantidadMonetariaCompositeUserType">
+            <column name="impuestoF"		length="2"/>
+            <column name="impuestoF_mon" 	length="3"/>
+        </property>
+
+        <property name="totalf"
+            type="com.luxsoft.siipap.utils.CantidadMonetariaCompositeUserType">
+            <column name="totalF"			length="2"/>
+            <column name="totalF_mon" 		length="3"/>
+        </property>
+        
+        
+        <set name="entradas"
+			lazy="true"
+			cascade="save-update">
+			<key column="ANALISIS_ID"/>
+			<one-to-many class="com.luxsoft.siipap.maquila.domain.EntradaDeMaterial"/>
+		</set>
+		
+		<property name="creado" />
+
+ 
+    </class>
+
+</hibernate-mapping>

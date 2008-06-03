@@ -1,0 +1,75 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+    
+<hibernate-mapping>
+
+<class name="com.luxsoft.siipap.clipper.domain.Mvcomp" 
+    table="SW_MVCOMP"
+    lazy="true">
+
+    <id name="id" column="MVCOMP_ID">        
+        <generator class="native">
+           	<param name="sequence">inventario_sequence</param>
+        </generator>
+    </id>
+    
+    <natural-id>
+        <property name="MVCSUCUR"    	not-null="true"/>    
+    	<property name="MVCTIPO"    	not-null="true" length="3"/>
+	    <property name="MVCNUMER"       not-null="true"/>
+    </natural-id>
+    
+    <property name="MVCFECHA"        type="date"/>        
+    <property name="MVCPROVEE"
+        length="4"/>
+        
+    <property name="MVCNOMBPRO"
+        length="35"/>
+
+    <property name="MVCCOMEN"
+        length="40"/>
+        
+    <property name="MVCSUCCOM"/>
+
+    <property name="MVCTIPCOM"
+        length="1"/>
+        
+    <property name="MVCNUMCOM"/>
+        
+    <property name="MVCFECCOM"
+        type="date"/>
+        
+    <property name="MVCFACREM"/>
+        
+    <property name="MVCFECREM"
+        type="date"/>
+        
+    <property name="MVCUSUAR"
+        length="10"/>
+
+    <property name="MVCFEREAL"
+        type="date"/>
+        
+    <property name="MVCNUMREC"/>
+        
+                
+    <property name="periodo" length="7"/>
+        
+    <property name="creado" 	type="java.util.Date"/>
+
+    <!-- Associations -->
+    
+    <set name="partidas"
+		inverse="true"
+		cascade="all-delete-orphan">
+		<key column="MVCOMP_ID"/>
+			<one-to-many class="com.luxsoft.siipap.clipper.domain.Almace"/>
+	</set>
+    
+
+  
+
+</class>
+</hibernate-mapping>

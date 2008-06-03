@@ -1,0 +1,80 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+
+    <class name="com.luxsoft.siipap.cxc.domain.NotasDeCreditoDet" 
+    	   table="SW_NOTASDET" 
+    	   lazy="true">
+    	   
+        <id name="id" column="NOTADET_ID">
+            <generator class="native">
+            	<param name="sequence">notasdet_sequence</param>
+            </generator>
+        </id>
+        
+        <version name="version"  column="VERSION"/>
+        
+		<many-to-one 
+			name="nota"
+			column="NOTA_ID"
+			not-null="true"
+			insert="false"
+			update="false"
+			foreign-key="NCDET_NOTA_FK"/>        
+
+		<many-to-one 
+			name="factura"
+			column="VENTA_ID"
+			not-null="false"
+			foreign-key="NCDET_VENTA_FK"/>
+
+		<property name="renglon" not-null="false"/>
+
+		<property name="descuento"/>
+		
+		<property name="importe"
+            type="com.luxsoft.siipap.utils.CantidadMonetariaCompositeUserType">
+            <column name="importe"		length="2"/>
+            <column name="importe_mon" 	length="3"/>
+        </property>
+        
+        <property name="saldoFactura"
+            type="com.luxsoft.siipap.utils.CantidadMonetariaCompositeUserType">
+            <column name="SALDOF"		length="2"/>
+            <column name="SALDOF_MON" 	length="3"/>
+        </property>
+        
+        <property name="fechaDocumento" type="date"/>
+        
+        <property name="sucDocumento"/>
+        <property name="numDocumento"/>        
+		<property name="serieDocumento" length="1"/>
+		<property name="tipoDocumento" length="1"/>		
+		<property name="grupo"/>		
+		<property name="comentario" length="70"/>			
+	
+        <property name="mes" />
+        <property name="year" />        
+		<property name="origen" length="3"/>        
+        <property name="fecha" type="date" />
+        <property name="clave" length="7"/>        
+
+        <property name="numero"/>        
+        <property name="tipo"/>                
+        <property name="serie"/>                        
+        
+        <many-to-one 
+			name="cheque"
+			column="CHEQUE_ID"
+			not-null="false"
+			foreign-key="NOTA_CHEQUE_FK"/>    		
+
+        
+   		<property name="creado" />			 
+  
+    </class>
+
+</hibernate-mapping>

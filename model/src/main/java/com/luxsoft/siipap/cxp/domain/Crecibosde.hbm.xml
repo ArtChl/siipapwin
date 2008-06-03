@@ -1,0 +1,124 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+
+<hibernate-mapping>
+
+    <class name="com.luxsoft.siipap.cxp.domain.Crecibosde" 
+    	   lazy="true"
+    	   table="SW_CRECIBOSDE">
+        
+        <id name="id" column="CRECIBOSDE_ID">
+            <generator class="native">
+            	<param name="sequence">cxp_ids</param>
+            </generator>
+        </id>
+        
+        <natural-id> 
+        	<many-to-one name="proveedor" column="PROVEEDOR_ID" not-null="true"/>
+        	<property name="FACTURA"  length="12"/>
+        </natural-id>
+	    
+		<many-to-one 
+			name="crecibos"
+			column="CRECIBOS_ID"
+			class="com.luxsoft.siipap.cxp.domain.Crecibos"
+			not-null="true"/>
+		
+		<!-- 
+		<one-to-one
+			name="cargo"
+			property-ref="recibo"/>
+		  -->	
+		  		
+		<property name="NUMERO" />
+		
+<!--  		<property name="MONEDA"         length="4"/>-->
+		<property name="moneda" length="3"/>
+		<property name="FECHA"	type="date"/>
+		<property name="tc"         length="3"/>	
+		
+		<property name="importe"
+            type="com.luxsoft.siipap.utils.CantidadMonetariaCompositeUserType">
+            <column name="importe"	length="2"/>
+            <column name="importe_mon" 	length="3"/>
+        </property>
+
+        <property name="impuesto"
+            type="com.luxsoft.siipap.utils.CantidadMonetariaCompositeUserType">
+            <column name="impuesto"	length="2"/>
+            <column name="impuesto_mon" 	length="3"/>
+        </property>
+
+        <property name="total"
+            type="com.luxsoft.siipap.utils.CantidadMonetariaCompositeUserType">
+            <column name="total"	length="2"/>
+            <column name="total_mon" 	length="3"/>
+        </property>
+        
+        <property name="importeMN"
+            type="com.luxsoft.siipap.utils.CantidadMonetariaCompositeUserType">
+            <column name="importeMN"	length="2"/>
+            <column name="importeMN_mon" 	length="3"/>
+        </property>
+
+        <property name="impuestoMN"
+            type="com.luxsoft.siipap.utils.CantidadMonetariaCompositeUserType">
+            <column name="impuestoMN"	length="2"/>
+            <column name="impuestoMN_mon" 	length="3"/>
+        </property>
+
+        <property name="totalMN"
+            type="com.luxsoft.siipap.utils.CantidadMonetariaCompositeUserType">
+            <column name="totalMN"	length="2"/>
+            <column name="totalMN_mon" 	length="3"/>
+        </property>
+        
+   		<property name="vencimiento"	type="date"/>	
+			
+        
+ 		
+		<property name="NC"         length="10"/>
+		<property name="conceptoNC"/>
+		<property name="importeNC"
+            type="com.luxsoft.siipap.utils.CantidadMonetariaCompositeUserType">
+            <column name="importeNC"	length="2"/>
+            <column name="importeNC_mon" 	length="3"/>
+        </property>        
+        
+        <property name="NC1"         length="10"/>
+		<property name="conceptoNC1"/>
+		<property name="importeNC1"
+            type="com.luxsoft.siipap.utils.CantidadMonetariaCompositeUserType">
+            <column name="importeNC1"	length="2"/>
+            <column name="importeNC1_mon" 	length="3"/>
+        </property>
+        
+        <property name="NC2"         length="10"/>
+		<property name="conceptoNC2"/>
+		<property name="importeNC2"
+            type="com.luxsoft.siipap.utils.CantidadMonetariaCompositeUserType">
+            <column name="importeNC2"	length="2"/>
+            <column name="importeNC2_mon" 	length="3"/>
+        </property>
+        
+        <property name="ajuste" length="3"/>
+        <property name="descuentoF" length="2"/>
+        <property name="vencimientoDF" type="date"/> 
+        <property name="IMPORTEO"
+            type="com.luxsoft.siipap.utils.CantidadMonetariaCompositeUserType">
+            <column name="importeo"	length="2"/>
+            <column name="importeo_mon" 	length="3"/>
+        </property>  
+        <property name="verificado"/>
+   		<property name="observaciones"        length="40"/>
+   		
+		<property name="creado" />
+ 		<property name="modificado" />
+
+
+    </class>
+
+</hibernate-mapping>

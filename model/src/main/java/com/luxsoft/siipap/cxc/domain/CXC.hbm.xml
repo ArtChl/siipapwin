@@ -1,0 +1,66 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+    <class name="com.luxsoft.siipap.cxc.domain.CXC" 
+    	   lazy="true" 	   
+    	   table="SW_CXC">
+        
+        <id name="id" column="CXC_ID">        
+            <generator class="native">
+            	<param name="sequence">cxc_ids</param>
+            </generator>
+        </id>
+        <version name="version"  column="VERSION"/>        
+		
+		<property name="clave">
+			<column name="CLAVE" not-null="true" unique-key="CXC_PK"/>
+		</property>
+		
+		<property name="nombre">
+			<column name="NOMBRE" not-null="true" />
+		</property>		
+
+		<property name="tipo" >
+			<column name="TIPO" not-null="true" unique-key="CXC_PK"/>
+		</property>
+		
+		<property name="documento">
+			<column name="DOCTO" not-null="true" default="0"/>
+		</property>
+		
+		<property name="referencia">
+			<column name="REFERENCIA" not-null="true" default="0"/>
+		</property>
+		
+		<property name="factura_id"></property>
+		<property name="cargo_id"></property>		
+		<property name="tipDocto"></property>
+		<property name="serieDocto"></property>
+		
+		<property name="sucursal" not-null="true" unique-key="CXC_PK"/>
+		
+		<property name="fecha" type="date"/>
+		
+		<property name="importe" type="com.luxsoft.siipap.utils.CantidadMonetariaCompositeUserType">
+        		<column name="IMPORTE"		length="2" not-null="true" default="0"/>
+        		<column name="IMPORTE_MON" 	length="3" not-null="true" default="'MXN'"/>
+	   	</property>
+	   	
+	   	<property name="saldo" type="com.luxsoft.siipap.utils.CantidadMonetariaCompositeUserType">
+        		<column name="SALDO"		length="2" not-null="true" default="0"/>
+        		<column name="SALDO_MON" 	length="3" not-null="true" default="'MXN'"/>
+	   	</property>
+	   	
+	   	<property name="origen" not-null="true"/>
+		
+		<property name="mes"/>		
+		<property name="year"/>
+		<property name="creado" />
+
+ 
+    </class>
+
+</hibernate-mapping>
