@@ -182,8 +182,8 @@ public class InentarioMensual_Parche1 extends HibernateDaoSupport{
 	public static void main(String[] args) {
 		InentarioMensual_Parche1 test=new InentarioMensual_Parche1();
 		test.setSessionFactory(ServiceLocator.getSessionFactory());
-		//test.verificarCostoInicialContraFinal();
-		test.fordwarCosto();
+		test.verificarCostoInicialContraFinal();
+		//test.fordwarCosto();
 	}
 
 }

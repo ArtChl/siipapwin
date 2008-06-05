@@ -6,6 +6,7 @@ import java.sql.Types;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -96,8 +97,8 @@ public class InventariosManagerImpl extends HibernateDaoSupport implements Inven
 			return null;
 		}
 		getSession().saveOrUpdate(im);
-		final BigDecimal inicial=buscarSaldo(clave,year,mes-1);
-		final BigDecimal saldo=buscarSaldo(clave,year,mes);
+		final BigDecimal inicial=buscarSaldo(clave,year,mes);
+		final BigDecimal saldo=buscarSaldoFinal(clave,year,mes);
 		final BigDecimal movs=calcularMovimientos(clave, year, mes);
 		im.setMovimientos(movs);
 		im.setSaldo(saldo);
@@ -122,7 +123,7 @@ public class InventariosManagerImpl extends HibernateDaoSupport implements Inven
 		}
 		return im;
 	}
-	
+	/**
 	private BigDecimal buscarSaldo(final String clave,int year,int mes){
 		Calendar c=Calendar.getInstance();
 		c.set(Calendar.YEAR, year);
@@ -134,6 +135,7 @@ public class InventariosManagerImpl extends HibernateDaoSupport implements Inven
 		BigDecimal saldo=rows.get(0).get("CANTIDAD");
 		return saldo!=null?saldo:BigDecimal.ZERO;
 	}
+	*/
 	
 	/**
 	 * Regresa los movimientos internos (no COM/FAC/RMD/XRM) en unidades para el periodo
@@ -161,7 +163,7 @@ public class InventariosManagerImpl extends HibernateDaoSupport implements Inven
 	 * @param year
 	 * @param mes
 	 * @return
-	 
+	 */
 	private BigDecimal buscarSaldo(final String clave,int year,int mes){
 		
 		// Inventario inicial del ejercicio
@@ -170,11 +172,12 @@ public class InventariosManagerImpl extends HibernateDaoSupport implements Inven
 		int[] types={Types.INTEGER,Types.VARCHAR};
 		String sql="SELECT * FROM SW_INVENTARIO_ANUAL A WHERE A.YEAR=? AND A.CLAVE=?";
 		List<Map<String, Object>> rows=getJdbcTemplate().queryForList(sql, params, types);
-		if(rows.isEmpty())
-			return BigDecimal.ZERO;
-		BigDecimal inicial=(BigDecimal)rows.get(0).get("SALDO");
+		BigDecimal inicial=BigDecimal.ZERO;
+		if(!rows.isEmpty())
+			//return BigDecimal.ZERO;
+			inicial=(BigDecimal)rows.get(0).get("SALDO");
 		
-		if(mes==0){			
+		if(mes==1){			
 			return inicial;	
 		}else{
 			
@@ -184,7 +187,8 @@ public class InventariosManagerImpl extends HibernateDaoSupport implements Inven
 			c.set(Calendar.DATE, c.getActualMinimum(Calendar.DATE));
 			final Date fechaInicial=c.getTime();
 			
-			c.set(Calendar.MONTH, mes-1);
+			c.set(Calendar.MONTH, mes-2);
+			c.getTime();
 			int max=c.getActualMaximum(Calendar.DATE);
 			c.set(Calendar.DATE, max);
 			
@@ -240,7 +244,7 @@ public class InventariosManagerImpl extends HibernateDaoSupport implements Inven
 		return inicial.add(saldo);
 		
 	}
-	*/
+	
 	
 	private void calcularCostosMaquilaHojeado(final InventarioMensual im){
 		final Periodo p=Periodo.getPeriodoEnUnMes(im.getMes()-1, im.getYear());
@@ -386,6 +390,8 @@ public class InventariosManagerImpl extends HibernateDaoSupport implements Inven
 		return claves;
 		
 	}
+	
+	
 	
 	
 	/**
@@ -570,36 +576,21 @@ public class InventariosManagerImpl extends HibernateDaoSupport implements Inven
 	}
 	
 	public static void main(String[] args) throws Exception{
-		
-		Collection<String> claves=ServiceLocator.getInventariosManager().buscarArticulos();
-		
+		/*
+		Collection<String> claves=ServiceLocator.getInventariosManager().buscarArticulos();		
 		for(String clave:claves){
-			System.out.println("Procesando: "+clave);
-			
 			for(int i=1;i<=5;i++){				
 				InventarioMensual im=ServiceLocator.getInventariosManager().actualizarInventario(2008,i, clave);
 				System.out.println("\t"+im);
 			}
 		}		
+		*/
 		
-		
-		//ServiceLocator.getInventariosManager().actualizarInventario();
-		/**
-		InventariosManager manager=ServiceLocator.getInventariosManager();
-		List<InventarioMensual> ivs=manager.inventarioCosteado();
-		
-		for(InventarioMensual m:ivs){
-			manager.actualizarVentasNetas(m);
-		}
-		**/
-		
-/*		for(int i=1;i<=12;i++){
-			InventarioMensual im=ServiceLocator.getInventariosManager().actualizarInventario(2007,i, "TVK1085D");
+		for(int i=1;i<=5;i++){
+			InventarioMensual im=ServiceLocator.getInventariosManager().actualizarInventario(2008,i, "POL4");
 			System.out.println("\t"+im);
 		
-		}*/
-		
-		//ServiceLocator.getInventariosManager().actualizarInventariosSospechosos(2007, 4);
+		}
 		
 	}
 

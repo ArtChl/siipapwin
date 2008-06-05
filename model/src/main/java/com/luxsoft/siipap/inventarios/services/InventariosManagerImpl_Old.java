@@ -8,8 +8,6 @@ import java.util.Calendar;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
-import java.util.TreeSet;
 
 import org.hibernate.HibernateException;
 import org.hibernate.ScrollableResults;
@@ -29,7 +27,6 @@ import com.luxsoft.siipap.domain.CantidadMonetaria;
 import com.luxsoft.siipap.domain.Periodo;
 import com.luxsoft.siipap.inventarios.dao.CostoPromedioDao;
 import com.luxsoft.siipap.inventarios.dao.MovimientoDao;
-import com.luxsoft.siipap.inventarios.domain.CostoPromedio;
 import com.luxsoft.siipap.inventarios.domain.Entrada;
 import com.luxsoft.siipap.inventarios.domain.InventarioMensual;
 import com.luxsoft.siipap.inventarios.domain.Salida;
@@ -38,7 +35,7 @@ import com.luxsoft.siipap.maquila.domain.Bobina;
 import com.luxsoft.siipap.services.ServiceLocator;
 
 @SuppressWarnings("unchecked")
-public class CopyOfInventariosManager2Impl extends HibernateDaoSupport implements InventariosManager{
+public class InventariosManagerImpl_Old extends HibernateDaoSupport implements InventariosManager{
 	
 	private AnalisisDeEntradaDao analisisDeEntradaDao;
 	private ArticuloDao articuloDao;
@@ -101,6 +98,8 @@ public class CopyOfInventariosManager2Impl extends HibernateDaoSupport implement
 		getSession().saveOrUpdate(im);
 		final BigDecimal inicial=buscarSaldo(clave,year,mes-1);
 		final BigDecimal saldo=buscarSaldo(clave,year,mes);
+		final BigDecimal movs=calcularMovimientos(clave, year, mes);
+		im.setMovimientos(movs);
 		im.setSaldo(saldo);
 		im.setInicial(inicial);
 		//final CantidadMonetaria ccostoIni=buscarCostoInicial(clave,year,mes);
@@ -117,11 +116,12 @@ public class CopyOfInventariosManager2Impl extends HibernateDaoSupport implement
 		im.actualizar();
 		actualizarVentasNetas(im);
 		calcularComsSA(im);
-		if(im.getCostoPromedio().abs().amount().doubleValue()==0)
+		if(im.getCostoPromedio().abs().amount().doubleValue()==0){
 			calcularCostosTrs(im);
+			im.actualizarCostos();
+		}
 		return im;
 	}
-	
 	
 	private BigDecimal buscarSaldo(final String clave,int year,int mes){
 		Calendar c=Calendar.getInstance();
@@ -135,6 +135,112 @@ public class CopyOfInventariosManager2Impl extends HibernateDaoSupport implement
 		return saldo!=null?saldo:BigDecimal.ZERO;
 	}
 	
+	/**
+	 * Regresa los movimientos internos (no COM/FAC/RMD/XRM) en unidades para el periodo
+	 * 
+	 * @param clave
+	 * @param year
+	 * @param mes
+	 * @return
+	 */
+	private BigDecimal calcularMovimientos(final String clave,int year,int mes){
+		Periodo p=Periodo.getPeriodoEnUnMes(mes-1, year);		
+		final String sql="select sum(ALMCANTI/ALMUNIXUNI) as CANTIDAD from sw_almacen2 where ALMARTIC=? and ALMFECHA between ? and ? and ALMTIPO not in(\'COM\',\'FAC\',\'RMD\',\'XRM\')";
+		List<Map<String, BigDecimal >> rows=getJdbcTemplate().queryForList(sql
+				, new Object[]{clave,p.getFechaInicial(),p.getFechaFinal()}
+				, new int[]{Types.VARCHAR,Types.DATE,Types.DATE}		
+		);
+		BigDecimal saldo=rows.get(0).get("CANTIDAD");
+		return saldo!=null?saldo:BigDecimal.ZERO;
+	}
+	
+	/**
+	 * Busca el saldo inicial de un articulo para el periodo indicado
+	 * 
+	 * @param clave
+	 * @param year
+	 * @param mes
+	 * @return
+	 
+	private BigDecimal buscarSaldo(final String clave,int year,int mes){
+		
+		// Inventario inicial del ejercicio
+		
+		Object[] params={year-1,clave};
+		int[] types={Types.INTEGER,Types.VARCHAR};
+		String sql="SELECT * FROM SW_INVENTARIO_ANUAL A WHERE A.YEAR=? AND A.CLAVE=?";
+		List<Map<String, Object>> rows=getJdbcTemplate().queryForList(sql, params, types);
+		if(rows.isEmpty())
+			return BigDecimal.ZERO;
+		BigDecimal inicial=(BigDecimal)rows.get(0).get("SALDO");
+		
+		if(mes==0){			
+			return inicial;	
+		}else{
+			
+			Calendar c=Calendar.getInstance();
+			c.set(Calendar.YEAR, year);
+			c.set(Calendar.MONTH, 0);
+			c.set(Calendar.DATE, c.getActualMinimum(Calendar.DATE));
+			final Date fechaInicial=c.getTime();
+			
+			c.set(Calendar.MONTH, mes-1);
+			int max=c.getActualMaximum(Calendar.DATE);
+			c.set(Calendar.DATE, max);
+			
+			final Date fechaFinal=c.getTime();
+			
+			String sql2="select sum(ALMCANTI/ALMUNIXUNI) as CANTIDAD from sw_almacen2 where ALMARTIC=? and ALMFECHA between ? and ?";
+			System.out.println("PARAMETROS: "+fechaInicial+"  "+fechaFinal);
+			List<Map<String, BigDecimal >> rows2=getJdbcTemplate().queryForList(sql2
+					, new Object[]{clave,fechaInicial,fechaFinal}
+					, new int[]{Types.VARCHAR,Types.DATE,Types.DATE});
+			
+			BigDecimal saldo=rows2.get(0).get("CANTIDAD");
+			if(saldo==null)
+				saldo=BigDecimal.ZERO;
+			return inicial.add(saldo);
+		}
+	}
+	
+	private BigDecimal buscarSaldoFinal(final String clave,int year,int mes){
+		
+		// Inventario inicial del ejercicio
+		
+		Object[] params={year-1,clave};
+		int[] types={Types.INTEGER,Types.VARCHAR};
+		String sql="SELECT * FROM SW_INVENTARIO_ANUAL A WHERE A.YEAR=? AND A.CLAVE=?";
+		List<Map<String, Object>> rows=getJdbcTemplate().queryForList(sql, params, types);
+		
+		BigDecimal inicial=BigDecimal.ZERO;
+		if(!rows.isEmpty())			
+			inicial=(BigDecimal)rows.get(0).get("SALDO");
+			
+		Calendar c=Calendar.getInstance();
+		c.set(Calendar.YEAR, year);
+		c.set(Calendar.MONTH, 0);
+		c.set(Calendar.DATE, c.getActualMinimum(Calendar.DATE));
+		final Date fechaInicial=c.getTime();
+			
+		c.set(Calendar.MONTH, mes-1);
+		int max=c.getActualMaximum(Calendar.DATE);
+		c.set(Calendar.DATE, max);
+		
+		final Date fechaFinal=c.getTime();
+		
+		String sql2="select sum(ALMCANTI/ALMUNIXUNI) as CANTIDAD from sw_almacen2 where ALMARTIC=? and ALMFECHA between ? and ?";
+		System.out.println("PARAMETROS: "+fechaInicial+"  "+fechaFinal);
+		List<Map<String, BigDecimal >> rows2=getJdbcTemplate().queryForList(sql2
+				, new Object[]{clave,fechaInicial,fechaFinal}
+				, new int[]{Types.VARCHAR,Types.DATE,Types.DATE});
+		
+		BigDecimal saldo=rows2.get(0).get("CANTIDAD");
+		if(saldo==null)
+			saldo=BigDecimal.ZERO;
+		return inicial.add(saldo);
+		
+	}
+	*/
 	
 	private void calcularCostosMaquilaHojeado(final InventarioMensual im){
 		final Periodo p=Periodo.getPeriodoEnUnMes(im.getMes()-1, im.getYear());
@@ -197,7 +303,7 @@ public class CopyOfInventariosManager2Impl extends HibernateDaoSupport implement
 	
 	private void calcularCostosCxp(final InventarioMensual im){
 		final Periodo p=Periodo.getPeriodoEnUnMes(im.getMes()-1, im.getYear());
-		final String sql="SELECT SUM(B.CANTIDAD) AS CANTIDAD ,SUM(B.CANTIDAD*(B.NETO*C.TC)) AS COSTO " +
+		final String sql="SELECT SUM(B.CANTIDAD) AS CANTIDAD ,SUM( ROUND((B.CANTIDAD*(B.NETO*C.TC)),2) ) AS COSTO " +
 				" FROM SW_COMS2 I JOIN SW_ANALISISDET B ON(I.COM_ID=B.COM_ID) " +
 				"JOIN SW_ANALISIS C ON(B.ANALISIS_ID=C.ANALISIS_ID) " +
 				"WHERE  I.CLAVE=? " +
@@ -222,6 +328,27 @@ public class CopyOfInventariosManager2Impl extends HibernateDaoSupport implement
 		final int year=im.getYear();
 		final int mes=im.getMes();
 		final String clave=im.getClave();
+		if(mes==1){
+			String sql="SELECT * FROM SW_INVENTARIO_ANUAL A WHERE A.YEAR=? AND A.CLAVE=?";
+			List<Map<String, Object>> rows=getJdbcTemplate().queryForList(sql, new Object[]{im.getYear()-1,im.getClave()}, new int[]{Types.INTEGER,Types.VARCHAR});
+			if(rows.isEmpty()){
+				im.setInicial(BigDecimal.ZERO);
+				im.setCostoInicial(CantidadMonetaria.pesos(0));
+				return;
+			}else{
+				Map<String, Object> row=rows.get(0);
+				Number ccp=(Number)row.get("COSTO");
+				if(ccp!=null && ccp.doubleValue()!=0){
+					CantidadMonetaria cto=CantidadMonetaria.pesos(ccp.doubleValue());
+					im.setCostoInicial(cto);
+				}else{
+					im.setInicial(BigDecimal.ZERO);
+					im.setCostoInicial(CantidadMonetaria.pesos(0));
+				}
+			}
+			return;
+		}
+		/*
 		if(year==2007 && mes==1){			
 			CostoPromedio cp=getCostoPromedioDao().buscarCostoPromedio(clave, "12/2006");
 			if(cp!=null){
@@ -235,6 +362,7 @@ public class CopyOfInventariosManager2Impl extends HibernateDaoSupport implement
 			}			
 			return;
 		}
+		*/
 		final InventarioMensual im2;
 		if(mes==1){
 			im2=buscarInventario(year-1, 12, clave);
@@ -245,45 +373,18 @@ public class CopyOfInventariosManager2Impl extends HibernateDaoSupport implement
 	}
 	
 	/**
+	 * Regresa una lista de todos los articulos que requieren registro en inventario mensual o anual
 	 * 
 	 * @return
 	 */
 	public Collection<String> buscarArticulos(){
-		//List<String> claves=getHibernateTemplate().find("select a.clave from Articulo a order by a.clave");
-		//return claves;
-		return articulosConMovimientos();
-	}
-	
-	/**
-	 * 
-	 * @return
-	 */
-	public Set<String> articulosConMovimientos(){		
-		final String sql="SELECT DISTINCT ALMARTIC FROM SW_ALMACEN2 WHERE ALMFECHA>='01/01/07'  order by ALMARTIC desc";
-		List<Map<String, String>> rows=getJdbcTemplate().queryForList(
-				sql
-				//, new Object[]{p.getFechaInicial(),p.getFechaFinal()}
-				//, new int[]{Types.DATE,Types.DATE}
-				);
-		final Set<String> claves=new TreeSet<String>();		
-		for(Map<String, String> row:rows){
-			claves.add(row.get("ALMARTIC"));
+		List<Map<String, String>> rows=getJdbcTemplate().queryForList("SELECT DISTINCT ALMARTIC AS CLAVE FROM SW_ALMACEN2 order by almartic desc	");
+		final List<String> claves=new ArrayList<String>();
+		for(Map<String,String> row:rows){
+			claves.add(row.get("CLAVE"));
 		}
-		claves.addAll(articulosFaltantesCargaInicial());
-		System.out.println("Claves a Procesar: "+rows.size());
 		return claves;
 		
-	}	
-	
-	private Set<String> articulosFaltantesCargaInicial(){
-		final String sql="select a.almartic,sum(a.almcanti/a.almunixuni) from sw_almacen2 a where a.almfecha<'01/01/07' group by almartic having sum(almcanti/almunixuni)<>0";
-		List<Map<String, String>> rows=getJdbcTemplate().queryForList(sql);				
-		final Set<String> claves=new TreeSet<String>();
-		//System.out.println("Claves Carga inicial: "+rows.size());
-		for(Map<String, String> row:rows){
-			claves.add(row.get("ALMARTIC"));
-		}
-		return claves;
 	}
 	
 	
@@ -470,17 +571,18 @@ public class CopyOfInventariosManager2Impl extends HibernateDaoSupport implement
 	
 	public static void main(String[] args) throws Exception{
 		
-		//Set<String> claves=ServiceLocator.getInventariosManager().articulosConMovimientos(new Periodo("01/01/2007","19/09/2007"));
-		/*
 		Collection<String> claves=ServiceLocator.getInventariosManager().buscarArticulos();
+		/*
 		for(String clave:claves){
 			System.out.println("Procesando: "+clave);
-			for(int i=1;i<=11;i++){				
-				InventarioMensual im=ServiceLocator.getInventariosManager().actualizarInventario(2007,i, clave);
+			
+			for(int i=1;i<=5;i++){				
+				InventarioMensual im=ServiceLocator.getInventariosManager().actualizarInventario(2008,i, clave);
 				System.out.println("\t"+im);
 			}
 		}		
 		*/
+		
 		//ServiceLocator.getInventariosManager().actualizarInventario();
 		/**
 		InventariosManager manager=ServiceLocator.getInventariosManager();
@@ -491,12 +593,10 @@ public class CopyOfInventariosManager2Impl extends HibernateDaoSupport implement
 		}
 		**/
 		
-		for(int i=1;i<=12;i++){				
-			//Invent..0.arioMensual im=ServiceLocator.getInventariosManager().actualizarInventario(2007,i, "TVK1056D71");
-			InventarioMensual im=ServiceLocator.getInventariosManager().actualizarInventario(2007,i, "POL12");
+		for(int i=1;i<=5;i++){
+			InventarioMensual im=ServiceLocator.getInventariosManager().actualizarInventario(2008,i, "POL14");
 			System.out.println("\t"+im);
-			//ServiceLocator.getInventariosManager().actualizarInventariosSospechosos(2007, i);
-			
+		
 		}
 		
 		//ServiceLocator.getInventariosManager().actualizarInventariosSospechosos(2007, 4);
