@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-configuration PUBLIC
+		"-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+		"http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>
+    <session-factory name="sessionFactory">
+
+	<!--  Servicor Oracle DE PRUEBAS de Papel -->
+
+        <property name="hibernate.connection.driver_class">oracle.jdbc.driver.OracleDriver</property>
+        <property name="hibernate.connection.url">jdbc:oracle:thin:@server_ofi_d:1521:siipapbi</property>    
+        <property name="hibernate.dialect">org.hibernate.dialect.Oracle9Dialect</property>
+        <property name="hibernate.connection.password">sis</property>
+        <property name="hibernate.connection.username">siipap</property>        
+
+	<!-- 	Servidor Oracle de Pruebas Local 
+  
+        <property name="hibernate.connection.driver_class">oracle.jdbc.driver.OracleDriver</property>
+         <property name="hibernate.connection.url">jdbc:oracle:thin:@localhost:1521:siipapw</property>
+        <property name="hibernate.dialect">org.hibernate.dialect.Oracle9Dialect</property>
+        <property name="hibernate.connection.password">sys</property>
+        <property name="hibernate.connection.username">siipap</property>        
+-->
+
+<!--
+ 
+        <property name="hibernate.connection.driver_class">com.mysql.jdbc.Driver</property>
+        <property name="hibernate.connection.url">jdbc:mysql://localhost:3306/siipap</property>
+        <property name="hibernate.dialect">org.hibernate.dialect.MySQLDialect</property>
+        <property name="hibernate.connection.password">sys</property>
+        <property name="hibernate.connection.username">siipap</property>        
+-->       
+<!--  
+
+        <property name="hibernate.connection.driver_class">org.hsqldb.jdbcDriver</property>
+        <property name="hibernate.connection.url">jdbc:hsqldb:hsql://localhost/siipapw</property>
+        <property name="hibernate.dialect">org.hibernate.dialect.HSQLDialect</property>
+        <property name="hibernate.connection.username">sq</property>
+        <property name="hibernate.connection.password"></property>
+ -->
+              
+        <property name="hibernate.show_sql">true</property>
+        <property name="hibernate.jdbc.batch_size">20</property>
+        <property name="hibernate.cache.use_second_level_cache">false</property>
+        
+        <!-- 
+        <mapping resource="com/luxsoft/siipap/reporter/domain/Report.hbm.xml"/>                
+        -->
+
+        <mapping resource="com/luxsoft/siipap/domain/Unidad.hbm.xml"/>
+        <mapping resource="com/luxsoft/siipap/domain/Familia.hbm.xml"/>                
+        <mapping resource="com/luxsoft/siipap/domain/Articulo.hbm.xml"/>                
+        <mapping resource="com/luxsoft/siipap/domain/UnidadesPorArticulo.hbm.xml"/>                                        
+                  
+
+
+        <mapping resource="com/luxsoft/siipap/domain/Sucursal.hbm.xml"/>
+        <mapping resource="com/luxsoft/siipap/domain/ListaDePrecios.hbm.xml"/>        
+        <mapping resource="com/luxsoft/siipap/domain/Proveedor.hbm.xml"/>        
+        <mapping resource="com/luxsoft/siipap/domain/ArticuloPorProveedor.hbm.xml"/>        
+        <mapping resource="com/luxsoft/siipap/domain/Precio.hbm.xml"/>
+        
+         <!--        
+        <mapping resource="com/luxsoft/siipap/clipper/domain/Mvcomp.hbm.xml"/>
+        <mapping resource="com/luxsoft/siipap/clipper/domain/Mvalma.hbm.xml"/>                
+        <mapping resource="com/luxsoft/siipap/clipper/domain/Mococa.hbm.xml"/>
+        <mapping resource="com/luxsoft/siipap/clipper/domain/Mocomo.hbm.xml"/>        
+        <mapping resource="com/luxsoft/siipap/clipper/domain/Movcre.hbm.xml"/>                
+        <mapping resource="com/luxsoft/siipap/clipper/domain/Almace.hbm.xml"/>        
+        <mapping resource="com/luxsoft/siipap/inventarios/domain/Movimiento.hbm.xml"/>         
+        <mapping resource="com/luxsoft/siipap/inventarios/domain/CostoPromedio.hbm.xml"/>         
+        <mapping resource="com/luxsoft/siipap/inventarios/domain/CostoUltimo.hbm.xml"/>        
+        <mapping resource="com/luxsoft/siipap/inventarios/domain/capas/Capa.hbm.xml"/>        
+        <mapping resource="com/luxsoft/siipap/inventarios/domain/capas/SalidaDeCapa.hbm.xml"/>
+        <mapping resource="com/luxsoft/siipap/inventarios/domain/acumulados/Acumulado.hbm.xml"/>         
+        <mapping resource="com/luxsoft/siipap/inventarios/domain/acumulados/Saldo.hbm.xml"/>        
+        <mapping resource="com/luxsoft/siipap/inventarios/domain/acumulados/SaldoPorTipo.hbm.xml"/>        
+        <mapping resource="com/luxsoft/siipap/inventarios/domain/Transformacion.hbm.xml"/>        
+        
+        <mapping resource="com/luxsoft/siipap/cxp/domain/Analisis.hbm.xml"/>
+        <mapping resource="com/luxsoft/siipap/cxp/domain/AnalisisDet.hbm.xml"/>
+        <mapping resource="com/luxsoft/siipap/cxp/domain/AnalisisDeEntrada.hbm.xml"/>                
+        <mapping resource="com/luxsoft/siipap/cxp/domain/Facxp.hbm.xml"/>        
+        <mapping resource="com/luxsoft/siipap/cxp/domain/Facxpde.hbm.xml"/>
+        <mapping resource="com/luxsoft/siipap/cxp/domain/Crecibos.hbm.xml"/>        
+         <mapping resource="com/luxsoft/siipap/cxp/domain/Crecibosde.hbm.xml"/>         
+        <mapping resource="com/luxsoft/siipap/cxp/domain/CompraIngresada.hbm.xml"/>        
+        <mapping resource="com/luxsoft/siipap/cxp/domain/Requisicion.hbm.xml"/>        
+        <mapping resource="com/luxsoft/siipap/cxp/domain/RequisicionDetalle.hbm.xml"/>        
+        <mapping resource="com/luxsoft/siipap/cxp/domain/CXP.hbm.xml"/>        
+        
+        <mapping resource="com/luxsoft/siipap/maquila/domain/Bobina.hbm.xml"/>                        
+        <mapping resource="com/luxsoft/siipap/maquila/domain/Maquilador.hbm.xml"/>
+        <mapping resource="com/luxsoft/siipap/maquila/domain/Almacen.hbm.xml"/>
+        <mapping resource="com/luxsoft/siipap/maquila/domain/RecepcionDeMaterial.hbm.xml"/>        
+        <mapping resource="com/luxsoft/siipap/maquila/domain/MovimientoDeMaterial.hbm.xml"/>
+        <mapping resource="com/luxsoft/siipap/maquila/domain/OrdenDeCorte.hbm.xml"/>        
+        <mapping resource="com/luxsoft/siipap/maquila/domain/MaterialHojeado.hbm.xml"/>        
+        <mapping resource="com/luxsoft/siipap/maquila/domain/AnalisisDeEntradas.hbm.xml"/> 
+         --> 
+         
+        <!-- CXC -->
+        <mapping resource="com/luxsoft/siipap/cxc/domain/Cliente.hbm.xml"/>         
+  		<mapping resource="com/luxsoft/siipap/cxc/domain/NotaDeCredito.hbm.xml"/>                     
+  		<mapping resource="com/luxsoft/siipap/cxc/domain/NotaDeCreditoDet.hbm.xml"/>                       		
+  		<mapping resource="com/luxsoft/siipap/cxc/domain/Cheque.hbm.xml"/>  		  		
+		<mapping resource="com/luxsoft/siipap/cxc/domain/Juridico.hbm.xml"/>  		  		
+		<mapping resource="com/luxsoft/siipap/cxc/domain/Pago.hbm.xml"/>         		
+  		<!--
+  		
+
+  		
+        -->
+        <!-- Ventas         -->
+        <mapping resource="com/luxsoft/siipap/ventas/domain/Venta.hbm.xml"/>
+		<mapping resource="com/luxsoft/siipap/ventas/domain/VentaDet.hbm.xml"/>
+        <mapping resource="com/luxsoft/siipap/ventas/domain/Devolucion.hbm.xml"/>
+        <mapping resource="com/luxsoft/siipap/ventas/domain/DevolucionDet.hbm.xml"/>        
+
+		<mapping resource="com/luxsoft/siipap/em/replica/legacy/Carter.hbm.xml"/>
+ 		<mapping resource="com/luxsoft/siipap/em/replica/legacy/Pagcre.hbm.xml"/> 	
+ 		<mapping resource="com/luxsoft/siipap/em/replica/legacy/Ddocre.hbm.xml"/> 		 		
+
+ 		 <!-- Compras 		
+        <mapping resource="com/luxsoft/siipap/compras/domain/Compra.hbm.xml"/>
+        <mapping resource="com/luxsoft/siipap/compras/domain/Comuni.hbm.xml"/>
+        -->
+        <mapping resource="com/luxsoft/siipap/em/replica/domain/ReplicaLog.hbm.xml"/> 		 		
+       
+		 
+    </session-factory>
+    
+   
+</hibernate-configuration>

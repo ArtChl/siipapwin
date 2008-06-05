@@ -1,0 +1,596 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+
+
+<beans>
+	<description>
+		Context para DAO's y objetos de accesos y persistencia a bases
+		de datos
+	</description>
+
+	<bean id="dataSource"
+		class="org.apache.commons.dbcp.BasicDataSource"
+		destroy-method="close">
+		<property name="driverClassName">
+			<value>${db.driver}</value>
+		</property>
+		<property name="url">
+			<value>${db.url}</value>
+		</property>
+		<property name="username">
+			<value>${db.user}</value>
+		</property>
+		<property name="password">
+			<value>${db.password}</value>
+		</property>
+	</bean>
+
+
+
+	<bean id="jdbcTemplate"
+		class="org.springframework.jdbc.core.JdbcTemplate">
+		<property name="dataSource">
+			<ref bean="dataSource" />
+		</property>
+	</bean>
+
+
+
+	<!-- Hibernate SessionFactory -->
+	<bean id="sessionFactory"
+		class="org.springframework.orm.hibernate3.LocalSessionFactoryBean">
+		<property name="dataSource">
+			<ref local="dataSource" />
+		</property>
+		<!--  <property name="namingStrategy"><ref local="siipapNaming"/></property>-->
+
+		<property name="mappingResources">
+			<list>
+
+
+
+				<!-- Core objects del sistema  -->
+				<value>com/luxsoft/siipap/domain/Familia.hbm.xml</value>
+				<value>com/luxsoft/siipap/domain/Unidad.hbm.xml</value>
+				<value>com/luxsoft/siipap/domain/Articulo.hbm.xml</value>
+				<value>com/luxsoft/siipap/domain/Linea.hbm.xml</value>				
+				<value>
+					com/luxsoft/siipap/domain/UnidadesPorArticulo.hbm.xml
+				</value>
+				<value>
+					com/luxsoft/siipap/domain/Sucursal.hbm.xml
+				</value>
+				<value>
+					com/luxsoft/siipap/domain/Proveedor.hbm.xml
+				</value>
+				<value>
+					com/luxsoft/siipap/domain/ArticuloPorProveedor.hbm.xml
+				</value>
+				<value>
+					com/luxsoft/siipap/domain/ListaDePrecios.hbm.xml
+				</value>
+				<value>com/luxsoft/siipap/domain/Precio.hbm.xml</value>
+
+				<!-- Entidades relacionadas con Inventarios			
+					
+					<value>com/luxsoft/siipap/clipper/domain/Almace.hbm.xml</value>				
+					<value>com/luxsoft/siipap/clipper/domain/Mvcomp.hbm.xml</value>								
+					<value>com/luxsoft/siipap/clipper/domain/Mvalma.hbm.xml</value>								
+					<value>com/luxsoft/siipap/clipper/domain/Mococa.hbm.xml</value>												
+					<value>com/luxsoft/siipap/clipper/domain/Mocomo.hbm.xml</value>				
+					<value>com/luxsoft/siipap/clipper/domain/Movcre.hbm.xml</value>					
+					
+					<value>com/luxsoft/siipap/inventarios/domain/Movimiento.hbm.xml</value>	
+					<value>com/luxsoft/siipap/inventarios/domain/Transformacion.hbm.xml</value>				
+					<value>com/luxsoft/siipap/inventarios/domain/CostoPromedio.hbm.xml</value>	
+					<value>com/luxsoft/siipap/inventarios/domain/CostoUltimo.hbm.xml</value>
+					<value>com/luxsoft/siipap/inventarios/domain/acumulados/Acumulado.hbm.xml</value>					
+					<value>com/luxsoft/siipap/inventarios/domain/acumulados/Saldo.hbm.xml</value>				
+					<value>com/luxsoft/siipap/inventarios/domain/acumulados/SaldoPorTipo.hbm.xml</value>				
+				-->
+				<!-- Entidades relacionadas con CXP 	
+					
+					<value>com/luxsoft/siipap/cxp/domain/AnalisisDeEntrada.hbm.xml</value>				
+					<value>com/luxsoft/siipap/cxp/domain/Analisis.hbm.xml</value>
+					<value>com/luxsoft/siipap/cxp/domain/AnalisisDet.hbm.xml</value>				
+					<value>com/luxsoft/siipap/cxp/domain/Facxp.hbm.xml</value>			
+					<value>com/luxsoft/siipap/cxp/domain/Facxpde.hbm.xml</value>
+					<value>com/luxsoft/siipap/cxp/domain/CXP.hbm.xml</value>				
+					<value>com/luxsoft/siipap/cxp/domain/Crecibos.hbm.xml</value>			
+					<value>com/luxsoft/siipap/cxp/domain/Crecibosde.hbm.xml</value>												
+					<value>com/luxsoft/siipap/cxp/domain/CompraIngresada.hbm.xml</value>
+					<value>com/luxsoft/siipap/cxp/domain/Requisicion.hbm.xml</value>
+					<value>com/luxsoft/siipap/cxp/domain/RequisicionDetalle.hbm.xml</value>				
+				-->
+
+				<!-- Entidades relacionadas con Maquila 
+					
+					<value>com/luxsoft/siipap/maquila/domain/Bobina.hbm.xml</value>											
+					<value>com/luxsoft/siipap/maquila/domain/Maquilador.hbm.xml</value>
+					<value>com/luxsoft/siipap/maquila/domain/Almacen.hbm.xml</value>
+					<value>com/luxsoft/siipap/maquila/domain/RecepcionDeMaterial.hbm.xml</value>				
+					<value>com/luxsoft/siipap/maquila/domain/MovimientoDeMaterial.hbm.xml</value>				
+					<value>com/luxsoft/siipap/maquila/domain/OrdenDeCorte.hbm.xml</value>				
+					<value>com/luxsoft/siipap/maquila/domain/MaterialHojeado.hbm.xml</value>
+					<value>com/luxsoft/siipap/maquila/domain/AnalisisDeEntradas.hbm.xml</value>															
+				-->
+
+				<!-- Entidades relacionadas con Ventas -->
+				<value>
+					com/luxsoft/siipap/ventas/domain/Venta.hbm.xml
+				</value>
+				<value>
+					com/luxsoft/siipap/ventas/domain/VentaDet.hbm.xml
+				</value>
+				<value>
+					com/luxsoft/siipap/ventas/domain/Devolucion.hbm.xml
+				</value>
+				<value>
+					com/luxsoft/siipap/ventas/domain/DevolucionDet.hbm.xml
+				</value>
+
+				<!-- Entidades relacionadas con CXC -->
+				<value>
+					com/luxsoft/siipap/cxc/domain/Cliente.hbm.xml
+				</value>
+				<value>
+					com/luxsoft/siipap/cxc/domain/NotaDeCredito.hbm.xml
+				</value>
+				<value>
+					com/luxsoft/siipap/cxc/domain/NotaDeCreditoDet.hbm.xml
+				</value>
+				<value>
+					com/luxsoft/siipap/cxc/domain/Juridico.hbm.xml
+				</value>
+			
+				<value>
+					com/luxsoft/siipap/cxc/domain/Pago.hbm.xml
+				</value>
+
+				<value>
+					com/luxsoft/siipap/cxc/domain/DescuentoPorVolumen.hbm.xml
+				</value>
+				<value>
+					com/luxsoft/siipap/cxc/domain/DescuentoPorCliente.hbm.xml
+				</value>
+
+
+				<!-- Entidades relacionadas con Compras -->
+				<value>
+					com/luxsoft/siipap/compras/domain/Compra.hbm.xml
+				</value>
+				<value>
+					com/luxsoft/siipap/compras/domain/Comuni.hbm.xml
+				</value>
+				<!-- 
+					<value>com/luxsoft/siipap/em/replica/legacy/Carter.hbm.xml</value>					
+					<value>com/luxsoft/siipap/em/replica/legacy/Pagcre.hbm.xml</value>									
+					<value>com/luxsoft/siipap/em/replica/legacy/Ddocre.hbm.xml</value>				
+				-->
+				<value>
+					com/luxsoft/siipap/em/replica/domain/ReplicaLog.hbm.xml
+				</value>
+
+
+			</list>
+		</property>
+
+
+		<property name="hibernateProperties">
+			<props>
+				<prop key="hibernate.dialect">
+					${hibernate.dialect}
+				</prop>
+				<prop key="hibernate.show_sql">false</prop>
+				<prop key="hibernate.format_sql">true</prop>
+				<prop key="hibernate.jdbc.fetch_size">3</prop>
+				<prop key="hibernate.jdbc.batch_size">20</prop>
+				<prop key="hibernate.max_fetch_depth">2</prop>
+				<prop key="hibernate.cache.use_second_level_cache">
+					false
+				</prop>
+
+			</props>
+		</property>
+	</bean>
+
+	<!-- Transaction manager for a single Hibernate SessionFactory (alternative to JTA) -->
+	<bean id="transactionManager"
+		class="org.springframework.orm.hibernate3.HibernateTransactionManager">
+		<property name="sessionFactory">
+			<ref local="sessionFactory" />
+		</property>
+	</bean>
+
+	<!-- Siipap DataSources Factory-->
+
+	<bean id="siipapDataSourceFactory"
+		class="com.luxsoft.siipap.em.dao.SiipapDataSourceFactory"
+		destroy-method="close" />
+
+
+	<bean id="siipapJdbcTemplateFactory"
+		class="com.luxsoft.siipap.em.dao.SiipapJdbcTemplateFactory">
+		<property name="factory" ref="siipapDataSourceFactory" />
+	</bean>
+
+
+
+	<!-- DAOS  -->
+
+	<bean id="familiaDao" class="com.luxsoft.siipap.dao.FamiliaDaoImpl"
+		autowire="byType" />
+
+	<bean id="articuloDao"
+		class="com.luxsoft.siipap.dao.ArticuloDaoImpl" autowire="byType" />
+		
+	<bean id="lineaDao" class="com.luxsoft.siipap.dao.LineaDaoImpl"
+		autowire="byType" />
+		
+	<bean id="marcaDao" class="com.luxsoft.siipap.dao.MarcaDaoImpl"
+		autowire="byType" />	
+		
+	<bean id="claseDao" class="com.luxsoft.siipap.dao.ClaseDaoImpl"
+		autowire="byType" />
+
+
+	<bean id="clienteDao"
+		class="com.luxsoft.siipap.cxc.dao.ClienteDaoImpl" autowire="byType" />
+
+	<bean id="replicaLogDao"
+		class="com.luxsoft.siipap.em.replica.dao.ReplicaLogDaoImpl"
+		autowire="byType" />
+
+	<bean id="ventasDao"
+		class="com.luxsoft.siipap.ventas.dao.VentasDaoImpl" autowire="byType" />
+
+	<bean id="notasDeCreditoDao"
+		class="com.luxsoft.siipap.cxc.dao.NotaDeCreditoDaoImpl"
+		autowire="byType" />
+
+	
+
+	<bean id="juridicoDao"
+		class="com.luxsoft.siipap.cxc.dao.JuridicoDaoImpl" autowire="byType" />
+
+	<bean id="pagoDao" class="com.luxsoft.siipap.cxc.dao.PagoDaoImpl"
+		autowire="byType" />
+
+	<bean id="devolucionDao"
+		class="com.luxsoft.siipap.ventas.dao.DevolucionDaoImpl"
+		autowire="byType" />
+
+	<bean id="descuentosPorVolumenDao"
+		class="com.luxsoft.siipap.cxc.dao.DescuentoPorVolumenDaoImpl"
+		autowire="byType" />
+
+	<bean id="descuentosPorClienteDao"
+		class="com.luxsoft.siipap.cxc.dao.DescuentoPorClienteDaoImpl"
+		autowire="byType" />
+	
+
+
+	<!--  Replicadores  -->
+
+	<bean id="familiaReplicator"
+		class="com.luxsoft.siipap.em.replica.catalogos.FamiliasReplicator">
+		<property name="factory" ref="siipapJdbcTemplateFactory" />
+	</bean>
+
+	<bean id="clientesReplicator"
+		class="com.luxsoft.siipap.em.replica.ventas.ClientesReplicator"
+		parent="baseReplicator">
+		<property name="beanClass"
+			value="com.luxsoft.siipap.cxc.domain.Cliente" />
+		<property name="dao" ref="clienteDao" />
+		<property name="propertyColumnMap">
+			<map>
+				<entry key="clave" value="CLICLAVE" />
+				<entry key="nombre" value="CLINOMBRE" />
+				<entry key="rfc" value="CLIRFC" />
+				<entry key="fecha_alta" value="CLIFECSIAL" />
+				<entry key="fecha_suspension" value="CLISUSPEN" />
+				<entry key="calle" value="CLICALLE" />
+				<entry key="cpostal" value="CLIPOSTAL" />
+				<entry key="colonia" value="CLICOLON" />
+				<entry key="entidad" value="CLIDELEG" />
+				<entry key="telefono1" value="CLITEL1" />
+				<entry key="fax" value="CLIFAX" />
+				<entry key="correoelectronico1" value="CLIEMAIL" />
+				<entry key="gerentegeneral" value="CLIGERGRAL" />
+				<entry key="gerentedecompras" value="CLIGERCOMP" />
+				<entry key="cedula" value="CLICEDULA" />
+				<entry key="operador" value="CLIOPERADO" />
+				<entry key="cuentacontable" value="CLICUENTA" />
+				<entry key="clasificacion" value="CLICLASIFI" />
+				<entry key="fecha_clasif" value="CLIFECLASI" />
+				<entry key="observaciones" value="CLIOBSCLAS" />
+				<entry key="dia_revision" value="CLIREVISIO" />
+				<entry key="dia_pago" value="CLIPAGO" />
+				<entry key="cobrador" value="CLICOBRADO" />
+				<entry key="plazo" value="CLIPLAZO" />
+				<entry key="tipo_vencimiento" value="CLITIPVTO" />
+				<entry key="pagare" value="CLIPAGARE" />
+				<entry key="status" value="CLIESTADO" />
+				<entry key="forma_pago" value="CLIFORPAGO" />
+				<entry key="abogado" value="CLIABOGADO" />
+				<entry key="cotizacion" value="CLICOTIZA" />
+				<entry key="pedido" value="CLIPEDIDO" />
+				<entry key="factura" value="CLIFACTUR" />
+				<entry key="limite_cred" value="CLILIMITE" />
+				<entry key="tipo_venta" value="CLITIPO" />
+				<entry key="vendedor" value="CLIAGENTE" />
+				<entry key="fecha_Atencion" value="CLIFATENCL" />
+				<entry key="atencion_Cliente" value="CLIAATENCL" />
+				<entry key="fecha_Modif_Mos" value="CLIFATENMO" />
+				<entry key="atencion_Mos" value="CLIAATENMO" />
+				<entry key="tel_Anterior" value="CLITELANT" />
+				<entry key="fax_Anterior" value="CLIFAXANT" />
+			</map>
+		</property>
+	</bean>
+
+	<bean id="baseReplicator" abstract="true"
+		class="com.luxsoft.siipap.em.replica.AbstractReplicatorSupport">
+		<property name="factory" ref="siipapJdbcTemplateFactory" />
+		<property name="targetJdbcTemplate" ref="jdbcTemplate" />
+		<property name="replicaLogDao" ref="replicaLogDao" />
+	</bean>
+
+	<bean id="ventasReplicator"
+		class="com.luxsoft.siipap.em.replica.ventas.VentasReplicator"
+		parent="baseReplicator">
+		<property name="beanClass"
+			value="com.luxsoft.siipap.ventas.domain.Venta" />
+		<property name="dao" ref="ventasDao" />
+		<property name="articuloDao" ref="articuloDao" />
+		<property name="clienteDao" ref="clienteDao" />
+		<property name="detReplicator" ref="ventasDetReplicator" />
+	</bean>
+
+	<bean id="ventasDetReplicator"
+		class="com.luxsoft.siipap.em.replica.ventas.VentasDetReplicator"
+		parent="baseReplicator">
+		<property name="beanClass"
+			value="com.luxsoft.siipap.ventas.domain.VentaDet" />
+		<property name="dao" ref="ventasDao" />
+		<property name="propertyColumnMap">
+			<map>
+				<entry key="cantidad" value="ALMCANTI" />
+				<entry key="clave" value="ALMARTIC" />
+				<entry key="descripcion" value="ALMNOMBR" />
+				<entry key="factorDeConversionUnitaria"
+					value="ALMUNIXUNI" />
+				<entry key="fecha" value="ALMFECHA" />
+				<entry key="numero" value="ALMNUMER" />
+				<entry key="serie" value="ALMSERIE" />
+				<entry key="tipo" value="ALMTIPO" />
+				<entry key="sucursal" value="ALMSUCUR" />
+				<entry key="renglon" value="ALMRENGL" />
+				<entry key="tipoFactura" value="ALMTIPFA" />
+				<entry key="unidad" value="ALMUNIDMED" />
+				<entry key="kilos" value="ALMKILOS" />
+				<entry key="precioFacturado" value="ALMPREFA" />
+				<entry key="precioLista" value="ALMPRECI" />
+				<entry key="fechaReal" value="ALMFEREAL" />
+
+			</map>
+		</property>
+	</bean>
+
+	<bean id="devolucionesReplicator"
+		class="com.luxsoft.siipap.em.replica.devo.DevolucionReplicator"
+		parent="baseReplicator">
+		<property name="beanClass"
+			value="com.luxsoft.siipap.ventas.domain.Devolucion" />
+		<property name="dao" ref="devolucionDao" />
+		<property name="detReplicator" ref="devolucionesDetReplicator" />
+		<property name="ventasDao" ref="ventasDao" />
+		<property name="articuloDao" ref="articuloDao" />
+		<property name="propertyColumnMap">
+			<map>
+				<entry key="cliente" value="MVACLIENTE" />
+				<entry key="numero" value="MVANUMER" />
+				<entry key="sucursal" value="MVASUCUR" />
+				<entry key="numeroVenta" value="MVANUMERE" />
+				<entry key="tipoVenta" value="MVATIPDRE" />
+				<entry key="serieVenta" value="MVASERDRE" />
+				<entry key="comentario" value="MVACOMEN" />
+				<entry key="fecha" value="MVAFECHA" />
+				<entry key="fechaReal" value="MVAFEREAL" />
+			</map>
+		</property>
+	</bean>
+
+	<bean id="devolucionesDetReplicator"
+		class="com.luxsoft.siipap.em.replica.devo.DevolucionDetReplicator"
+		parent="baseReplicator">
+		<property name="beanClass"
+			value="com.luxsoft.siipap.ventas.domain.DevolucionDet" />
+		<property name="dao" ref="devolucionDao" />
+		<property name="propertyColumnMap">
+			<map>
+				<entry key="clave" value="ALMARTIC" />
+				<entry key="numero" value="ALMNUMER" />
+				<entry key="sucursal" value="ALMSUCUR" />
+				<entry key="factorDeConversionUnitaria"
+					value="ALMUNIXUNI" />
+				<entry key="cantidad" value="ALMCANTI" />
+				<entry key="fecha" value="ALMFECHA" />
+				<entry key="fechaReal" value="ALMFEREAL" />
+				<entry key="renglon" value="ALMRENGL" />
+				<entry key="cxcnumero" value="ALMNUMCXC" />
+				<entry key="tipocxc" value="ALMTIPCXC" />
+			</map>
+		</property>
+	</bean>
+
+	<bean id="notasDeCreditoReplicator"
+		class="com.luxsoft.siipap.em.replica.notas.NotasDeCreditoReplicator"
+		parent="baseReplicator">
+		<property name="dao" ref="notasDeCreditoDao" />
+		<property name="beanClass"
+			value="com.luxsoft.siipap.cxc.domain.NotaDeCredito" />
+		<property name="detReplicator"
+			ref="notasDeCreditoDetReplicator" />
+		<property name="ventasDao" ref="ventasDao" />
+		<property name="clienteDao" ref="clienteDao" />
+		<property name="devolucionDao" ref="devolucionDao" />
+		<property name="propertyColumnMap">
+			<map>
+				<entry key="clave" value="CLAVCLI" />
+				<entry key="numero" value="NUMDOCT" />
+				<entry key="serie" value="SERIEFA" />
+				<entry key="tipo" value="TIPOFAC" />
+				<entry key="fecha" value="FECHA" />
+				<entry key="numeroFiscal" value="NOFISCA" />
+				<entry key="descuento" value="PORDESF" />
+				<entry key="importeBruto" value="IMPARTI" />
+				<entry key="importe" value="SUBTOT" />
+				<entry key="impreso" value="IMPRESO" />
+				<entry key="numeroDevo" value="NUMDEV" />
+				<entry key="sucursalDevo" value="SUCDEV" />
+				<entry key="grupo" value="NCRPROV" />
+			</map>
+		</property>
+	</bean>
+
+	<bean id="notasDeCreditoDetReplicator"
+		class="com.luxsoft.siipap.em.replica.notas.NotasDeCreditoDetReplicator"
+		parent="baseReplicator">
+		<property name="dao" ref="notasDeCreditoDao" />
+		<property name="beanClass"
+			value="com.luxsoft.siipap.cxc.domain.NotasDeCreditoDet" />
+		<property name="propertyColumnMap">
+			<map>
+				<entry key="numero" value="NUMERO" />
+				<entry key="serie" value="SERIE" />
+				<entry key="tipo" value="TIPO" />
+				<entry key="renglon" value="RENGL" />
+				<entry key="comentario" value="TEXTO" />
+				<entry key="sucDocumento" value="SUCDOCR" />
+				<entry key="numDocumento" value="NUMDOCR" />
+				<entry key="tipoDocumento" value="TIPDOCR" />
+				<entry key="serieDocumento" value="SERDOCR" />
+				<entry key="descuento" value="PORDOCR" />
+				<entry key="importe" value="DESDOCR" />
+				<entry key="fechaDocumento" value="FECDOCR" />
+				<entry key="grupo" value="GRUPO" />
+			</map>
+		</property>
+	</bean>
+
+	<bean id="chequesDevueltosReplicator"
+		class="com.luxsoft.siipap.em.replica.notas.ChequesDevueltosReplicator"
+		parent="baseReplicator">
+		<property name="beanClass"
+			value="com.luxsoft.siipap.cxc.domain.Cheque" />
+		<property name="dao" ref="notasDeCreditoDao" />
+		<property name="chequeDao" ref="chequeDao" />
+	</bean>
+
+	<bean id="juridicoReplicator"
+		class="com.luxsoft.siipap.em.replica.notas.JuridicoReplicator"
+		parent="baseReplicator">
+		<property name="beanClass"
+			value="com.luxsoft.siipap.cxc.domain.Juridico" />
+		<property name="dao" ref="notasDeCreditoDao" />
+		<property name="juridicoDao" ref="juridicoDao" />
+		<property name="ventasDao" ref="ventasDao" />
+	</bean>
+
+	<bean id="pagosReplicator"
+		class="com.luxsoft.siipap.em.replica.pagos.PagosReplicator"
+		parent="baseReplicator">
+		<property name="beanClass"
+			value="com.luxsoft.siipap.cxc.domain.Juridico" />
+		<property name="dao" ref="pagoDao" />
+		<property name="notaDeCreditoDao" ref="notasDeCreditoDao" />
+		<property name="ventasDao" ref="ventasDao" />
+		<property name="clienteDao" ref="clienteDao" />
+	</bean>
+
+	<bean id="carterReplicator"
+		class="com.luxsoft.siipap.em.replica.legacy.BasicReplicator">
+		<property name="factory" ref="siipapJdbcTemplateFactory" />
+		<property name="sessionFactory" ref="sessionFactory" />
+		<property name="tabla" value="CARTER" />
+		<property name="clazz"
+			value="com.luxsoft.siipap.em.replica.legacy.Carter" />
+	</bean>
+
+	<bean id="pagcreReplicator"
+		class="com.luxsoft.siipap.em.replica.legacy.BasicReplicator">
+		<property name="factory" ref="siipapJdbcTemplateFactory" />
+		<property name="sessionFactory" ref="sessionFactory" />
+		<property name="tabla" value="PAGCRE" />
+		<property name="clazz"
+			value="com.luxsoft.siipap.em.replica.legacy.Pagcre" />
+	</bean>
+
+	<bean id="ddocreReplicator"
+		class="com.luxsoft.siipap.em.replica.legacy.DdocreReplicator">
+		<property name="factory" ref="siipapJdbcTemplateFactory" />
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
+
+	<bean id="descuentosPorVolReplicator"
+		class="com.luxsoft.siipap.em.replica.catalogos.DescuentoPorVolumenReplicator"
+		parent="baseReplicator">
+		<property name="beanClass"
+			value="com.luxsoft.siipap.cxc.domain.DescuentoPorVolumen" />
+		<property name="dao" ref="descuentosPorVolumenDao" />
+		<property name="propertyColumnMap">
+			<map>
+				<entry key="maximo" value="TDCRIMPORT" />
+				<entry key="descuento" value="TDCRPORCEN" />
+			</map>
+		</property>
+	</bean>
+
+	<bean id="descuentosPorCliente"
+		class="com.luxsoft.siipap.em.replica.catalogos.DescuentoPorClienteReplicator"
+		parent="baseReplicator">
+		<property name="beanClass"
+			value="com.luxsoft.siipap.cxc.domain.DescuentoPorArticulo" />
+		<property name="dao" ref="descuentosPorClienteDao" />
+		<property name="clienteDao" ref="clienteDao" />
+		<property name="articuloDao" ref="articuloDao" />
+		<property name="familiaDao" ref="familiaDao" />
+		<property name="propertyColumnMap">
+			<map>
+				<entry key="clave" value="TADCLAVCLI" />
+				<entry key="descSiipap" value="TADDESCRIP" />
+				<entry key="descuento" value="TADVALOR" />
+				<entry key="tipoFac" value="TADTIDOCTO" />
+				<entry key="comentario" value="TADNIVEDES" />
+				<entry key="precioKilo" value="TADPREXKIL" />
+				<entry key="claveFamilia" value="TADFAMILIA" />
+				<entry key="gramMax" value="TADGRAMMAX" />
+				<entry key="gramMin" value="TADGRAMMIN" />
+				<entry key="alta" value="TADFECALTA" />
+				<entry key="baja" value="TADFECBACA" />
+			</map>
+		</property>
+	</bean>
+
+	<bean id="articulosReplicator"
+		class="com.luxsoft.siipap.em.replica.catalogos.ArticulosReplicator"
+		parent="baseReplicator">
+		<property name="dao" ref="articuloDao" />
+		<property name="familiaDao" ref="familiaDao" />
+		<property name="unidadDao">
+			<bean class="com.luxsoft.siipap.dao.UnidadDaoImpl"
+				autowire="byType" />
+		</property>
+		
+	</bean>
+	
+	
+
+	<!-- JMX Resources/Servicies -->
+	<bean id="replicationManager"
+		class="com.luxsoft.siipap.em.replica.service.ReplicationManager" />
+
+
+</beans>

@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+       http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.0.xsd
+       http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.0.xsd">
+  
+
+
+	<description>
+	
+	</description>
+
+	<bean id="siipapDataSourceFactory"
+		class="com.luxsoft.siipap.em.dao.SiipapDataSourceFactory"
+		destroy-method="close" />
+
+
+	<bean id="siipapJdbcTemplateFactory"
+		class="com.luxsoft.siipap.em.dao.SiipapJdbcTemplateFactory">
+		<property name="factory" ref="siipapDataSourceFactory" />
+	</bean>
+	
+	<bean id="ventasSupport" class="com.luxsoft.siipap.em.importar.VentasSupport">
+		<property name="factory" ref="siipapJdbcTemplateFactory"/>
+	</bean>
+	
+	<!-- IMPORTADORES  -->	
+	
+	
+	<bean id="importadorManager" class="com.luxsoft.siipap.em.managers.ImportadorManager">
+		<property name="importadorDeClientes" ref="importadorDeClientes"/>
+		<property name="ventasSupport" ref="ventasSupport"/>
+		<property name="clienteDao" ref="clienteDao"/>
+	</bean>
+	
+	<bean id="importadorDeClientes"
+		class="com.luxsoft.siipap.em.importar.ImportadorDeClientes">
+		<property name="factory" ref="siipapJdbcTemplateFactory"></property>
+		<property name="rowMapper" ref="clientesRowMapper"/>
+	</bean>
+	
+	<bean id="importadorDeArticulos" class="com.luxsoft.siipap.em.importar.ImportadorDeArticulos">
+		<property name="factory" ref="siipapJdbcTemplateFactory"></property>
+		<property name="familiaDao" ref="familiaDao"></property>
+		<property name="unidadDao" ref="unidadDao"></property>
+	</bean>
+	
+	<bean id="clientesRowMapper" class="com.luxsoft.siipap.em.replica.DefaultMapper">
+		<property name="beanClass" value="com.luxsoft.siipap.cxc.domain.Cliente"/>
+		<property name="propertyColumnMap">
+			<map>
+				<entry key="clave" value="CLICLAVE" />
+				<entry key="nombre" value="CLINOMBRE" />
+				<entry key="rfc" value="CLIRFC" />
+				<entry key="fecha_alta" value="CLIFECSIAL" />
+				<entry key="fecha_suspension" value="CLISUSPEN" />
+				<entry key="calle" value="CLICALLE" />
+				<entry key="cpostal" value="CLIPOSTAL" />
+				<entry key="colonia" value="CLICOLON" />
+				<entry key="entidad" value="CLIDELEG" />
+				<entry key="telefono1" value="CLITEL1" />
+				<entry key="fax" value="CLIFAX" />
+				<entry key="correoelectronico1" value="CLIEMAIL" />
+				<entry key="gerentegeneral" value="CLIGERGRAL" />
+				<entry key="gerentedecompras" value="CLIGERCOMP" />
+				<entry key="cedula" value="CLICEDULA" />
+				<entry key="operador" value="CLIOPERADO" />
+				<entry key="cuentacontable" value="CLICUENTA" />
+				<entry key="clasificacion" value="CLICLASIFI" />
+				<entry key="fecha_clasif" value="CLIFECLASI" />
+				<entry key="observaciones" value="CLIOBSCLAS" />
+				<entry key="dia_revision" value="CLIREVISIO" />
+				<entry key="dia_pago" value="CLIPAGO" />
+				<entry key="cobrador" value="CLICOBRADO" />
+				<entry key="plazo" value="CLIPLAZO" />
+				<entry key="tipo_vencimiento" value="CLITIPVTO" />
+				<entry key="pagare" value="CLIPAGARE" />
+				<entry key="status" value="CLIESTADO" />
+				<entry key="forma_pago" value="CLIFORPAGO" />
+				<entry key="abogado" value="CLIABOGADO" />
+				<entry key="cotizacion" value="CLICOTIZA" />
+				<entry key="pedido" value="CLIPEDIDO" />
+				<entry key="factura" value="CLIFACTUR" />
+				<entry key="limite_cred" value="CLILIMITE" />
+				<entry key="tipo_venta" value="CLITIPO" />
+				<entry key="vendedor" value="CLIAGENTE" />
+				<entry key="fecha_Atencion" value="CLIFATENCL" />
+				<entry key="atencion_Cliente" value="CLIAATENCL" />
+				<entry key="fecha_Modif_Mos" value="CLIFATENMO" />
+				<entry key="atencion_Mos" value="CLIAATENMO" />
+				<entry key="tel_Anterior" value="CLITELANT" />
+				<entry key="fax_Anterior" value="CLIFAXANT" />
+			</map>
+		</property>
+	</bean>
+	
+	
+	
+	<bean id="importadorDeVentas"
+		class="com.luxsoft.siipap.em.importar.ImportadorDeVentas">
+		<property name="factory" ref="siipapJdbcTemplateFactory"/>
+		<property name="clienteDao" ref="clienteDao"/>
+		<property name="articuloDao" ref="articuloDao"/>
+		<property name="importadorDeClientes" ref="importadorDeClientes"/>
+		<property name="partidasMapper" ref="ventasDetMapper"/>
+		<property name="importadorDeArticulos" ref="importadorDeArticulos"></property>
+	</bean>
+	
+	<bean id="ventasDetMapper"
+		class="com.luxsoft.siipap.em.replica.DefaultMapper">
+		<property name="beanClass" value="com.luxsoft.siipap.ventas.domain.VentaDet"/>
+		<property name="propertyColumnMap">
+			<map>
+				<entry key="cantidad" value="ALMCANTI" />
+				<entry key="clave" value="ALMARTIC" />
+				<entry key="descripcion" value="ALMNOMBR" />
+				<entry key="factorDeConversionUnitaria"	value="ALMUNIXUNI" />
+				<entry key="fecha" value="ALMFECHA" />
+				<entry key="numero" value="ALMNUMER" />
+				<entry key="serie" value="ALMSERIE" />
+				<entry key="tipo" value="ALMTIPO" />
+				<entry key="sucursal" value="ALMSUCUR" />
+				<entry key="renglon" value="ALMRENGL" />
+				<entry key="tipoFactura" value="ALMTIPFA" />
+				<entry key="unidad" value="ALMUNIDMED" />
+				<entry key="kilos" value="ALMKILOS" />
+				<entry key="precioFacturado" value="ALMPREFA" />
+				<entry key="precioLista" value="ALMPRECI" />
+				<entry key="fechaReal" value="ALMFEREAL" />
+
+			</map>
+		</property>
+	</bean>
+	
+	<bean id="ventasSync"
+		class="com.luxsoft.siipap.em.importar.VentasSync">
+		<property name="importadorDeVentas" ref="importadorDeVentas"/>
+		<property name="support" ref="ventasSupport"/>
+		<property name="ventasDao" ref="ventasDao"/>
+		<property name="ventasManager" ref="ventasManager"/>
+	</bean>
+	
+	<bean id="importadorDeDepositos"
+		class="com.luxsoft.siipap.em.importar.ImportadorDeDepositos">
+		<property name="factory" ref="siipapJdbcTemplateFactory"></property>
+		<property name="depositosDao" ref="depositosDao"></property>
+	</bean>
+
+</beans>

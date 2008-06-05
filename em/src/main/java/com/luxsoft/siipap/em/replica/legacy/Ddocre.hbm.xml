@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping
+>
+    <class
+              
+        name="com.luxsoft.siipap.em.replica.legacy.Ddocre"
+        table="LX_DDOCRE"
+        lazy="true">
+
+        <id name="id"
+            column="ID">
+             <generator class="native">
+            <param name="sequence">ddocre_ids</param>
+        </generator>			
+        </id>
+        
+<!-- 
+
+
+	private		int	DCRSUCURSA;	15
+	private		String	DCRSERIE;	1
+	private		String	DCRTIPO;	1
+	private		double	DCRNUMERO;	15
+	private		double	DCRRENGL;	15
+	private		double	DCRSUCDOCR;	15
+	private		double	DCRIDEDOCR;	15
+	private		String	DCRSERDOCR;	1
+	private		String	DCRTIPDOCR;	1
+	private		double	DCRNUMDOCR;	15
+	private		double	DCRNUDOCFI;	15
+	private		Date	DCRFECDOCR;	10
+	private		double	DCRIMPORTR;	15
+	private		double	DCRSALDOCR;	15
+	private		double DCRPORDOCR;	15
+	private		double	DCRDESDOCR;	15
+	private		double	DCRSANDOCR;	15
+	private		String	DCRTEXTO;	65
+	private		double	DCRGRUPO;   22
+ -->
+		<property name="DCRDOCTCXC" 				length="15"/>
+		<property name="DCRSUCURSA" 				length="15"/>
+		<property name="DCRSERIE" 					length="1"/>
+		<property name="DCRTIPO" 					length="1"/>
+		<property name="DCRNUMERO" 					length="15"/>
+		<property name="DCRRENGL" 					length="15"/>
+		<property name="DCRSUCDOCR" 				length="15"/>
+		<property name="DCRIDEDOCR" 				length="15"/>
+		<property name="DCRSERDOCR" 				length="1"/>
+		<property name="DCRTIPDOCR" 				length="1"/>
+		<property name="DCRNUMDOCR" 				length="15"/>
+		<property name="DCRNUDOCFI" 				length="15"/>
+		<property name="DCRFECDOCR" 				type="date"/>
+		<property name="DCRIMPORTR" 				length="15"/>
+		<property name="DCRSALDOCR" 				length="15"/>
+		<property name="DCRPORDOCR" 				length="15"/>
+		<property name="DCRDESDOCR" 				length="15"/>
+		<property name="DCRSANDOCR" 				length="15"/>
+		<property name="DCRTEXTO" 					length="65"/>
+		<property name="DCRGRUPO" 					length="22"/>
+		
+		<property name="MES" />
+		<property name="YEAR"/>
+		
+		<property name="MCRCLAVCLI" 				length="22"/>
+		<property name="MCRFECHA" 					type="date"/>
+		
+		
+
+
+    </class>
+
+</hibernate-mapping>

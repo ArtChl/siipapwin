@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+       http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.0.xsd
+       http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.0.xsd">
+  
+
+
+	<description>
+		Tareas programadas 
+	</description>
+	
+	<bean class="org.springframework.scheduling.timer.TimerFactoryBean">
+		<property name="scheduledTimerTasks">
+			<list>
+				<ref bean="scheduledVentasSyncTask"/>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="scheduledVentasSyncTask"
+		class="org.springframework.scheduling.timer.ScheduledTimerTask">
+		<property name="timerTask" ref="ventasSyncTask"></property>
+		<property name="period" value="600000"></property>
+		<property name="delay" value="7000"></property>
+		<property name="fixedRate" value="false"></property>
+	</bean>
+	
+	<bean id="ventasSyncTask"
+		class="org.springframework.scheduling.timer.MethodInvokingTimerTaskFactoryBean">
+		<property name="targetObject" ref="ventasSync"/>
+		<property name="targetMethod" value="sincronizar"/>
+	</bean>
+
+
+</beans>
