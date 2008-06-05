@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+
+
+
+<project name="Siipapwin CXC" basedir=".">
+	
+	<target name="jarReportes">
+		<jar jarfile="${basedir}/taget/jasper/cxcReportes.jar">
+			<fileset dir="${basedir}/resources/reportes">
+				<include name="**/*.jasper"/>
+			</fileset>
+		</jar>
+	</target>
+
+	
+</project>

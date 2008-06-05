@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="
+		http://www.springframework.org/schema/beans	
+		http://www.springframework.org/schema/beans/spring-beans-2.0.xsd 
+		http://www.springframework.org/schema/aop 
+		http://www.springframework.org/schema/aop/spring-aop-2.0.xsd">
+ 
+	
+	
+	<bean id="pagosAutomaticosAspect"
+		class="com.luxsoft.siipap.cxc.pagos.aop.PagosAutomaticosAspect">
+		<property name="manager" ref="pagosManager"/>
+	</bean>
+
+	<aop:config>
+		<!-- 
+		<aop:aspect	ref="pagosPersistentAspect" order="1">		
+			<aop:around
+				pointcut="execution(* com.luxsoft.siipap.cxc.pagos.ProcesoDePago.procesar())"
+				method="procesar"				
+				/>		
+		</aop:aspect>
+		 -->
+		 <!-- 
+		<aop:aspect	ref="pagosAutomaticosAspect" order="2">		
+			<aop:around				
+				pointcut="execution(* com.luxsoft.siipap.cxc.pagos.ProcesoDePago.procesar())"
+				method="procesar"				
+				/>		
+		</aop:aspect>
+		 -->
+	</aop:config>
+
+	<bean id="pagosFactory"
+		class="com.luxsoft.siipap.cxc.model.PagosFactoryImpl">
+	</bean>
+	
+	<bean id="pagosDeCreditoModel"
+		class="com.luxsoft.siipap.cxc.model.PagosDeCreditoModel">
+		<property name="manager" ref="cxcManager"/>
+		<property name="pagosManager" ref="pagosManager"/>
+		<property name="ventasManager" ref="ventasManager"/>
+	</bean>
+	
+	<bean id="controladorDePagos"
+		class="com.luxsoft.siipap.cxc.pagos.ControladorDePagosImpl">		
+		<property name="ventasManager" ref="ventasManager"/>
+		<property name="pagosManager"  ref="pagosManager"/>
+		<property name="pagosFactory" ref="pagosFactory"/>
+		<property name="notasManager" ref="notasManager"/>
+	</bean>
+	
+	<bean id="controladorDeNotas"
+		class="com.luxsoft.siipap.cxc.nc.ControladorDeNotasImpl">
+		<property name="manager" ref="notasManager"/>
+		<property name="cxcManager" ref="cxcManager"/>
+		<property name="ventasManager" ref="ventasManager"/>
+		<property name="pagosManager"  ref="pagosManager"/>		
+		<property name="pagosFactory" ref="pagosFactory"/>
+	</bean>
+	
+	<bean id="analisisDeCarteraView"
+		class="com.luxsoft.siipap.cxc.consultas.AnalisisCarteraCre">
+	</bean>
+	
+	<bean id="cuentasPorCobrarView"
+		class="com.luxsoft.siipap.cxc.consultas.CuentasPorCobrar">
+	</bean>
+	
+	<bean id="chequesView"
+		class="com.luxsoft.siipap.cxc.chequed.ChequesDevueltosView">
+	</bean>
+
+</beans>

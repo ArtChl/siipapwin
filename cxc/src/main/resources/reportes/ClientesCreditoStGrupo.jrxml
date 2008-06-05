@@ -1,0 +1,1158 @@
+<?xml version="1.0" encoding="UTF-8"  ?>
+<!-- Created with iReport - A designer for JasperReports -->
+<!DOCTYPE jasperReport PUBLIC "//JasperReports//DTD Report Design//EN" "http://jasperreports.sourceforge.net/dtds/jasperreport.dtd">
+<jasperReport
+		 name="ClientesCreditoStGrupo"
+		 columnCount="1"
+		 printOrder="Vertical"
+		 orientation="Landscape"
+		 pageWidth="792"
+		 pageHeight="612"
+		 columnWidth="784"
+		 columnSpacing="0"
+		 leftMargin="4"
+		 rightMargin="4"
+		 topMargin="20"
+		 bottomMargin="20"
+		 whenNoDataType="NoPages"
+		 isTitleNewPage="false"
+		 isSummaryNewPage="false">
+	<property name="ireport.scriptlethandling" value="0" />
+	<property name="ireport.encoding" value="UTF-8" />
+	<import value="java.util.*" />
+	<import value="net.sf.jasperreports.engine.*" />
+	<import value="net.sf.jasperreports.engine.data.*" />
+
+	<parameter name="FECHA" isForPrompting="true" class="java.util.Date"/>
+	<parameter name="COMPANY" isForPrompting="false" class="java.lang.String">
+		<defaultValueExpression ><![CDATA["Papel S.A. de C.V."]]></defaultValueExpression>
+	</parameter>
+	<queryString><![CDATA[select 
+B.CLAVE,B.NOMBRE
+,B.VENDEDOR,A.PLAZO,A.LIMITE
+,NVL(MAX(ROUND((SELECT (TO_DATE($P{FECHA},'DD/MM/YYYY')-X.VENCIMIENTO)-7 FROM SW_VENTASCREDITO X WHERE X.VENTA_ID=B.VENTA_ID AND X.VENCIMIENTO<(TO_DATE($P{FECHA},'DD/MM/YYYY'))
+     AND ((B.TOTAL)-
+     NVL((SELECT SUM(X.IMPORTE) FROM SW_PAGOS X  WHERE X.VENTA_ID=B.VENTA_ID AND X.YEAR>=2007 AND X.FECHA<=(TO_DATE($P{FECHA},'DD/MM/YYYY')-7) AND X.FORMADEPAGO<>'U'),0) +
+     NVL((SELECT SUM(X.IMPORTE) FROM SW_NOTASDET X  WHERE X.VENTA_ID=B.VENTA_ID AND  X.YEAR>=2007 AND X.SERIE<>'M' AND X.FECHA<=(TO_DATE($P{FECHA},'DD/MM/YYYY')-7) AND X.ORIGEN='CRE' 
+     AND NOTA_ID IN(SELECT Y.NOTA_ID FROM SW_NOTAS Y WHERE Y.APLICABLE=0 AND X.NOTA_ID=Y.NOTA_ID)),0))>0),0)),0) AS ATR_SEM_P
+,SUM(NVL((SELECT SUM(X.IMPORTE) FROM SW_PAGOS X  WHERE X.VENTA_ID=B.VENTA_ID AND X.YEAR>=2007 AND X.FECHA BETWEEN TO_DATE($P{FECHA},'DD/MM/YYYY')-13 AND TO_DATE($P{FECHA},'DD/MM/YYYY')-7 AND X.FORMADEPAGO<>'U'),0)) AS PAG_SEM_P
+,NVL(MAX(ROUND((SELECT (TO_DATE($P{FECHA},'DD/MM/YYYY')-X.VENCIMIENTO) FROM SW_VENTASCREDITO X WHERE X.VENTA_ID=B.VENTA_ID AND X.VENCIMIENTO<$P{FECHA}   
+   AND ((B.TOTAL)-
+   NVL((SELECT SUM(X.IMPORTE) FROM SW_PAGOS X  WHERE X.VENTA_ID=B.VENTA_ID AND X.YEAR>=2007 AND X.FECHA<=$P{FECHA} AND X.FORMADEPAGO<>'U'),0) +
+   NVL((SELECT SUM(X.IMPORTE) FROM SW_NOTASDET X  WHERE X.VENTA_ID=B.VENTA_ID AND  X.YEAR>=2007 AND X.SERIE<>'M' AND X.FECHA<=$P{FECHA} AND X.ORIGEN='CRE' 
+   AND NOTA_ID IN(SELECT Y.NOTA_ID FROM SW_NOTAS Y WHERE Y.APLICABLE=0 AND X.NOTA_ID=Y.NOTA_ID)),0))>0),0)),0) AS ATRASO_MAX
+,SUM(NVL((SELECT SUM(X.IMPORTE) FROM SW_PAGOS X  WHERE X.VENTA_ID=B.VENTA_ID AND X.YEAR>=2007 AND X.FECHA BETWEEN TO_DATE('17/12/2007','DD/MM/YYYY')-6 AND TO_DATE('17/12/2007','DD/MM/YYYY') AND X.FORMADEPAGO<>'U'),0)) AS PAG_SEM_A
+,MAX((SELECT MAX(X.FECHA) FROM SW_VENTAS X  WHERE X.VENTA_ID=B.VENTA_ID AND X.YEAR>=2007 AND X.FECHA<=$P{FECHA})) AS ULT_VENTA
+,MAX((SELECT MAX(X.FECHA) FROM SW_PAGOS X  WHERE X.VENTA_ID=B.VENTA_ID AND X.YEAR>=2007 AND X.FECHA<=$P{FECHA})) AS ULT_PAGO
+,SUM(B.TOTAL)-
+   NVL(SUM((SELECT SUM(X.IMPORTE) FROM SW_PAGOS X  WHERE X.VENTA_ID=B.VENTA_ID AND X.YEAR>=2007 AND X.FECHA<=$P{FECHA} AND X.FORMADEPAGO<>'U')),0) +
+   NVL(SUM((SELECT SUM(X.IMPORTE) FROM SW_NOTASDET X  WHERE X.VENTA_ID=B.VENTA_ID AND  X.YEAR>=2007 AND X.SERIE<>'M' AND X.FECHA<=$P{FECHA} AND X.ORIGEN='CRE' 
+    AND NOTA_ID IN(SELECT Y.NOTA_ID FROM SW_NOTAS Y WHERE Y.APLICABLE=0 AND X.NOTA_ID=Y.NOTA_ID))),0)AS SALD_XXX
+,SUM(CASE WHEN
+   NVL((ROUND((SELECT (TO_DATE($P{FECHA},'DD/MM/YYYY')-X.VENCIMIENTO) FROM SW_VENTASCREDITO X WHERE X.VENTA_ID=B.VENTA_ID AND X.VENCIMIENTO<$P{FECHA}   
+     AND ((B.TOTAL)-
+     NVL((SELECT SUM(X.IMPORTE) FROM SW_PAGOS X  WHERE X.VENTA_ID=B.VENTA_ID AND X.YEAR>=2007 AND X.FECHA<=$P{FECHA} AND X.FORMADEPAGO<>'U'),0) +
+     NVL((SELECT SUM(X.IMPORTE) FROM SW_NOTASDET X  WHERE X.VENTA_ID=B.VENTA_ID AND  X.YEAR>=2007 AND X.SERIE<>'M' AND X.FECHA<=$P{FECHA} AND X.ORIGEN='CRE' 
+     AND NOTA_ID IN(SELECT Y.NOTA_ID FROM SW_NOTAS Y WHERE Y.APLICABLE=0 AND X.NOTA_ID=Y.NOTA_ID)),0))>0),0)),0)>7 THEN
+  (B.TOTAL)-
+     NVL(((SELECT SUM(X.IMPORTE) FROM SW_PAGOS X  WHERE X.VENTA_ID=B.VENTA_ID AND X.YEAR>=2007 AND X.FECHA<=$P{FECHA} AND X.FORMADEPAGO<>'U')),0) +
+     NVL(((SELECT SUM(X.IMPORTE) FROM SW_NOTASDET X  WHERE X.VENTA_ID=B.VENTA_ID AND  X.YEAR>=2007 AND X.SERIE<>'M' AND X.FECHA<=$P{FECHA} AND X.ORIGEN='CRE' 
+     AND NOTA_ID IN(SELECT Y.NOTA_ID FROM SW_NOTAS Y WHERE Y.APLICABLE=0 AND X.NOTA_ID=Y.NOTA_ID))),0) 
+ELSE 0 END) AS SALDO_VENC
+,COUNT((SELECT X.NUMERO FROM V_VENTAS X WHERE X.VENTA_ID=B.VENTA_ID AND X.VENCIMIENTO<=$P{FECHA}
+AND 
+NVL((ROUND((SELECT (TO_DATE($P{FECHA},'DD/MM/YYYY')-X.VENCIMIENTO) FROM SW_VENTASCREDITO X WHERE X.VENTA_ID=B.VENTA_ID AND X.VENCIMIENTO<$P{FECHA}
+     AND ((B.TOTAL)-
+     NVL((SELECT SUM(X.IMPORTE) FROM SW_PAGOS X  WHERE X.VENTA_ID=B.VENTA_ID AND X.YEAR>=2007 AND X.FECHA<=$P{FECHA} AND X.FORMADEPAGO<>'U'),0) +
+     NVL((SELECT SUM(X.IMPORTE) FROM SW_NOTASDET X  WHERE X.VENTA_ID=B.VENTA_ID AND  X.YEAR>=2007 AND X.SERIE<>'M' AND X.FECHA<=$P{FECHA} AND X.ORIGEN='CRE' 
+     AND NOTA_ID IN(SELECT Y.NOTA_ID FROM SW_NOTAS Y WHERE Y.APLICABLE=0 AND X.NOTA_ID=Y.NOTA_ID)),0))>0),0)),0)>7 
+)) AS FACTS_VENC,A.COMENTARIOCXC
+,CASE WHEN 
+         ( NVL(MAX(ROUND((SELECT (TO_DATE($P{FECHA},'DD/MM/YYYY')-X.VENCIMIENTO)-7 FROM SW_VENTASCREDITO X WHERE X.VENTA_ID=B.VENTA_ID AND X.VENCIMIENTO<(TO_DATE($P{FECHA},'DD/MM/YYYY'))
+            AND ((B.TOTAL)-
+            NVL((SELECT SUM(X.IMPORTE) FROM SW_PAGOS X  WHERE X.VENTA_ID=B.VENTA_ID AND X.YEAR>=2007 AND X.FECHA<=(TO_DATE($P{FECHA},'DD/MM/YYYY')-7) AND X.FORMADEPAGO<>'U'),0) +
+            NVL((SELECT SUM(X.IMPORTE) FROM SW_NOTASDET X  WHERE X.VENTA_ID=B.VENTA_ID AND  X.YEAR>=2007 AND X.SERIE<>'M' AND X.FECHA<=(TO_DATE($P{FECHA},'DD/MM/YYYY')-7) AND X.ORIGEN='CRE' 
+            AND NOTA_ID IN(SELECT Y.NOTA_ID FROM SW_NOTAS Y WHERE Y.APLICABLE=0 AND X.NOTA_ID=Y.NOTA_ID)),0))>0),0)),0) --AS ATR_SEM_P
+        + SUM(NVL((SELECT SUM(X.IMPORTE) FROM SW_PAGOS X  WHERE X.VENTA_ID=B.VENTA_ID AND X.YEAR>=2007 AND X.FECHA BETWEEN TO_DATE($P{FECHA},'DD/MM/YYYY')-13 AND TO_DATE($P{FECHA},'DD/MM/YYYY')-7 AND X.FORMADEPAGO<>'U'),0)) --AS PAG_SEM_P
+        + NVL(MAX(ROUND((SELECT (TO_DATE($P{FECHA},'DD/MM/YYYY')-X.VENCIMIENTO) FROM SW_VENTASCREDITO X WHERE X.VENTA_ID=B.VENTA_ID AND X.VENCIMIENTO<$P{FECHA}   
+            AND ((B.TOTAL)-
+            NVL((SELECT SUM(X.IMPORTE) FROM SW_PAGOS X  WHERE X.VENTA_ID=B.VENTA_ID AND X.YEAR>=2007 AND X.FECHA<=$P{FECHA} AND X.FORMADEPAGO<>'U'),0) +
+            NVL((SELECT SUM(X.IMPORTE) FROM SW_NOTASDET X  WHERE X.VENTA_ID=B.VENTA_ID AND  X.YEAR>=2007 AND X.SERIE<>'M' AND X.FECHA<=$P{FECHA} AND X.ORIGEN='CRE' 
+            AND NOTA_ID IN(SELECT Y.NOTA_ID FROM SW_NOTAS Y WHERE Y.APLICABLE=0 AND X.NOTA_ID=Y.NOTA_ID)),0))>0),0)),0) --AS ATRASO_MAX
+        + SUM(NVL((SELECT SUM(X.IMPORTE) FROM SW_PAGOS X  WHERE X.VENTA_ID=B.VENTA_ID AND X.YEAR>=2007 AND X.FECHA BETWEEN TO_DATE($P{FECHA},'DD/MM/YYYY')-6 AND TO_DATE($P{FECHA},'DD/MM/YYYY') AND X.FORMADEPAGO<>'U'),0)) --AS PAG_SEM_A
+        + SUM(B.TOTAL)-
+            NVL(SUM((SELECT SUM(X.IMPORTE) FROM SW_PAGOS X  WHERE X.VENTA_ID=B.VENTA_ID AND X.YEAR>=2007 AND X.FECHA<=$P{FECHA} AND X.FORMADEPAGO<>'U')),0) +
+            NVL(SUM((SELECT SUM(X.IMPORTE) FROM SW_NOTASDET X  WHERE X.VENTA_ID=B.VENTA_ID AND  X.YEAR>=2007 AND X.SERIE<>'M' AND X.FECHA<=$P{FECHA} AND X.ORIGEN='CRE' 
+            AND NOTA_ID IN(SELECT Y.NOTA_ID FROM SW_NOTAS Y WHERE Y.APLICABLE=0 AND X.NOTA_ID=Y.NOTA_ID))),0)) --AS SALD_XXX
+        = 0 THEN 'NoCompra'  ELSE 
+CASE WHEN --2
+         SUM((NVL((SELECT SUM(X.IMPORTE) FROM SW_PAGOS X  WHERE X.VENTA_ID=B.VENTA_ID AND X.YEAR>=2007 AND X.FECHA BETWEEN TO_DATE($P{FECHA},'DD/MM/YYYY')-6 AND TO_DATE($P{FECHA},'DD/MM/YYYY') AND X.FORMADEPAGO<>'U'),0)) --AS PAG_SEM_A
+       + ((B.TOTAL)-
+            NVL(((SELECT SUM(X.IMPORTE) FROM SW_PAGOS X  WHERE X.VENTA_ID=B.VENTA_ID AND X.YEAR>=2007 AND X.FECHA<=$P{FECHA} AND X.FORMADEPAGO<>'U')),0) +
+            NVL(((SELECT SUM(X.IMPORTE) FROM SW_NOTASDET X  WHERE X.VENTA_ID=B.VENTA_ID AND  X.YEAR>=2007 AND X.SERIE<>'M' AND X.FECHA<=$P{FECHA} AND X.ORIGEN='CRE' 
+            AND NOTA_ID IN(SELECT Y.NOTA_ID FROM SW_NOTAS Y WHERE Y.APLICABLE=0 AND X.NOTA_ID=Y.NOTA_ID))),0))) --AS SALDO_VENC
+       = 0 THEN 'SinMov' ELSE 
+CASE WHEN --3
+         SUM(NVL((SELECT SUM(X.IMPORTE) FROM SW_PAGOS X  WHERE X.VENTA_ID=B.VENTA_ID AND X.YEAR>=2007 AND X.FECHA BETWEEN TO_DATE($P{FECHA},'DD/MM/YYYY')-6 AND TO_DATE($P{FECHA},'DD/MM/YYYY') AND X.FORMADEPAGO<>'U'),0)) --AS PAG_SEM_A
+       <=1 THEN 'NoAbono' ELSE 
+                'CON_PAGOS' END END END AS STATUS
+,CASE WHEN  
+        LIMITE-(SUM(B.TOTAL)-
+        NVL(SUM((SELECT SUM(X.IMPORTE) FROM SW_PAGOS X  WHERE X.VENTA_ID=B.VENTA_ID AND X.YEAR>=2007 AND X.FECHA<=$P{FECHA} AND X.FORMADEPAGO<>'U')),0) +
+        NVL(SUM((SELECT SUM(X.IMPORTE) FROM SW_NOTASDET X  WHERE X.VENTA_ID=B.VENTA_ID AND  X.YEAR>=2007 AND X.SERIE<>'M' AND X.FECHA<=$P{FECHA} AND X.ORIGEN='CRE' 
+        AND NOTA_ID IN(SELECT Y.NOTA_ID FROM SW_NOTAS Y WHERE Y.APLICABLE=0 AND X.NOTA_ID=Y.NOTA_ID))),0))<0 THEN 'Excedido' ELSE  --AS SALD_XXX
+CASE WHEN 
+         SUM((NVL((SELECT SUM(X.IMPORTE) FROM SW_PAGOS X  WHERE X.VENTA_ID=B.VENTA_ID AND X.YEAR>=2007 AND X.FECHA BETWEEN TO_DATE($P{FECHA},'DD/MM/YYYY')-6 AND TO_DATE($P{FECHA},'DD/MM/YYYY') AND X.FORMADEPAGO<>'U'),0))) --AS PAG_SEM_A
+        + (NVL(MAX(ROUND((SELECT (TO_DATE($P{FECHA},'DD/MM/YYYY')-X.VENCIMIENTO) FROM SW_VENTASCREDITO X WHERE X.VENTA_ID=B.VENTA_ID AND X.VENCIMIENTO<$P{FECHA}   
+            AND ((B.TOTAL)-
+            NVL((SELECT SUM(X.IMPORTE) FROM SW_PAGOS X  WHERE X.VENTA_ID=B.VENTA_ID AND X.YEAR>=2007 AND X.FECHA<=$P{FECHA} AND X.FORMADEPAGO<>'U'),0) +
+            NVL((SELECT SUM(X.IMPORTE) FROM SW_NOTASDET X  WHERE X.VENTA_ID=B.VENTA_ID AND  X.YEAR>=2007 AND X.SERIE<>'M' AND X.FECHA<=$P{FECHA} AND X.ORIGEN='CRE' 
+            AND NOTA_ID IN(SELECT Y.NOTA_ID FROM SW_NOTAS Y WHERE Y.APLICABLE=0 AND X.NOTA_ID=Y.NOTA_ID)),0))>0),0)),0))        
+       + SUM((B.TOTAL)-
+            NVL(((SELECT SUM(X.IMPORTE) FROM SW_PAGOS X  WHERE X.VENTA_ID=B.VENTA_ID AND X.YEAR>=2007 AND X.FECHA<=$P{FECHA} AND X.FORMADEPAGO<>'U')),0) +
+            NVL(((SELECT SUM(X.IMPORTE) FROM SW_NOTASDET X  WHERE X.VENTA_ID=B.VENTA_ID AND  X.YEAR>=2007 AND X.SERIE<>'M' AND X.FECHA<=$P{FECHA} AND X.ORIGEN='CRE' 
+            AND NOTA_ID IN(SELECT Y.NOTA_ID FROM SW_NOTAS Y WHERE Y.APLICABLE=0 AND X.NOTA_ID=Y.NOTA_ID))),0)) 
+       = 0 THEN 'Estable' ELSE 
+CASE WHEN 
+(NVL(MAX(ROUND((SELECT (TO_DATE($P{FECHA},'DD/MM/YYYY')-X.VENCIMIENTO) FROM SW_VENTASCREDITO X WHERE X.VENTA_ID=B.VENTA_ID AND X.VENCIMIENTO<$P{FECHA}   
+            AND ((B.TOTAL)-
+            NVL((SELECT SUM(X.IMPORTE) FROM SW_PAGOS X  WHERE X.VENTA_ID=B.VENTA_ID AND X.YEAR>=2007 AND X.FECHA<=$P{FECHA} AND X.FORMADEPAGO<>'U'),0) +
+            NVL((SELECT SUM(X.IMPORTE) FROM SW_NOTASDET X  WHERE X.VENTA_ID=B.VENTA_ID AND  X.YEAR>=2007 AND X.SERIE<>'M' AND X.FECHA<=$P{FECHA} AND X.ORIGEN='CRE' 
+            AND NOTA_ID IN(SELECT Y.NOTA_ID FROM SW_NOTAS Y WHERE Y.APLICABLE=0 AND X.NOTA_ID=Y.NOTA_ID)),0))>0),0)),0)) 
+       <8 THEN 'PorVencer' ELSE 
+CASE WHEN 
+(NVL(MAX(ROUND((SELECT (TO_DATE($P{FECHA},'DD/MM/YYYY')-X.VENCIMIENTO) FROM SW_VENTASCREDITO X WHERE X.VENTA_ID=B.VENTA_ID AND X.VENCIMIENTO<$P{FECHA}   
+            AND ((B.TOTAL)-
+            NVL((SELECT SUM(X.IMPORTE) FROM SW_PAGOS X  WHERE X.VENTA_ID=B.VENTA_ID AND X.YEAR>=2007 AND X.FECHA<=$P{FECHA} AND X.FORMADEPAGO<>'U'),0) +
+            NVL((SELECT SUM(X.IMPORTE) FROM SW_NOTASDET X  WHERE X.VENTA_ID=B.VENTA_ID AND  X.YEAR>=2007 AND X.SERIE<>'M' AND X.FECHA<=$P{FECHA} AND X.ORIGEN='CRE' 
+            AND NOTA_ID IN(SELECT Y.NOTA_ID FROM SW_NOTAS Y WHERE Y.APLICABLE=0 AND X.NOTA_ID=Y.NOTA_ID)),0))>0),0)),0)) 
+       <20 THEN 'Alerta' ELSE 
+CASE WHEN 
+          SUM((B.TOTAL)-
+            NVL(((SELECT SUM(X.IMPORTE) FROM SW_PAGOS X  WHERE X.VENTA_ID=B.VENTA_ID AND X.YEAR>=2007 AND X.FECHA<=$P{FECHA} AND X.FORMADEPAGO<>'U')),0) +
+            NVL(((SELECT SUM(X.IMPORTE) FROM SW_NOTASDET X  WHERE X.VENTA_ID=B.VENTA_ID AND  X.YEAR>=2007 AND X.SERIE<>'M' AND X.FECHA<=$P{FECHA} AND X.ORIGEN='CRE' 
+            AND NOTA_ID IN(SELECT Y.NOTA_ID FROM SW_NOTAS Y WHERE Y.APLICABLE=0 AND X.NOTA_ID=Y.NOTA_ID))),0))*100/A.LIMITE 
+       >40  THEN 'Suspender'  ELSE
+CASE WHEN 
+(NVL(MAX(ROUND((SELECT (TO_DATE($P{FECHA},'DD/MM/YYYY')-X.VENCIMIENTO) FROM SW_VENTASCREDITO X WHERE X.VENTA_ID=B.VENTA_ID AND X.VENCIMIENTO<$P{FECHA}   
+            AND ((B.TOTAL)-
+            NVL((SELECT SUM(X.IMPORTE) FROM SW_PAGOS X  WHERE X.VENTA_ID=B.VENTA_ID AND X.YEAR>=2007 AND X.FECHA<=$P{FECHA} AND X.FORMADEPAGO<>'U'),0) +
+            NVL((SELECT SUM(X.IMPORTE) FROM SW_NOTASDET X  WHERE X.VENTA_ID=B.VENTA_ID AND  X.YEAR>=2007 AND X.SERIE<>'M' AND X.FECHA<=$P{FECHA} AND X.ORIGEN='CRE' 
+            AND NOTA_ID IN(SELECT Y.NOTA_ID FROM SW_NOTAS Y WHERE Y.APLICABLE=0 AND X.NOTA_ID=Y.NOTA_ID)),0))>0),0)),0))
+       <60 THEN 'SuspxAtr' ELSE 'Juridico'
+END END END END END END AS AVISO,
+ROUND(
+        CASE WHEN  SUM(NVL((SELECT SUM(X.IMPORTE) FROM SW_PAGOS X  WHERE X.VENTA_ID=B.VENTA_ID AND X.YEAR>=2007 AND X.FECHA BETWEEN TO_DATE($P{FECHA},'DD/MM/YYYY')-6 AND TO_DATE($P{FECHA},'DD/MM/YYYY') AND X.FORMADEPAGO<>'U'),0))=0  THEN 0 ELSE --100 END --AS PAG_SEM_A
+        SUM(NVL((SELECT SUM(X.IMPORTE) FROM SW_PAGOS X  WHERE X.VENTA_ID=B.VENTA_ID AND X.YEAR>=2007 AND X.FECHA BETWEEN TO_DATE($P{FECHA},'DD/MM/YYYY')-6 AND TO_DATE($P{FECHA},'DD/MM/YYYY') AND X.FORMADEPAGO<>'U'),0))*100/ --AS PAG_SEM_A
+        (SUM(NVL((SELECT SUM(X.IMPORTE) FROM SW_PAGOS X  WHERE X.VENTA_ID=B.VENTA_ID AND X.YEAR>=2007 AND X.FECHA BETWEEN TO_DATE($P{FECHA},'DD/MM/YYYY')-6 AND TO_DATE($P{FECHA},'DD/MM/YYYY') AND X.FORMADEPAGO<>'U'),0)) --END --AS PAG_SEM_A
+       + 
+        SUM(CASE WHEN
+         NVL((ROUND((SELECT (TO_DATE($P{FECHA},'DD/MM/YYYY')-X.VENCIMIENTO) FROM SW_VENTASCREDITO X WHERE X.VENTA_ID=B.VENTA_ID AND X.VENCIMIENTO<$P{FECHA}   
+         AND ((B.TOTAL)-
+         NVL((SELECT SUM(X.IMPORTE) FROM SW_PAGOS X  WHERE X.VENTA_ID=B.VENTA_ID AND X.YEAR>=2007 AND X.FECHA<=$P{FECHA} AND X.FORMADEPAGO<>'U'),0) +
+         NVL((SELECT SUM(X.IMPORTE) FROM SW_NOTASDET X  WHERE X.VENTA_ID=B.VENTA_ID AND  X.YEAR>=2007 AND X.SERIE<>'M' AND X.FECHA<=$P{FECHA} AND X.ORIGEN='CRE' 
+         AND NOTA_ID IN(SELECT Y.NOTA_ID FROM SW_NOTAS Y WHERE Y.APLICABLE=0 AND X.NOTA_ID=Y.NOTA_ID)),0))>0),0)),0)>7 THEN
+        (B.TOTAL)-
+        NVL(((SELECT SUM(X.IMPORTE) FROM SW_PAGOS X  WHERE X.VENTA_ID=B.VENTA_ID AND X.YEAR>=2007 AND X.FECHA<=$P{FECHA} AND X.FORMADEPAGO<>'U')),0) +
+        NVL(((SELECT SUM(X.IMPORTE) FROM SW_NOTASDET X  WHERE X.VENTA_ID=B.VENTA_ID AND  X.YEAR>=2007 AND X.SERIE<>'M' AND X.FECHA<=$P{FECHA} AND X.ORIGEN='CRE' 
+        AND NOTA_ID IN(SELECT Y.NOTA_ID FROM SW_NOTAS Y WHERE Y.APLICABLE=0 AND X.NOTA_ID=Y.NOTA_ID))),0) 
+ELSE 0 END)) END,2)||'%' AS PORC
+from  SW_VENTAS B
+JOIN SW_VENTASCREDITO C ON(C.VENTA_ID=B.VENTA_ID)
+JOIN SW_CLIENTES_CREDITO A ON(A.CLIENTE_ID=B.CLIENTE_ID)
+WHERE B.YEAR>=2006 AND B.FECHA<=$P{FECHA} 
+AND ((B.TOTAL)-
+  NVL ((SELECT SUM(X.IMPORTE) FROM SW_PAGOS X  WHERE X.VENTA_ID=B.VENTA_ID AND X.YEAR>=2007 AND X.FECHA<=TO_DATE($P{FECHA},'DD/MM/YYYY')-14 AND X.FORMADEPAGO<>'U'),0) +
+   NVL((SELECT SUM(X.IMPORTE) FROM SW_NOTASDET X  WHERE X.VENTA_ID=B.VENTA_ID AND  X.YEAR>=2007 AND X.FECHA<=TO_DATE($P{FECHA},'DD/MM/YYYY')-14 AND X.ORIGEN='CRE' 
+    AND NOTA_ID IN(SELECT Y.NOTA_ID FROM SW_NOTAS Y WHERE Y.APLICABLE=0 AND X.NOTA_ID=Y.NOTA_ID)),0))>1
+GROUP BY 
+B.CLAVE,B.NOMBRE
+,B.VENDEDOR,A.PLAZO,A.LIMITE
+,A.COMENTARIOCXC
+ORDER BY STATUS,PORC,SALDO_VENC]]></queryString>
+
+	<field name="CLAVE" class="java.lang.String"/>
+	<field name="NOMBRE" class="java.lang.String"/>
+	<field name="VENDEDOR" class="java.math.BigDecimal"/>
+	<field name="PLAZO" class="java.math.BigDecimal"/>
+	<field name="LIMITE" class="java.math.BigDecimal"/>
+	<field name="ATR_SEM_P" class="java.math.BigDecimal"/>
+	<field name="PAG_SEM_P" class="java.math.BigDecimal"/>
+	<field name="ATRASO_MAX" class="java.math.BigDecimal"/>
+	<field name="PAG_SEM_A" class="java.math.BigDecimal"/>
+	<field name="ULT_VENTA" class="java.sql.Timestamp"/>
+	<field name="ULT_PAGO" class="java.sql.Timestamp"/>
+	<field name="SALD_XXX" class="java.math.BigDecimal"/>
+	<field name="SALDO_VENC" class="java.math.BigDecimal"/>
+	<field name="FACTS_VENC" class="java.math.BigDecimal"/>
+	<field name="COMENTARIOCXC" class="java.lang.String"/>
+	<field name="STATUS" class="java.lang.String"/>
+	<field name="AVISO" class="java.lang.String"/>
+	<field name="PORC" class="java.lang.String"/>
+
+	<variable name="SUM_CLAVE_1" class="java.lang.String" resetType="Report" calculation="Sum">
+		<variableExpression><![CDATA[$F{CLAVE}]]></variableExpression>
+	</variable>
+	<variable name="SALD_TOTAL" class="java.math.BigDecimal" resetType="Report" calculation="Sum">
+		<variableExpression><![CDATA[$F{SALD_XXX}]]></variableExpression>
+	</variable>
+	<variable name="SLD_VENC" class="java.math.BigDecimal" resetType="Report" calculation="Sum">
+		<variableExpression><![CDATA[$F{SALDO_VENC}]]></variableExpression>
+	</variable>
+	<variable name="SLD_VENCER" class="java.math.BigDecimal" resetType="Report" calculation="Nothing">
+		<variableExpression><![CDATA[$F{SALD_XXX}.subtract($F{SALDO_VENC})]]></variableExpression>
+	</variable>
+	<variable name="PAG_SEM_A" class="java.math.BigDecimal" resetType="Group" resetGroup="STATUS" calculation="Sum">
+		<variableExpression><![CDATA[$F{PAG_SEM_A}]]></variableExpression>
+	</variable>
+	<variable name="SALDO" class="java.math.BigDecimal" resetType="Group" resetGroup="STATUS" calculation="Sum">
+		<variableExpression><![CDATA[$F{SALD_XXX}]]></variableExpression>
+	</variable>
+	<variable name="SALDO_VENC" class="java.math.BigDecimal" resetType="Group" resetGroup="STATUS" calculation="Sum">
+		<variableExpression><![CDATA[$F{SALDO_VENC}]]></variableExpression>
+	</variable>
+
+		<group  name="STATUS" isStartNewPage="true" >
+			<groupExpression><![CDATA[$F{STATUS}]]></groupExpression>
+			<groupHeader>
+			<band height="14"  isSplitAllowed="true" >
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="325"
+						y="0"
+						width="138"
+						height="14"
+						key="textField"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Arial" pdfFontName="Helvetica-Bold" size="10" isBold="true"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{STATUS}]]></textFieldExpression>
+				</textField>
+			</band>
+			</groupHeader>
+			<groupFooter>
+			<band height="14"  isSplitAllowed="true" >
+				<textField isStretchWithOverflow="false" pattern="#,##0.00" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="338"
+						y="0"
+						width="78"
+						height="14"
+						forecolor="#000000"
+						backcolor="#CCCCCC"
+						key="textField"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font pdfFontName="Helvetica-Bold" size="8" isBold="true"/>
+					</textElement>
+				<textFieldExpression   class="java.math.BigDecimal"><![CDATA[$V{PAG_SEM_A}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" pattern="#,##0.00" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="414"
+						y="0"
+						width="96"
+						height="14"
+						forecolor="#000000"
+						backcolor="#CCCCCC"
+						key="textField"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font pdfFontName="Helvetica-Bold" size="8" isBold="true"/>
+					</textElement>
+				<textFieldExpression   class="java.math.BigDecimal"><![CDATA[$V{SALDO}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" pattern="#,##0.00" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="510"
+						y="0"
+						width="54"
+						height="14"
+						forecolor="#000000"
+						backcolor="#CCCCCC"
+						key="textField"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font pdfFontName="Helvetica-Bold" size="8" isBold="true"/>
+					</textElement>
+				<textFieldExpression   class="java.math.BigDecimal"><![CDATA[$V{SALDO_VENC}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement
+						mode="Transparent"
+						x="284"
+						y="0"
+						width="54"
+						height="14"
+						forecolor="#000000"
+						backcolor="#CCCCCC"
+						key="staticText-30"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font pdfFontName="Helvetica-Bold" size="8" isBold="true"/>
+					</textElement>
+				<text><![CDATA[TOTAL :]]></text>
+				</staticText>
+			</band>
+			</groupFooter>
+		</group>
+		<background>
+			<band height="424"  isSplitAllowed="true" >
+				<image  evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="22"
+						y="184"
+						width="743"
+						height="230"
+						key="image-1"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<graphicElement stretchType="NoStretch"/>
+					<imageExpression class="java.lang.String"><![CDATA["images/siipapwin/PapelLogo2.jpg"]]></imageExpression>
+				</image>
+			</band>
+		</background>
+		<title>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</title>
+		<pageHeader>
+			<band height="93"  isSplitAllowed="true" >
+				<staticText>
+					<reportElement
+						mode="Opaque"
+						x="617"
+						y="73"
+						width="73"
+						height="17"
+						forecolor="#000000"
+						backcolor="#FFFFFF"
+						key="staticText-19"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle" rotation="None" lineSpacing="Single">
+						<font fontName="Arial" pdfFontName="Helvetica-BoldOblique" size="8" isBold="true" isItalic="true" isUnderline="false" isPdfEmbedded ="false" pdfEncoding ="Cp1252" isStrikeThrough="false" />
+					</textElement>
+				<text><![CDATA[FECHA CORTE : ]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="false" pattern="EEEEE dd MMMMM yyyy" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="690"
+						y="73"
+						width="93"
+						height="17"
+						key="textField-2"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font pdfFontName="Helvetica-BoldOblique" size="8" isBold="true" isItalic="true" isUnderline="true"/>
+					</textElement>
+				<textFieldExpression   class="java.util.Date"><![CDATA[$P{FECHA}]]></textFieldExpression>
+				</textField>
+				<image  evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="0"
+						y="0"
+						width="174"
+						height="63"
+						key="image-2"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<graphicElement stretchType="NoStretch"/>
+					<imageExpression class="java.lang.String"><![CDATA["images/siipapwin/papelLogo.jpg"]]></imageExpression>
+				</image>
+				<staticText>
+					<reportElement
+						mode="Transparent"
+						x="73"
+						y="12"
+						width="711"
+						height="51"
+						forecolor="#000000"
+						backcolor="#FFFFFF"
+						key="staticText-20"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#FFFFFF" bottomBorder="2Point" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Right" verticalAlignment="Top" rotation="None" lineSpacing="Single">
+						<font fontName="Arial" pdfFontName="Helvetica" size="8" isBold="false" isItalic="false" isUnderline="false" isPdfEmbedded ="false" pdfEncoding ="Cp1252" isStrikeThrough="false" />
+					</textElement>
+				<text><![CDATA[OFICINAS GENERALES
+Biólogo Maximino Martínez No. 3902 
+Col. San Salvador Xochimanca C.P. 02870 México D.F. 
+Tel. 53 42 71 66   Fax 24 65 03 88
+e-mail credito@papelsa.com.mx]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="73"
+						y="48"
+						width="206"
+						height="11"
+						key="staticText-21"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font pdfFontName="Helvetica-BoldOblique" size="8" isBold="true" isItalic="true" isUnderline="false" isStrikeThrough="false" />
+					</textElement>
+				<text><![CDATA[C  L  I  E   N   T   E   S       D   E       C   R   E   D   I   T  O]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="174"
+						y="0"
+						width="610"
+						height="12"
+						key="textField-3"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font pdfFontName="Helvetica-Bold" size="8" isBold="true"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$P{COMPANY}]]></textFieldExpression>
+				</textField>
+			</band>
+		</pageHeader>
+		<columnHeader>
+			<band height="14"  isSplitAllowed="true" >
+				<staticText>
+					<reportElement
+						mode="Opaque"
+						x="0"
+						y="0"
+						width="139"
+						height="14"
+						forecolor="#000000"
+						backcolor="#CCCCCC"
+						key="staticText-1"/>
+					<box topBorder="Thin" topBorderColor="#000000" leftBorder="Thin" leftBorderColor="#000000" rightBorder="Thin" rightBorderColor="#000000" bottomBorder="Thin" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font pdfFontName="Helvetica-Bold" isBold="true"/>
+					</textElement>
+				<text><![CDATA[Nombre]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						mode="Opaque"
+						x="139"
+						y="0"
+						width="18"
+						height="14"
+						forecolor="#000000"
+						backcolor="#CCCCCC"
+						key="staticText-2"/>
+					<box topBorder="Thin" topBorderColor="#000000" leftBorder="Thin" leftBorderColor="#000000" rightBorder="Thin" rightBorderColor="#000000" bottomBorder="Thin" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font pdfFontName="Helvetica-Bold" isBold="true"/>
+					</textElement>
+				<text><![CDATA[Vnd]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						mode="Opaque"
+						x="157"
+						y="0"
+						width="18"
+						height="14"
+						forecolor="#000000"
+						backcolor="#CCCCCC"
+						key="staticText-3"/>
+					<box topBorder="Thin" topBorderColor="#000000" leftBorder="Thin" leftBorderColor="#000000" rightBorder="Thin" rightBorderColor="#000000" bottomBorder="Thin" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font pdfFontName="Helvetica-Bold" isBold="true"/>
+					</textElement>
+				<text><![CDATA[Plz]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						mode="Opaque"
+						x="175"
+						y="0"
+						width="45"
+						height="14"
+						forecolor="#000000"
+						backcolor="#CCCCCC"
+						key="staticText-4"/>
+					<box topBorder="Thin" topBorderColor="#000000" leftBorder="Thin" leftBorderColor="#000000" rightBorder="Thin" rightBorderColor="#000000" bottomBorder="Thin" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font pdfFontName="Helvetica-Bold" isBold="true"/>
+					</textElement>
+				<text><![CDATA[Limite]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						mode="Opaque"
+						x="220"
+						y="0"
+						width="42"
+						height="14"
+						forecolor="#000000"
+						backcolor="#CCCCCC"
+						key="staticText-5"/>
+					<box topBorder="Thin" topBorderColor="#000000" leftBorder="Thin" leftBorderColor="#000000" rightBorder="Thin" rightBorderColor="#000000" bottomBorder="Thin" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font pdfFontName="Helvetica-Bold" isBold="true"/>
+					</textElement>
+				<text><![CDATA[Ult. Vta]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						mode="Opaque"
+						x="262"
+						y="0"
+						width="54"
+						height="14"
+						forecolor="#000000"
+						backcolor="#CCCCCC"
+						key="staticText-6"/>
+					<box topBorder="Thin" topBorderColor="#000000" leftBorder="Thin" leftBorderColor="#000000" rightBorder="Thin" rightBorderColor="#000000" bottomBorder="Thin" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font pdfFontName="Helvetica-Bold" isBold="true"/>
+					</textElement>
+				<text><![CDATA[Sem Ant]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						mode="Opaque"
+						x="316"
+						y="0"
+						width="22"
+						height="14"
+						forecolor="#000000"
+						backcolor="#CCCCCC"
+						key="staticText-7"/>
+					<box topBorder="Thin" topBorderColor="#000000" leftBorder="Thin" leftBorderColor="#000000" rightBorder="Thin" rightBorderColor="#000000" bottomBorder="Thin" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font pdfFontName="Helvetica-Bold" isBold="true"/>
+					</textElement>
+				<text><![CDATA[Rcp]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						mode="Opaque"
+						x="338"
+						y="0"
+						width="22"
+						height="14"
+						forecolor="#000000"
+						backcolor="#CCCCCC"
+						key="staticText-8"/>
+					<box topBorder="Thin" topBorderColor="#000000" leftBorder="Thin" leftBorderColor="#000000" rightBorder="Thin" rightBorderColor="#000000" bottomBorder="Thin" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font pdfFontName="Helvetica-Bold" isBold="true"/>
+					</textElement>
+				<text><![CDATA[Atr]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						mode="Opaque"
+						x="360"
+						y="0"
+						width="54"
+						height="14"
+						forecolor="#000000"
+						backcolor="#CCCCCC"
+						key="staticText-9"/>
+					<box topBorder="Thin" topBorderColor="#000000" leftBorder="Thin" leftBorderColor="#000000" rightBorder="Thin" rightBorderColor="#000000" bottomBorder="Thin" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font pdfFontName="Helvetica-Bold" isBold="true"/>
+					</textElement>
+				<text><![CDATA[Sem Act]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						mode="Opaque"
+						x="414"
+						y="0"
+						width="42"
+						height="14"
+						forecolor="#000000"
+						backcolor="#CCCCCC"
+						key="staticText-10"/>
+					<box topBorder="Thin" topBorderColor="#000000" leftBorder="Thin" leftBorderColor="#000000" rightBorder="Thin" rightBorderColor="#000000" bottomBorder="Thin" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font pdfFontName="Helvetica-Bold" isBold="true"/>
+					</textElement>
+				<text><![CDATA[Ult. Pag]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						mode="Opaque"
+						x="456"
+						y="0"
+						width="54"
+						height="14"
+						forecolor="#000000"
+						backcolor="#CCCCCC"
+						key="staticText-11"/>
+					<box topBorder="Thin" topBorderColor="#000000" leftBorder="Thin" leftBorderColor="#000000" rightBorder="Thin" rightBorderColor="#000000" bottomBorder="Thin" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font pdfFontName="Helvetica-Bold" isBold="true"/>
+					</textElement>
+				<text><![CDATA[Saldo]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						mode="Opaque"
+						x="510"
+						y="0"
+						width="54"
+						height="14"
+						forecolor="#000000"
+						backcolor="#CCCCCC"
+						key="staticText-12"/>
+					<box topBorder="Thin" topBorderColor="#000000" leftBorder="Thin" leftBorderColor="#000000" rightBorder="Thin" rightBorderColor="#000000" bottomBorder="Thin" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font pdfFontName="Helvetica-Bold" isBold="true"/>
+					</textElement>
+				<text><![CDATA[Vencido]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						mode="Opaque"
+						x="564"
+						y="0"
+						width="21"
+						height="14"
+						forecolor="#000000"
+						backcolor="#CCCCCC"
+						key="staticText-13"/>
+					<box topBorder="Thin" topBorderColor="#000000" leftBorder="Thin" leftBorderColor="#000000" rightBorder="Thin" rightBorderColor="#000000" bottomBorder="Thin" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font pdfFontName="Helvetica-Bold" isBold="true"/>
+					</textElement>
+				<text><![CDATA[Fcs]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						mode="Opaque"
+						x="585"
+						y="0"
+						width="46"
+						height="14"
+						forecolor="#000000"
+						backcolor="#CCCCCC"
+						key="staticText-15"/>
+					<box topBorder="Thin" topBorderColor="#000000" leftBorder="Thin" leftBorderColor="#000000" rightBorder="Thin" rightBorderColor="#000000" bottomBorder="Thin" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font pdfFontName="Helvetica-Bold" isBold="true"/>
+					</textElement>
+				<text><![CDATA[Aviso]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						mode="Opaque"
+						x="652"
+						y="0"
+						width="131"
+						height="14"
+						forecolor="#000000"
+						backcolor="#CCCCCC"
+						key="staticText-16"/>
+					<box topBorder="Thin" topBorderColor="#000000" leftBorder="Thin" leftBorderColor="#000000" rightBorder="Thin" rightBorderColor="#000000" bottomBorder="Thin" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font pdfFontName="Helvetica-Bold" isBold="true"/>
+					</textElement>
+				<text><![CDATA[Comentario]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						mode="Opaque"
+						x="631"
+						y="0"
+						width="21"
+						height="14"
+						forecolor="#000000"
+						backcolor="#CCCCCC"
+						key="staticText-31"/>
+					<box topBorder="Thin" topBorderColor="#000000" leftBorder="Thin" leftBorderColor="#000000" rightBorder="Thin" rightBorderColor="#000000" bottomBorder="Thin" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font pdfFontName="Helvetica-Bold" isBold="true"/>
+					</textElement>
+				<text><![CDATA[Pgo]]></text>
+				</staticText>
+			</band>
+		</columnHeader>
+		<detail>
+			<band height="13"  isSplitAllowed="true" >
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="Reference"  hyperlinkTarget="Blank" >
+					<reportElement
+						x="0"
+						y="0"
+						width="139"
+						height="13"
+						key="textField"/>
+					<box topBorder="Thin" topBorderColor="#000000" leftBorder="Thin" leftBorderColor="#000000" rightBorder="Thin" rightBorderColor="#000000" bottomBorder="Thin" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font fontName="Arial" size="8"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{NOMBRE}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" pattern="#,##0" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="139"
+						y="0"
+						width="18"
+						height="13"
+						key="textField"/>
+					<box topBorder="Thin" topBorderColor="#000000" leftBorder="Thin" leftBorderColor="#000000" rightBorder="Thin" rightBorderColor="#000000" bottomBorder="Thin" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Arial" size="8"/>
+					</textElement>
+				<textFieldExpression   class="java.math.BigDecimal"><![CDATA[$F{VENDEDOR}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" pattern="#,##0" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="157"
+						y="0"
+						width="18"
+						height="13"
+						key="textField"/>
+					<box topBorder="Thin" topBorderColor="#000000" leftBorder="Thin" leftBorderColor="#000000" rightBorder="Thin" rightBorderColor="#000000" bottomBorder="Thin" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Arial" size="8"/>
+					</textElement>
+				<textFieldExpression   class="java.math.BigDecimal"><![CDATA[$F{PLAZO}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" pattern="#,##0" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="175"
+						y="0"
+						width="45"
+						height="13"
+						key="textField"/>
+					<box topBorder="Thin" topBorderColor="#000000" leftBorder="Thin" leftBorderColor="#000000" rightBorder="Thin" rightBorderColor="#000000" bottomBorder="Thin" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font fontName="Arial" size="8"/>
+					</textElement>
+				<textFieldExpression   class="java.math.BigDecimal"><![CDATA[$F{LIMITE}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" pattern="#,##0.00" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="262"
+						y="0"
+						width="54"
+						height="13"
+						key="textField"/>
+					<box topBorder="Thin" topBorderColor="#000000" leftBorder="Thin" leftBorderColor="#000000" rightBorder="Thin" rightBorderColor="#000000" bottomBorder="Thin" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font fontName="Arial" size="8"/>
+					</textElement>
+				<textFieldExpression   class="java.math.BigDecimal"><![CDATA[$F{PAG_SEM_P}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" pattern="###0" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="316"
+						y="0"
+						width="23"
+						height="13"
+						key="textField"/>
+					<box topBorder="Thin" topBorderColor="#000000" leftBorder="Thin" leftBorderColor="#000000" rightBorder="Thin" rightBorderColor="#000000" bottomBorder="Thin" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Arial" size="8"/>
+					</textElement>
+				<textFieldExpression   class="java.math.BigDecimal"><![CDATA[$F{ATRASO_MAX}.subtract($F{ATR_SEM_P})]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" pattern="###0" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="339"
+						y="0"
+						width="21"
+						height="13"
+						key="textField"/>
+					<box topBorder="Thin" topBorderColor="#000000" leftBorder="Thin" leftBorderColor="#000000" rightBorder="Thin" rightBorderColor="#000000" bottomBorder="Thin" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Arial" size="8"/>
+					</textElement>
+				<textFieldExpression   class="java.math.BigDecimal"><![CDATA[$F{ATRASO_MAX}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" pattern="dd-MMM-yy" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="220"
+						y="0"
+						width="42"
+						height="13"
+						key="textField"/>
+					<box topBorder="Thin" topBorderColor="#000000" leftBorder="Thin" leftBorderColor="#000000" rightBorder="Thin" rightBorderColor="#000000" bottomBorder="Thin" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Arial" size="8"/>
+					</textElement>
+				<textFieldExpression   class="java.sql.Timestamp"><![CDATA[$F{ULT_VENTA}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" pattern="dd-MMM-yy" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="414"
+						y="0"
+						width="42"
+						height="13"
+						key="textField"/>
+					<box topBorder="Thin" topBorderColor="#000000" leftBorder="Thin" leftBorderColor="#000000" rightBorder="Thin" rightBorderColor="#000000" bottomBorder="Thin" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Arial" size="8"/>
+					</textElement>
+				<textFieldExpression   class="java.sql.Timestamp"><![CDATA[$F{ULT_PAGO}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" pattern="#,##0.00" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="360"
+						y="0"
+						width="54"
+						height="13"
+						key="textField"/>
+					<box topBorder="Thin" topBorderColor="#000000" leftBorder="Thin" leftBorderColor="#000000" rightBorder="Thin" rightBorderColor="#000000" bottomBorder="Thin" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font fontName="Arial" size="8"/>
+					</textElement>
+				<textFieldExpression   class="java.math.BigDecimal"><![CDATA[$F{PAG_SEM_A}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" pattern="#,##0.00" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="456"
+						y="0"
+						width="54"
+						height="13"
+						key="textField"/>
+					<box topBorder="Thin" topBorderColor="#000000" leftBorder="Thin" leftBorderColor="#000000" rightBorder="Thin" rightBorderColor="#000000" bottomBorder="Thin" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font fontName="Arial" size="8"/>
+					</textElement>
+				<textFieldExpression   class="java.math.BigDecimal"><![CDATA[$F{SALD_XXX}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" pattern="#,##0.00" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="510"
+						y="0"
+						width="54"
+						height="13"
+						key="textField"/>
+					<box topBorder="Thin" topBorderColor="#000000" leftBorder="Thin" leftBorderColor="#000000" rightBorder="Thin" rightBorderColor="#000000" bottomBorder="Thin" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font fontName="Arial" size="8"/>
+					</textElement>
+				<textFieldExpression   class="java.math.BigDecimal"><![CDATA[$F{SALDO_VENC}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" pattern="###0" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="564"
+						y="0"
+						width="21"
+						height="13"
+						key="textField"/>
+					<box topBorder="Thin" topBorderColor="#000000" leftBorder="Thin" leftBorderColor="#000000" rightBorder="Thin" rightBorderColor="#000000" bottomBorder="Thin" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Arial" size="8"/>
+					</textElement>
+				<textFieldExpression   class="java.math.BigDecimal"><![CDATA[$F{FACTS_VENC}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="585"
+						y="0"
+						width="46"
+						height="13"
+						key="textField"/>
+					<box topBorder="Thin" topBorderColor="#000000" leftBorder="Thin" leftBorderColor="#000000" rightBorder="Thin" rightBorderColor="#000000" bottomBorder="Thin" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font fontName="Arial" size="8"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{AVISO}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="652"
+						y="0"
+						width="131"
+						height="13"
+						key="textField"/>
+					<box topBorder="Thin" topBorderColor="#000000" leftBorder="Thin" leftBorderColor="#000000" rightBorder="Thin" rightBorderColor="#000000" bottomBorder="Thin" bottomBorderColor="#000000"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Arial" size="8"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{COMENTARIOCXC}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" pattern="###0" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="631"
+						y="0"
+						width="21"
+						height="13"
+						key="textField"/>
+					<box topBorder="1Point" topBorderColor="#000000" leftBorder="1Point" leftBorderColor="#000000" rightBorder="1Point" rightBorderColor="#000000" bottomBorder="1Point" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Arial" size="8"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{PORC}]]></textFieldExpression>
+				</textField>
+			</band>
+		</detail>
+		<columnFooter>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</columnFooter>
+		<pageFooter>
+			<band height="34"  isSplitAllowed="true" >
+				<staticText>
+					<reportElement
+						mode="Opaque"
+						x="622"
+						y="10"
+						width="75"
+						height="12"
+						forecolor="#000000"
+						backcolor="#FFFFFF"
+						key="staticText-22"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#FFFFFF" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle" rotation="None" lineSpacing="Single">
+						<font fontName="Arial" pdfFontName="Helvetica" size="8" isBold="false" isItalic="false" isUnderline="false" isPdfEmbedded ="false" pdfEncoding ="Cp1252" isStrikeThrough="false" />
+					</textElement>
+				<text><![CDATA[Fecha de impresión:]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="false" pattern="" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						mode="Transparent"
+						x="698"
+						y="10"
+						width="84"
+						height="12"
+						forecolor="#000000"
+						backcolor="#FFFFFF"
+						key="textField-4"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#FFFFFF" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle" rotation="None" lineSpacing="Single">
+						<font fontName="Times-Roman" pdfFontName="Times-Roman" size="8" isBold="false" isItalic="false" isUnderline="false" isPdfEmbedded ="false" pdfEncoding ="CP1252" isStrikeThrough="false" />
+					</textElement>
+				<textFieldExpression   class="java.util.Date"><![CDATA[new Date()]]></textFieldExpression>
+				</textField>
+				<line direction="TopDown">
+					<reportElement
+						mode="Opaque"
+						x="0"
+						y="4"
+						width="784"
+						height="0"
+						forecolor="#000000"
+						backcolor="#FFFFFF"
+						key="line-1"/>
+					<graphicElement stretchType="NoStretch" pen="Thin" fill="Solid" />
+				</line>
+				<textField isStretchWithOverflow="false" pattern="" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						mode="Opaque"
+						x="348"
+						y="10"
+						width="48"
+						height="10"
+						forecolor="#000000"
+						backcolor="#FFFFFF"
+						key="textField-5"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#FFFFFF" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Left" verticalAlignment="Top" rotation="None" lineSpacing="Single">
+						<font fontName="Arial" pdfFontName="Helvetica" size="8" isBold="false" isItalic="false" isUnderline="false" isPdfEmbedded ="false" pdfEncoding ="Cp1252" isStrikeThrough="false" />
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA["Página " + $V{PAGE_NUMBER} + " de "]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" pattern="" isBlankWhenNull="false" evaluationTime="Report" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						mode="Transparent"
+						x="396"
+						y="10"
+						width="31"
+						height="11"
+						forecolor="#000000"
+						backcolor="#FFFFFF"
+						key="textField-6"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#FFFFFF" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Left" verticalAlignment="Top" rotation="None" lineSpacing="Single">
+						<font fontName="Arial" pdfFontName="Helvetica" size="8" isBold="false" isItalic="false" isUnderline="false" isPdfEmbedded ="false" pdfEncoding ="CP1252" isStrikeThrough="false" />
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA["" + $V{PAGE_NUMBER}]]></textFieldExpression>
+				</textField>
+				<image  evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="0"
+						y="10"
+						width="79"
+						height="24"
+						key="image-3"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<graphicElement stretchType="NoStretch"/>
+					<imageExpression class="java.lang.String"><![CDATA["images/siipapwin/papelLogo.jpg"]]></imageExpression>
+				</image>
+			</band>
+		</pageFooter>
+		<lastPageFooter>
+			<band height="36"  isSplitAllowed="true" >
+				<staticText>
+					<reportElement
+						mode="Opaque"
+						x="622"
+						y="11"
+						width="75"
+						height="12"
+						forecolor="#000000"
+						backcolor="#FFFFFF"
+						key="staticText-23"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#FFFFFF" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle" rotation="None" lineSpacing="Single">
+						<font fontName="Arial" pdfFontName="Helvetica" size="8" isBold="false" isItalic="false" isUnderline="false" isPdfEmbedded ="false" pdfEncoding ="Cp1252" isStrikeThrough="false" />
+					</textElement>
+				<text><![CDATA[Fecha de impresión:]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="false" pattern="" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						mode="Transparent"
+						x="698"
+						y="11"
+						width="84"
+						height="12"
+						forecolor="#000000"
+						backcolor="#FFFFFF"
+						key="textField-7"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#FFFFFF" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle" rotation="None" lineSpacing="Single">
+						<font fontName="Times-Roman" pdfFontName="Times-Roman" size="8" isBold="false" isItalic="false" isUnderline="false" isPdfEmbedded ="false" pdfEncoding ="CP1252" isStrikeThrough="false" />
+					</textElement>
+				<textFieldExpression   class="java.util.Date"><![CDATA[new Date()]]></textFieldExpression>
+				</textField>
+				<line direction="TopDown">
+					<reportElement
+						mode="Opaque"
+						x="0"
+						y="5"
+						width="784"
+						height="0"
+						forecolor="#000000"
+						backcolor="#FFFFFF"
+						key="line-2"/>
+					<graphicElement stretchType="NoStretch" pen="Thin" fill="Solid" />
+				</line>
+				<textField isStretchWithOverflow="false" pattern="" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						mode="Opaque"
+						x="348"
+						y="11"
+						width="48"
+						height="10"
+						forecolor="#000000"
+						backcolor="#FFFFFF"
+						key="textField-8"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#FFFFFF" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Left" verticalAlignment="Top" rotation="None" lineSpacing="Single">
+						<font fontName="Arial" pdfFontName="Helvetica" size="8" isBold="false" isItalic="false" isUnderline="false" isPdfEmbedded ="false" pdfEncoding ="Cp1252" isStrikeThrough="false" />
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA["Página " + $V{PAGE_NUMBER} + " de "]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" pattern="" isBlankWhenNull="false" evaluationTime="Report" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						mode="Transparent"
+						x="396"
+						y="11"
+						width="31"
+						height="11"
+						forecolor="#000000"
+						backcolor="#FFFFFF"
+						key="textField-9"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#FFFFFF" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Left" verticalAlignment="Top" rotation="None" lineSpacing="Single">
+						<font fontName="Arial" pdfFontName="Helvetica" size="8" isBold="false" isItalic="false" isUnderline="false" isPdfEmbedded ="false" pdfEncoding ="CP1252" isStrikeThrough="false" />
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA["" + $V{PAGE_NUMBER}]]></textFieldExpression>
+				</textField>
+				<image  evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="0"
+						y="11"
+						width="79"
+						height="24"
+						key="image-4"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<graphicElement stretchType="NoStretch"/>
+					<imageExpression class="java.lang.String"><![CDATA["images/siipapwin/papelLogo.jpg"]]></imageExpression>
+				</image>
+			</band>
+		</lastPageFooter>
+		<summary>
+			<band height="176"  isSplitAllowed="true" >
+				<textField isStretchWithOverflow="false" pattern="¤ #,##0.00" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="706"
+						y="6"
+						width="77"
+						height="14"
+						key="textField"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font pdfFontName="Helvetica-Bold" size="8" isBold="true"/>
+					</textElement>
+				<textFieldExpression   class="java.math.BigDecimal"><![CDATA[$V{SALD_TOTAL}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" pattern="¤ #,##0.00" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="706"
+						y="25"
+						width="77"
+						height="14"
+						key="textField"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font pdfFontName="Helvetica-Bold" size="8" isBold="true"/>
+					</textElement>
+				<textFieldExpression   class="java.math.BigDecimal"><![CDATA[$V{SLD_VENC}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" pattern="¤ #,##0.00" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="706"
+						y="44"
+						width="77"
+						height="14"
+						key="textField"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font pdfFontName="Helvetica-Bold" size="8" isBold="true"/>
+					</textElement>
+				<textFieldExpression   class="java.math.BigDecimal"><![CDATA[$V{SLD_VENCER}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement
+						mode="Opaque"
+						x="605"
+						y="6"
+						width="100"
+						height="14"
+						forecolor="#000000"
+						backcolor="#CCCCCC"
+						key="staticText-27"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="Thin" rightBorderColor="#000000" bottomBorder="Thin" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font pdfFontName="Helvetica-BoldOblique" size="8" isBold="true" isItalic="true"/>
+					</textElement>
+				<text><![CDATA[SALDO TOTAL :]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						mode="Opaque"
+						x="605"
+						y="25"
+						width="100"
+						height="14"
+						forecolor="#000000"
+						backcolor="#CCCCCC"
+						key="staticText-28"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="Thin" rightBorderColor="#000000" bottomBorder="Thin" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font pdfFontName="Helvetica-BoldOblique" size="8" isBold="true" isItalic="true"/>
+					</textElement>
+				<text><![CDATA[SALDO VENCIDO :]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						mode="Opaque"
+						x="605"
+						y="44"
+						width="100"
+						height="14"
+						forecolor="#000000"
+						backcolor="#CCCCCC"
+						key="staticText-29"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="Thin" rightBorderColor="#000000" bottomBorder="Thin" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font pdfFontName="Helvetica-BoldOblique" size="8" isBold="true" isItalic="true"/>
+					</textElement>
+				<text><![CDATA[SALDO POR VENCER]]></text>
+				</staticText>
+			</band>
+		</summary>
+</jasperReport>

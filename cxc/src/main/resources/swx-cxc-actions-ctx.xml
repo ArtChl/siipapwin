@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+       
+     <description>Contexto para hospedar objetos de tipo javax.swing.Action</description>
+     
+     <bean id="viewActionCreator"
+     	class="com.luxsoft.siipap.swing.views.ViewActionCreator">
+     </bean>
+     
+     <bean id="exitApplication"
+     	class="com.luxsoft.siipap.swing.actions.ExitAction">
+     	<property name="application" ref="application"/>     	
+     </bean>
+     
+     <bean id="showWelcomeView"
+     	class="com.luxsoft.siipap.swing.actions.ShowViewAction">
+     	<property name="viewId" value="welcomeView"/>
+     </bean>
+     
+     <bean id="showDescuentosView"
+     	class="com.luxsoft.siipap.swing.actions.ShowViewAction">
+     	<property name="viewId" value="descuentosView"/>
+     </bean>
+     
+     <bean id="showCreditoNotasView"
+     	class="com.luxsoft.siipap.swing.actions.ShowViewAction">
+     	<property name="viewId" value="notasDeCreditoView"/>
+     </bean>
+     
+     <bean id="showProvisionesView"
+     	class="com.luxsoft.siipap.swing.actions.ShowViewAction">
+     	<property name="viewId" value="provisionesView"/>
+     </bean>
+     
+     <bean id="showAplicarPagoCreditoView"
+     	class="com.luxsoft.siipap.swing.actions.ShowViewAction">
+     	<property name="viewId" value="cobranzaCreditoView"/>
+     </bean>
+     
+     <bean id="showRevisionCobrosView"
+     	class="com.luxsoft.siipap.swing.actions.ShowViewAction">
+     	<property name="viewId" value="revisionCobrosView"/>
+     </bean>
+     
+     <bean id="actualizarVentas"
+     	class="com.luxsoft.siipap.cxc.swing.task.ActualizarVentas"/>
+     	
+     <bean id="showConsultasView"
+     	class="com.luxsoft.siipap.swing.actions.ShowViewAction">
+     	<property name="viewId" value="consultasView"/>
+     </bean>
+     
+     <bean id="showAltA"
+     	class="com.luxsoft.siipap.alt.clientes.ShowAltA">
+     	<property name="window" ref="altAWindow"/>
+     </bean>
+     
+     <bean id="mostrarCXCView"
+     	class="com.luxsoft.siipap.swing.actions.ShowViewAction">
+	   	<property name="viewId" value="cuentasPorCobrarView"/>
+   	</bean>
+     
+     <bean id="mostrarDepositos"
+     	class="com.luxsoft.siipap.swing.actions.ShowViewAction">
+	   	<property name="viewId" value="depositosView"/>
+   	</bean>
+     
+     <!-- -Procesos -->
+     <bean id="actualizarProvision"
+     	class="com.luxsoft.siipap.cxc.procesos.ActualizarVentas">
+     </bean>
+     
+     <bean id="showAnalisisDeCarteraView"
+     	class="com.luxsoft.siipap.swing.actions.ShowViewAction">
+     	<property name="viewId" value="analisisDeCarteraView"/>
+    </bean>
+    
+    <bean id="estadoDeCuentaReport"
+    	class="com.luxsoft.siipap.cxc.reports.EstadoDeCuentaReport">
+    </bean>
+    
+    <bean id="chequeDevueltoContaForm"
+    	class="com.luxsoft.siipap.cxc.reports.ChequeDevueltoContaForm">
+    </bean>
+    
+     <bean id="ventasPorVendedorReport"
+    	class="com.luxsoft.siipap.cxc.reports.VentasPorVendedorReport">
+    </bean>
+    
+    <bean id="depositos"
+    	class="com.luxsoft.siipap.cxc.reports.DepositosReport">
+    </bean>
+    
+    <bean id="ventasCreditoContadoReport"
+    	class="com.luxsoft.siipap.cxc.reports.VentasCreditoContadoReport">
+    </bean>
+    
+   
+    <bean id="clientesCreditoReport"
+    	class="com.luxsoft.siipap.cxc.reports.ClientesCreditoReport">
+    </bean>
+    
+    <bean id="clienteCreditoDetalleReport"
+    	class="com.luxsoft.siipap.cxc.reports.ClienteCreditoDetalleReport">
+    </bean>
+     
+    <bean id="generarPolizaCredito1"
+    	class="com.luxsoft.siipap.cxc.task.GenerarPolizaCre"/>
+    
+    <bean id="cobranzaCredito" 
+    	class="com.luxsoft.siipap.cxc.reports.CobranzaCredito"/>
+    	
+    <bean id="pagosConNotaCre"
+    	class="com.luxsoft.siipap.cxc.reports.PagosConNotaCreReport"/>
+    	
+    <bean id="auxiliarNCCre"
+    	class="com.luxsoft.siipap.cxc.reports.AuxiliarNCCreReport"/>
+    <bean id="provision"
+    	class="com.luxsoft.siipap.cxc.reports.ProvisionReport"/>
+    	
+	<bean id="clientesVencidos"
+		class="com.luxsoft.siipap.cxc.reports.ClientesVencidos"/>
+		
+	<bean id="calcularComisionesVend"
+		class="com.luxsoft.siipap.cxc.task.ComisionesCommand">
+		<property name="target" value="vendedor"/>
+	</bean>
+
+	<bean id="calcularComisionesCob"
+		class="com.luxsoft.siipap.cxc.task.ComisionesCommand">
+		<property name="target" value="cobrador"/>
+	</bean>
+	
+	<bean id="catalogoCobradores"
+		class="com.luxsoft.siipap.cxc.task.CatalogoCobradoresCommand"/>
+	
+	<bean id="catalogoVendedores"
+		class="com.luxsoft.siipap.cxc.task.CatalogoVendedoresCommand"/>
+	
+	<bean id="mostrarChequesView"
+     	class="com.luxsoft.siipap.swing.actions.ShowViewAction">
+     	<property name="viewId" value="chequesView"/>
+     </bean>
+  
+</beans>
