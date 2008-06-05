@@ -1,0 +1,155 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>com.luxsoft.siipapwin</groupId>
+		<artifactId>siipapwin</artifactId>
+		<version>1.0-SNAPSHOT</version>
+	</parent>
+
+	<groupId>com.luxsoft.siipapwin</groupId>
+	<artifactId>compras</artifactId>
+	<packaging>jar</packaging>
+	<name>SiipapWin Compras</name>
+
+	<description>Modulo de compras para SiipapWin</description>
+
+	<dependencies>
+
+		<dependency>
+			<groupId>jmock</groupId>
+			<artifactId>jmock</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>com.luxsoft.siipapwin</groupId>
+			<artifactId>swing</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>com.luxsoft.siipapwin</groupId>
+			<artifactId>model</artifactId>
+		</dependency>
+
+	</dependencies>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>appassembler-maven-plugin</artifactId>
+				<configuration>
+					<extraJvmArguments>-Xmx256m</extraJvmArguments>
+					<programs>
+						<program>
+							<mainClass>
+								com.luxsoft.siipap.compras.Compras
+							</mainClass>
+							<name>CxC</name>
+						</program>
+					</programs>
+				</configuration>
+			</plugin>
+
+			<!-- ****************Java WebStart**************************************** 
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>webstart-maven-plugin</artifactId>
+				<executions>
+					<execution>
+						<goals>
+							<goal>jnlp</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<outputDirectory>target/jnlp</outputDirectory>
+					
+					<jnlp>
+						<outputFile>compras.jnlp</outputFile>
+						<mainClass>
+							com.luxsoft.siipap.compras.Compras
+						</mainClass>
+					</jnlp>
+
+					
+					<sign>
+						<keystore>/tmp/keystore</keystore>
+						<keypass>m2m2m2</keypass>
+						<storepass>m2m2m2</storepass>
+						
+						<alias>alias</alias>
+						<validity>180</validity>
+
+						<dnameCn>www.example.com</dnameCn>
+						<dnameOu>None</dnameOu>
+						<dnameO>ExampleOrg</dnameO>
+						<dnameL>Seattle</dnameL>
+						<dnameSt>Washington</dnameSt>
+						<dnameC>US</dnameC>
+
+						<verify>true</verify>
+
+						<keystoreConfig>
+							<delete>true</delete>
+							<gen>true</gen>
+						</keystoreConfig>
+
+					</sign>
+
+					<pack200>false</pack200>
+					<gzip>false</gzip>
+					<verbose>false</verbose>
+				</configuration>
+			</plugin>
+			 *****************End Java WebStart****************** -->
+
+		</plugins>
+	</build>
+
+	<reporting>
+		<plugins>
+			<plugin>
+				<artifactId>maven-javadoc-plugin</artifactId>
+			</plugin>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>jxr-maven-plugin</artifactId>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-report-plugin</artifactId>
+			</plugin>
+
+			<plugin>
+				<artifactId>maven-clover-plugin</artifactId>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-pmd-plugin</artifactId>
+				<configuration>
+					<targetjdk>1.5</targetjdk>
+					<rulesets>
+						<ruleset>/rulesets/basic.xml</ruleset>
+						<ruleset>/rulesets/controversial.xml</ruleset>
+					</rulesets>
+					<format>xml</format>
+					<linkXref>true</linkXref>
+					<sourceEncoding>utf-8</sourceEncoding>
+					<minimumTokens>100</minimumTokens>
+				</configuration>
+			</plugin>
+
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>taglist-maven-plugin</artifactId>
+			</plugin>
+
+		</plugins>
+	</reporting>
+
+
+
+</project>

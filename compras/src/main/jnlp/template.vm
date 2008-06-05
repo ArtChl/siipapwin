@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<jnlp
+    spec="1.0+"
+    codebase="http://www.siipap.luxsoftnet.com/webstart/"
+    href="$outputFile">
+  
+  <information>
+    <title>${project.name}</title>
+    <vendor>$project.Organization.Name<vendor/>
+    <homepage>$project.Organization.Url<homepage/>
+    <description kind="one-line">$project.Description</description>
+  </information>
+  
+  <security>
+     <all-permissions/>
+  </security>
+  
+  <resources>
+    <j2se version="1.5+"
+     initial-heap-size="128m"
+     max-heap-size="256m"
+     />
+     $dependencies
+  </resources>
+  <application-desc main-class="$mainClass">    
+  </application-desc>
+</jnlp>

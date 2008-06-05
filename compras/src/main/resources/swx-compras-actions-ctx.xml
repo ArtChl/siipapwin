@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+	<description>
+		Contexto para hospedar objetos de tipo javax.swing.Action
+	</description>
+	
+	<bean id="catalogosController"
+		class="com.luxsoft.siipap.compras.catalogos.CatalogosController">
+	</bean>
+	
+	<bean id="catalogoDeLineas"
+		class="com.luxsoft.siipap.compras.actions.CatalogosCommand">
+		<property name="controller" ref="catalogosController"/>
+		<property name="catalogo" value="linea"/>
+	</bean>
+
+	<bean id="catalogoDeClases"
+		class="com.luxsoft.siipap.compras.actions.CatalogosCommand">
+		<property name="controller" ref="catalogosController"/>
+		<property name="catalogo" value="clase"/>
+	</bean>
+
+	<bean id="catalogoDeMarcas"
+		class="com.luxsoft.siipap.compras.actions.CatalogosCommand">
+		<property name="controller" ref="catalogosController"/>
+		<property name="catalogo" value="marca"/>
+	</bean>
+
+	<bean id="catalogoDeProductos"
+		class="com.luxsoft.siipap.compras.actions.CatalogosCommand">
+		<property name="controller" ref="catalogosController"/>
+		<property name="catalogo" value="articulo"/>
+	</bean>
+
+	
+	<bean id="viewActionCreator"
+		class="com.luxsoft.siipap.swing.views.ViewActionCreator">
+	</bean>
+
+	<bean id="exitApplication"
+		class="com.luxsoft.siipap.swing.actions.ExitAction">
+		<property name="application" ref="application" />
+	</bean>
+
+	<bean id="showWelcomeView"
+		class="com.luxsoft.siipap.swing.actions.ShowViewAction">
+		<property name="viewId" value="welcomeView" />
+	</bean>
+
+	<bean id="showRequisicionesView"
+		class="com.luxsoft.siipap.swing.actions.ShowViewAction">
+		<property name="viewId" value="requisicionesView" />
+	</bean>
+
+
+	<bean id="showOrdenesDeMaquilaView"
+		class="com.luxsoft.siipap.swing.actions.ShowViewAction">
+		<property name="viewId" value="ordenesDeMaquilaView" />
+	</bean>
+
+	<bean id="showOrdenesView"
+		class="com.luxsoft.siipap.swing.actions.ShowViewAction">
+		<property name="viewId" value="ordenesView" />
+	</bean>
+
+	<bean id="showRecepcionesView"
+		class="com.luxsoft.siipap.swing.actions.ShowViewAction">
+		<property name="viewId" value="recepcionesView" />
+	</bean>
+
+	<bean id="showDevolucionesView"
+		class="com.luxsoft.siipap.swing.actions.ShowViewAction">
+		<property name="viewId" value="devolucionesView" />
+	</bean>
+
+	<bean id="altI"
+		class="com.luxsoft.siipap.swing.actions.ShowViewAction">
+	</bean>
+
+	<bean id="consultasView"
+		class="com.luxsoft.siipap.swing.actions.ShowViewAction">
+	</bean>
+
+
+</beans>

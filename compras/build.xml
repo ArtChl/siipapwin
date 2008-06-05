@@ -1,0 +1,95 @@
+<?xml version="1.0"?>
+
+<!--
+-->
+
+<project name="Compras - SiipapWin" basedir=".">
+
+	<property file="project.properties" />
+
+
+	<!-- ******************************************************************	-->
+	<!-- JAVA WEBSTART DEPLOYMENT   										-->
+	<!-- ******************************************************************	-->
+	
+	<target name="deploy-all"
+			description="Transfiere al servidor el atchivo .jnlp y los recursos del mismo"
+			depends="deploy-jnlp-jnlp,deploy-lib"/>
+	
+	<target name="deploy-jnlp"
+					description="Transfiere al servidor el atchivo .jnlp y los recursos del mismo"
+					depends="deploy-jnlp-jnlp,deploy-jnlp-resources"/>
+
+	<target name="deploy-jnlp-jnlp" 
+		description="Transfiere al servidor unicamente el archivo .jnlp ">
+		<ftp server="${deploy.ftp.server}" 
+			remotedir="${deploy.ftp.directory}" 
+			userid="${deploy.ftp.userid}" 
+			password="${deploy.ftp.password}" 
+			depends="yes" 
+			binary="no" 
+			verbose="yes">
+			<fileset file="${jnlp.dir}/${projecct.id}.jnlp"/>			
+		</ftp>
+	</target>
+	
+	<target name="deploy-jnlp-resources" 
+			description="Transfiere al servidor unicamente los recursos para el archivo .jnlp">
+		<ftp server="${deploy.ftp.server}" 
+			remotedir="${deploy.ftp.directory}/resources" 
+			userid="${deploy.ftp.userid}" 
+			password="${deploy.ftp.password}" 
+			depends="yes" 
+			binary="no" 
+			verbose="yes">
+			<fileset dir="${jnlp.dir}/lib/images" />
+		</ftp>
+	</target>	
+
+	<target name="deploy-lib" 
+		description="Manda al servidor de produccion las librerias y recursos de la aplicacion para 
+					 su distribucion via WebStart">
+
+		<echo message="Enviando jars firmados al repositorio remoto" />
+
+		<ftp server="${deploy.ftp.server}" 
+			remotedir="${deploy.ftp.directory}/lib" 
+			userid="${deploy.ftp.userid}" 
+			password="${deploy.ftp.password}" 
+			depends="yes" 
+			binary="yes" 
+			verbose="true">
+			<fileset dir="${jnlp.dir}/lib">
+				<include name="*.jar" />
+			</fileset>
+
+		</ftp>
+	</target>
+
+
+	<target name="genkey" 
+		description="Genera un key  en un keystore">
+		<genkey alias="papel" 
+			storepass="sistemas" 
+			dname="CN=Papel SA, OU=Software Division, O=PapelSA.org, C=MX" 
+			validity="360" />
+	</target>
+
+	<target name="signjars"		
+		description="Firma todos los jars de la aplicacion">
+		
+		<echo message="Firmando los jars para Java WebStart deployment" />
+
+		<signjar  
+			alias="papel" 
+			storepass="sistemas" 
+			verbose="false" 
+			lazy="true" >			
+			
+			<fileset dir="${jnlp.dir}/lib" includes="*.jar,*.zip" />
+			
+		</signjar>
+	</target>
+
+
+</project>

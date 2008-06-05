@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<project name="Compras">
+
+	<bannerLeft>
+		<name>Compras</name>
+		<src>
+			images/compras64.gif
+		</src>
+		<href>index.html</href>
+	</bannerLeft>
+
+	<bannerRight>
+		<src>images/logo2.gif</src>
+	</bannerRight>
+	<body>
+	
+		<links>
+			<item name="Apache" href="http://www.apache.org/" />
+			<item name="SiipapWin" href="http://www.siipap.luxsoftnet.com/" />
+		</links>
+
+		<menu name="SiipapWin Compras">
+			<item name="Introducción" href="intro.html" />
+			<item name="Descargar" href="compras.jnlp" />
+			<item name="Release Notes" href="release-notes.html" />
+			<item name="Información general" href="about.html" />
+		</menu>
+
+		${reports}
+
+
+	</body>
+	<!-- 
+	<skin>
+		<groupId>org.apache.maven</groupId>
+		<artifactId>maven-classic-skin</artifactId>		
+	</skin>
+ -->
+</project>
