@@ -63,9 +63,10 @@ public class InentarioMensual_Parche1 extends HibernateDaoSupport{
 	}
 	
 	/**
-	 * Ajusta el costo promedio para casos en el que existe saldo negativo en un mes pero al mes
-	 * siquiente existe el calculo de CostoPromedio. Es decir se vendio antes
-	 * de tener la mercancia
+	 * Ajusta el costo promedio para casos en el que existe saldo sin costo promedio para el mismso y en un mes posterior 
+	 * existe el calculo de CostoPromedio. Normalmente es util para casos en los que se vende sin existencia pero no siempre
+	 * 
+	 * DEBE SER EJECUTADO ANTES DEL FORWARDCOSTO
 	 *
 	 */
 	public void execute2(){
@@ -156,7 +157,7 @@ public class InentarioMensual_Parche1 extends HibernateDaoSupport{
 				
 				for(InventarioMensual im:list){					
 					if(currentClave==null ||!currentClave.equals(im.getClave())){
-						System.out.println("Procesando :"+currentClave);
+						//System.out.println("Procesando :"+currentClave);
 						currentClave=im.getClave();
 						currentCostoP=im.getCostoPromedio();
 						continue;
@@ -169,10 +170,13 @@ public class InentarioMensual_Parche1 extends HibernateDaoSupport{
 							currentCostoP.abs().amount().doubleValue()!=0){
 						
 						if(im.getCostoPromedio().abs().amount().doubleValue()==0){
+							System.out.println("Ajustando..."+im.getClave());
 							im.setCostoPromedio(currentCostoP);
+							im.actualizarCostos();
 						}
 						
 					}
+					
 				}
 				return null;
 			}			
@@ -182,8 +186,12 @@ public class InentarioMensual_Parche1 extends HibernateDaoSupport{
 	public static void main(String[] args) {
 		InentarioMensual_Parche1 test=new InentarioMensual_Parche1();
 		test.setSessionFactory(ServiceLocator.getSessionFactory());
-		test.verificarCostoInicialContraFinal();
-		//test.fordwarCosto();
+		//test.verificarCostoInicialContraFinal();
+		
+		//EJECUCION DE PARCHES
+		test.execute2();
+		test.fordwarCosto();
+		
 	}
 
 }
