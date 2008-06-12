@@ -2,7 +2,6 @@ package com.luxsoft.siipap.inventarios.services;
 
 import java.math.BigDecimal;
 import java.sql.SQLException;
-import java.text.MessageFormat;
 import java.util.List;
 
 import org.hibernate.HibernateException;
@@ -183,6 +182,37 @@ public class InentarioMensual_Parche1 extends HibernateDaoSupport{
 		});
 	}
 	
+	public void execute3(){
+		getHibernateTemplate().execute(new HibernateCallback(){
+			@SuppressWarnings("unchecked")
+			public Object doInHibernate(Session session) throws HibernateException, SQLException {
+				
+				List<InventarioMensual> list=session.createQuery("from InventarioMensual i  " +
+						" where i.year=2008" +						
+						" order by i.clave,i.year,i.mes")						
+						.list();				
+				
+				for(int index=0;index<list.size()-1;index++){					
+					InventarioMensual im=list.get(index);
+					if(im.getCostoPromedio().amount().doubleValue()==0){
+						if(im.getMovimientos().doubleValue()!=0){
+							if(im.getInicial().doubleValue()==0){
+								CantidadMonetaria costoP=CantidadMonetaria.pesos(im.getArticulo().getCostoP().doubleValue());
+								im.setCostoPromedio(costoP);
+								im.actualizarCostos();
+								System.out.println("Fix: "+im);
+							}
+						}
+						
+					}
+					
+				}
+				return null;
+			}			
+		});
+	}
+	
+	
 	public static void main(String[] args) {
 		InentarioMensual_Parche1 test=new InentarioMensual_Parche1();
 		test.setSessionFactory(ServiceLocator.getSessionFactory());
@@ -191,6 +221,7 @@ public class InentarioMensual_Parche1 extends HibernateDaoSupport{
 		//EJECUCION DE PARCHES
 		test.execute2();
 		test.fordwarCosto();
+		test.execute3();
 		
 	}
 
