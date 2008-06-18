@@ -105,13 +105,13 @@ public final class CXCBindings {
 	public static JComboBox createCuentasDeposito(final ValueModel vm){
 		final SelectionInList sl=new SelectionInList(
 				new String[]{
-						"BANCOMER   (116622810)"
+						 "BANCOMER   (116228100)"
 						,"BANAMEX   (1858193)"
 						,"HSBC	    (4019118074)"
 						,"SCOTTIA   (1691945)"
 						,"SANTANDER (92000395043)"
-						,"SANTANDER (6550219406-7)"
-						,"UBS AG-NY (YR-406546)"
+						,"SANTANDER (65502194067)"
+						,"UBS AG-NY (406546)"
 						}
 				,vm);
 		return BasicComponentFactory.createComboBox(sl);
