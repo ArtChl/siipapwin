@@ -40,7 +40,7 @@ public class ImportadorDeDepositos  implements Importador{
 	private static Map<Integer, String> cuentasMapper=new HashMap<Integer, String>();
 	static{
 		cuentasMapper.put(1, "BANAMEX   (1858193)");
-		cuentasMapper.put(2, "BANCOMER   (116622810)");
+		cuentasMapper.put(2, "BANCOMER   (116228100)");
 		cuentasMapper.put(4, "HSBC	    (4019118074)");
 		cuentasMapper.put(32,"SCOTTIA   (1691945)");
 		cuentasMapper.put(9, "SANTANDER (92000395043)");
@@ -207,7 +207,7 @@ public class ImportadorDeDepositos  implements Importador{
 	
 	public static void main(String[] args) {
 		ImportadorDeDepositos imp=(ImportadorDeDepositos)EMServiceLocator.instance().getContext().getBean("importadorDeDepositos");
-		imp.importar(DateUtils.obtenerFecha("28/05/2008"));
+		imp.importar(DateUtils.obtenerFecha("31/05/2008"));
 	}
 	
 	
