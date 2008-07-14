@@ -281,7 +281,7 @@ public class ContaUtils {
 		root.put("ivaVentaOtrosIngresos", ivaVentasOtrosIngresos2);
 		root.put("ivaVentas", ivaVentas.amount().doubleValue());
 		root.put("tarjetas", tarjetas);
-		root.put("ietu", getBaseIetu(pagos));
+		root.put("ietu", getBaseIetu(pagos,fecha));
 		
 		//String sucu=StringUtils.leftPad(String.valueOf(sucursal), 2,'0');
 		try {
@@ -430,20 +430,28 @@ public class ContaUtils {
 	}
 	
 	
-	public static double getBaseIetu(final List<Pago> source){
+	public static double getBaseIetu(final List<Pago> source,final Date fecha){
 		double importe=0;
 		for(Pago p:source){
+			/*
 			if( (p.getVenta()==null) && (p.getNota()==null) )
 				continue;
 			final int year=p.getVenta()!=null?p.getVenta().getYear():p.getNota().getYear();
 			if(year>2007)
+			*/
 				importe+=p.getImporte().amount().doubleValue();
+		}
+		List<PagoM> list=buscarSaldosAFavor(fecha);
+		for(PagoM pm:list){
+			System.out.println("Pago con saldo: "+pm);
+			System.out.println("Importe: "+pm.getSaldoAsDouble());
+			importe=importe+pm.getSaldoAsDouble();
 		}
 		return importe/1.15;
 	}
 	
 	public static void main(String[] args) {
-		final Date fecha=DateUtils.obtenerFecha("14/01/2008");
+		final Date fecha=DateUtils.obtenerFecha("02/06/2008");
 		/**
 		
 		final List<NotasDeCreditoDet> notas=buscarNotasCre(fecha);
