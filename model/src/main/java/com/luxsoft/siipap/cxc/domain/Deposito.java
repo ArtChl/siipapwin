@@ -164,6 +164,7 @@ public class Deposito extends MutableObject{
 		.append(getBanco())
 		.append("Cuenta:",getCuenta())
 		.append("Importe:",getImporteAsDouble())
+		.append("TipoP:",getFormaDePago())
 		.toString();
 	}
 	
