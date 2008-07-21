@@ -11,14 +11,20 @@
 	<groupId>com.luxsoft.siipapwin</groupId>
 	<artifactId>model</artifactId>
 	<packaging>jar</packaging>
-
+<!-- 
 	<repositories>
 		<repository>
 			<id>luxsoftnet</id>
 			<url>http://luxsoftnet.com/m2/repository</url>
 		</repository>
+		<repository>
+  			<id>maven2-repository.dev.java.net</id>
+  			<name>Java.net Repository for Maven</name>
+  			<url>http://download.java.net/maven/2/</url>
+  			<layout>default</layout>
+		</repository>
 	</repositories>
-
+ -->
 	<name>SiipaWin Model</name>
 
 	<description>Modelo de Dominio para SiipapWin</description>
@@ -96,9 +102,8 @@
 		
 		<dependency>
 		  <groupId>javax.mail</groupId>
-    	  <artifactId>mail</artifactId>
-	      <version>1.4.1</version>
-    	  <scope>compile</scope>
+		  <artifactId>mail</artifactId>
+  		  <version>1.4.1</version>
 	    </dependency>
 		
 		<dependency>
@@ -245,7 +250,7 @@
 		<profile>
 			<id>prod</id>
 			<properties>
-				<db.url>jdbc:oracle:thin:@server_ofi_d:1521:siipapw</db.url>
+				<db.url>jdbc:oracle:thin:@ser-ofi-d:1521:siipapw</db.url>
 				<db.user>siipap</db.user>
 				<db.password>sis</db.password>
 				<db.driver>oracle.jdbc.driver.OracleDriver</db.driver>
