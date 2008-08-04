@@ -3,6 +3,7 @@ package com.luxsoft.siipap.em.importar;
 import java.sql.SQLException;
 import java.text.MessageFormat;
 import java.util.Date;
+import java.util.List;
 
 import org.hibernate.Hibernate;
 import org.hibernate.HibernateException;
@@ -14,6 +15,7 @@ import org.springframework.orm.hibernate3.HibernateTemplate;
 import com.luxsoft.siipap.cxc.domain.Deposito;
 import com.luxsoft.siipap.cxc.domain.FormaDePago;
 import com.luxsoft.siipap.cxc.domain.Pago;
+import com.luxsoft.siipap.domain.Periodo;
 import com.luxsoft.siipap.services.ServiceLocator;
 import com.luxsoft.siipap.utils.DateUtils;
 
@@ -85,7 +87,13 @@ public class ImportadorDeDepositosConTarjeta {
 	}
 	
 	public static void main(String[] args) {
-		execute(DateUtils.obtenerFecha("08/07/2008"));
+		Periodo p=new Periodo("09/07/2008","19/07/2008");
+		List<Date> dias=p.getListaDeDias();
+		for(Date d:dias){
+			execute(d);
+		}
+	
+		
 		updateFechaContable();
 	}
 
