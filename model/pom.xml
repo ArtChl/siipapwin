@@ -269,9 +269,9 @@
 				<activeByDefault>true</activeByDefault>
 			</activation>
 			<properties>
-				<db.url>jdbc:oracle:thin:@server_ofi_d:1521:pruebas</db.url>
-				<db.user>siipapprb</db.user>
-				<db.password>pruebas</db.password>
+				<db.url>jdbc:oracle:thin:@ser-ofi-d:1521:pruebas</db.url>
+				<db.user>siipap</db.user>
+				<db.password>sys</db.password>
 				<db.driver>oracle.jdbc.driver.OracleDriver</db.driver>
 				<hibernate.dialect>org.hibernate.dialect.Oracle9Dialect</hibernate.dialect>
 				<exportador.enabled>false</exportador.enabled>
