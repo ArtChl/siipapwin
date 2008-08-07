@@ -495,11 +495,11 @@ public class InventariosManagerImpl extends HibernateDaoSupport implements Inven
 	 *  
 	 * @param im
 	 */
-	private void calcularCostosTrs(final InventarioMensual im){
+	protected void calcularCostosTrs(final InventarioMensual im){
 		if(im.getCostoPromedio()==null || im.getCostoPromedio().amount().doubleValue()==0){
 			//Buscar el TRS
 			Transformacion t =(Transformacion)getSession()
-			.createQuery("from Transformacion t where t.claveDestino=:clave and t.year=:year and t.mes=:mes")
+			.createQuery("from Transformacion t where t.destino.articulo.clave=:clave and t.year=:year and t.mes=:mes")
 			.setString("clave", im.getClave())
 			.setInteger("year", im.getYear())
 			.setInteger("mes",im.getMes())
@@ -507,8 +507,9 @@ public class InventariosManagerImpl extends HibernateDaoSupport implements Inven
 			.uniqueResult();
 			if(t!=null){
 				final Salida s=t.getOrigen();
-				
-				InventarioMensual source=buscarInventario(Periodo.obtenerYear(s.getALMFECHA()), Periodo.obtenerMes(s.getALMFECHA())+1, s.getALMARTIC());
+				final int year=Periodo.obtenerYear(s.getALMFECHA());
+				final int mes=Periodo.obtenerMes(s.getALMFECHA())+1;				
+				InventarioMensual source=buscarInventario(year,mes, s.getALMARTIC());
 				if(source!=null){
 					final Entrada e=t.getDestino();
 					CantidadMonetaria costo=source.getCostoPromedio().multiply(s.getCantidad()).abs();
@@ -579,15 +580,15 @@ public class InventariosManagerImpl extends HibernateDaoSupport implements Inven
 		/*
 		Collection<String> claves=ServiceLocator.getInventariosManager().buscarArticulos();		
 		for(String clave:claves){
-			for(int i=1;i<=5;i++){				
+			for(int i=1;i<=7;i++){				
 				InventarioMensual im=ServiceLocator.getInventariosManager().actualizarInventario(2008,i, clave);
 				System.out.println("\t"+im);
 			}
 		}		
 		*/
 		
-		for(int i=1;i<=5;i++){
-			InventarioMensual im=ServiceLocator.getInventariosManager().actualizarInventario(2008,i, "POL4");
+		for(int i=1;i<=7;i++){
+			InventarioMensual im=ServiceLocator.getInventariosManager().actualizarInventario(2008,i, "CAP100140");
 			System.out.println("\t"+im);
 		
 		}

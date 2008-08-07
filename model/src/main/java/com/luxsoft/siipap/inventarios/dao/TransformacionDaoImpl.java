@@ -193,7 +193,7 @@ public class TransformacionDaoImpl extends HibernateDaoSupport implements Transf
 		TransformacionDaoImpl dao=new TransformacionDaoImpl();
 		dao.setSessionFactory(ServiceLocator.getSessionFactory());
 		dao.setManager(ServiceLocator.getInventariosManager());
-		dao.buscarTransfomraciones(new Periodo("01/01/2007","31/08/2007"));
+		dao.buscarTransfomraciones(new Periodo("01/07/2008","31/07/2008"));
 	}
 
 }
