@@ -21,6 +21,7 @@ import org.springframework.jdbc.core.support.JdbcDaoSupport;
 import com.luxsoft.siipap.domain.Periodo;
 import com.luxsoft.siipap.services.ServiceLocator;
 import com.luxsoft.siipap.utils.DateUtils;
+import com.luxsoft.siipap.utils.FileUtils;
 import com.luxsoft.siipap.utils.SQLUtils;
 
 import freemarker.template.Configuration;
@@ -84,6 +85,7 @@ public class ExportadorCliente extends JdbcDaoSupport{
 			String pattern="Saldo del cliente {0} enviado a SIIPAP es de: {1} \n Archivo: {2}\n Fecha: {3} \n en el archivo: {4}";
 			String res=MessageFormat.format(pattern, cliente,root.get("saldo"),fileName,fecha,target.getAbsolutePath());
 			logger.info(res);
+			backup(target);
 			return res;
 			
 		} catch (FileNotFoundException e) {
@@ -96,7 +98,10 @@ public class ExportadorCliente extends JdbcDaoSupport{
 		return "ERROR en exportacion";
 	}
 	
-	
+	private void backup(File f){
+		FileUtils.copiFile(f, new File("C:\\basura"));
+		
+	}
 	
 	
 	@SuppressWarnings("unchecked")
@@ -149,7 +154,7 @@ public class ExportadorCliente extends JdbcDaoSupport{
 
 	public static void main(String[] args) {		
 		final ExportadorCliente exportador=(ExportadorCliente)ServiceLocator.getDaoContext().getBean("exportadorClientes");
-		//exportador.setDirectorioDestino(new File("C\\:basura\\"));
+		//exportador.setDirectorioDestino(new File("."));
 		exportador.exportarSaldo("P010394",DateUtils.obtenerFecha("30/01/2008"));
 		//String next=exportador.obtenerConsecutivo();
 		//System.out.println(next);
