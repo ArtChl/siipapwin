@@ -121,7 +121,8 @@ public class ReportesView extends AbstractView{
 	private Action createR3(){
 		final AbstractAction a=new AbstractAction("run"){
 			public void actionPerformed(ActionEvent e) {
-				InventarioCosteadoForm.run();				
+//				InventarioCosteadoForm.run();
+				InventarioCosteadoNalImpForm.run();
 			}			
 		};
 		a.putValue(Action.NAME,"Inventario costeado");
