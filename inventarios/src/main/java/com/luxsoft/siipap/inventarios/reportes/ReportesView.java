@@ -60,6 +60,7 @@ public class ReportesView extends AbstractView{
 		
 		operaciones.add(createR1());
 		operaciones.add(createR2());
+		operaciones.add(createR7());
 		operaciones.add(createR3());
 		operaciones.add(createR4());
 		operaciones.add(create5());
@@ -163,6 +164,17 @@ public class ReportesView extends AbstractView{
 		a.putValue(Action.NAME, "Kardex");
 		a.putValue(Action.SMALL_ICON, getIconFromResource("images2/report_go.png"));
 		
+		return a;
+	}
+	
+	private Action createR7(){
+		final AbstractAction a=new AbstractAction("run"){
+			public void actionPerformed(ActionEvent e) {
+				MovimientosPorMesSucForm.run();			
+			}			
+		};
+		a.putValue(Action.NAME,"Movimientos costeados x Suc");
+		a.putValue(Action.SMALL_ICON, getIconFromResource("images2/report_go.png"));
 		return a;
 	}
 	

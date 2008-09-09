@@ -134,7 +134,7 @@ public class ComsSinAnalizarReport extends SXAbstractDialog {
     	run();        	
     }
     
-    private enum SucursalesInv {
+    public enum SucursalesInv {
     	
     	OFICINAS("Oficinas ","1"),
     	ANDRADE("Andrade","3"),
