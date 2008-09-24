@@ -47,19 +47,23 @@ public class ActualizaGastosDeMaquila extends HibernateDaoSupport{
 		ActualizaGastosDeMaquila m=new ActualizaGastosDeMaquila();
 		m.setSessionFactory(ServiceLocator.getSessionFactory());
 		
+		/**
 		m.execute(Periodo.getPeriodoEnUnMes(0,2008), new BigDecimal(415954.12));
 		m.execute(Periodo.getPeriodoEnUnMes(1,2008), new BigDecimal(440308.96));
 		m.execute(Periodo.getPeriodoEnUnMes(2,2008), new BigDecimal(276220.44));
-	/*	m.execute(Periodo.getPeriodoEnUnMes(3,2007), new BigDecimal(493486.04));
-		m.execute(Periodo.getPeriodoEnUnMes(4,2007), new BigDecimal(137117.63));
-		m.execute(Periodo.getPeriodoEnUnMes(5,2007), new BigDecimal(367410.16));		
-		m.execute(Periodo.getPeriodoEnUnMes(6,2007), new BigDecimal(160858.08));
-		m.execute(Periodo.getPeriodoEnUnMes(7,2007), new BigDecimal(272064.20));
-		m.execute(Periodo.getPeriodoEnUnMes(8,2007), new BigDecimal(232581.36));
-		m.execute(Periodo.getPeriodoEnUnMes(9,2007), new BigDecimal(400874.45));
-		m.execute(Periodo.getPeriodoEnUnMes(10,2007), new BigDecimal(162470.12));
-		m.execute(Periodo.getPeriodoEnUnMes(11,2007), new BigDecimal(240764.21));*/
+		**/
 		
+		m.execute(Periodo.getPeriodoEnUnMes(0,2008), new BigDecimal(340598.07));
+		m.execute(Periodo.getPeriodoEnUnMes(1,2008), new BigDecimal(299800.72));
+		m.execute(Periodo.getPeriodoEnUnMes(2,2008), new BigDecimal(219017.28));
+		m.execute(Periodo.getPeriodoEnUnMes(3,2008), new BigDecimal(232275.37));
+		m.execute(Periodo.getPeriodoEnUnMes(4,2008), new BigDecimal(229420.18));
+		m.execute(Periodo.getPeriodoEnUnMes(5,2008), new BigDecimal(158250.10));
+		m.execute(Periodo.getPeriodoEnUnMes(6,2008), new BigDecimal(415430.24));
+		m.execute(Periodo.getPeriodoEnUnMes(7,2008), new BigDecimal(221960.85));
+		
+		
+			
 		
 	}
 
