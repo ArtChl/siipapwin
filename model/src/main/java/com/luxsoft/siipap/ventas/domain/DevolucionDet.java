@@ -11,6 +11,7 @@ import org.apache.commons.lang.builder.ToStringStyle;
 import com.luxsoft.siipap.cxc.domain.NotaDeCredito;
 import com.luxsoft.siipap.domain.Articulo;
 import com.luxsoft.siipap.domain.CantidadMonetaria;
+import com.luxsoft.siipap.model.MonedasUtils;
 import com.luxsoft.utils.domain.PersistentObject;
 
 /**
@@ -271,5 +272,13 @@ public class DevolucionDet extends PersistentObject{
 		return CantidadMonetaria.pesos(val);
 		
 	}
+	/*
+	public CantidadMonetaria getImporteNetoAsMoneda(){
+		double val=getCantidad()*getVentaDet().getPrecioFacturado();
+		CantidadMonetaria bruto=CantidadMonetaria.pesos(val);
+		return bruto.divide(getDescuento());
+		
+	}
+	*/
 
 }
