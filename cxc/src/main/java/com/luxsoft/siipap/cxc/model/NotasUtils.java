@@ -297,6 +297,8 @@ public class NotasUtils extends NotasFactory{
 			notas.add(createNotaDeCreditoDeDevolucion(partidas));
 		}
 		
+		
+		
 		if(notas.size()==2){
 			final NotasDeCreditoDet detFinal=notas.get(1).getPartidas().get(0);
 			CantidadMonetaria imp=detFinal.getImporte();
@@ -307,12 +309,14 @@ public class NotasUtils extends NotasFactory{
 			notas.get(0).getPartidas().get(0).setImporte(devo.getTotal());
 		}
 		
+		/*Aplicar los descuentos de la devolucion
 		for(NotaDeCredito n:notas){
-			//CantidadMonetaria imp=n.getPartidas().get(0).getImporte()
-			//imp=MonedasUtils.aplicarDescuentosEnCascada(imp,devo.getDescuento1()/100,devo.getDescuento2()/100);
-			//n.getPartidas().get(0).setImporte(imp);
+			CantidadMonetaria imp=n.getPartidas().get(0).getImporte();
+			//DEBUG 17/09/08 imp=MonedasUtils.aplicarDescuentosEnCascada(imp,devo.getDescuento1()/100,devo.getDescuento2()/100);
+			n.getPartidas().get(0).setImporte(imp);
 			n.actualizar();
 		}
+		*/
 		return notas;
 	}
 	
@@ -344,11 +348,13 @@ public class NotasUtils extends NotasFactory{
 		CantidadMonetaria imp=CantidadMonetaria.pesos(0);		
 		for(DevolucionDet d:partidas){
 			imp=imp.add(d.getImporteAsMoneda());
+			//imp=imp.add(d.getImporteNetoAsMoneda());
 		}		
 		final NotasDeCreditoDet nc=new NotasDeCreditoDet();
 		//Las partidas son con iva
 		nc.setImporte(MonedasUtils.calcularTotal(imp));
 		nc.setFactura(partidas.get(0).getDevolucion().getVenta());
+		
 		return nc;
 	}
 	/**
