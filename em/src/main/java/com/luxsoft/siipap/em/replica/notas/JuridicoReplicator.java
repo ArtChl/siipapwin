@@ -8,7 +8,12 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
+import org.hibernate.Hibernate;
+import org.hibernate.HibernateException;
+import org.hibernate.ScrollableResults;
+import org.hibernate.Session;
 import org.springframework.jdbc.core.RowCallbackHandler;
+import org.springframework.orm.hibernate3.HibernateCallback;
 import org.springframework.util.Assert;
 
 import com.luxsoft.siipap.cxc.dao.JuridicoDao;
@@ -38,9 +43,11 @@ public class JuridicoReplicator extends AbstractReplicatorSupport{
 	
 	public void bulkImport(Periodo p) {
 		//validarBulkImport(p);
+		System.out.println("Procesando periodo: "+p);
 		List<Periodo> periodos=Periodo.periodosMensuales(p);
 		
 		for(final Periodo mes:periodos){
+			System.out.println("Procesando periodo: "+mes);
 			String table=ReplicationUtils.resolveTable("MOVJUR",mes.getFechaInicial());
 			String sql="select * from "+table+ " where MJUIDENOPE in(3,4) ";
 			getFactory().getJdbcTemplate(mes).query(sql, new RowCallbackHandler(){
@@ -171,44 +178,59 @@ public class JuridicoReplicator extends AbstractReplicatorSupport{
 				}
 				
 			});
-			validar(mes);
+			
 		}		
-		
+		vincularVentas(p);
+	}
+	
+	private void vincularVentas(final Periodo periodo){
+		System.out.println("Vinculando ventas del periodo: "+periodo.toString2());
+		getDao().getHibernateTemplate().execute(new HibernateCallback(){
+
+			public Object doInHibernate(Session session) throws HibernateException, SQLException {
+				String hql="from NotasDeCreditoDet n where   n.origen=\'JUR\' and n.nota.fecha between ? and ?";
+				ScrollableResults rs=session.createQuery(hql)
+				.setParameter(0, periodo.getFechaInicial(),Hibernate.DATE)
+				.setParameter(1, periodo.getFechaFinal(),Hibernate.DATE)
+				.scroll();
+				int count=0;
+				while(rs.next()){
+					final NotasDeCreditoDet det=(NotasDeCreditoDet)rs.get()[0];
+					Venta v=getVentasDao().buscarVenta(det.getSucDocumento(),det.getSerieDocumento(), det.getTipoDocumento(), det.getNumDocumento());
+					if(v==null){
+						v=getVentasDao().buscarVenta(det.getSucDocumento(), det.getTipoDocumento(), det.getNumDocumento());
+					}
+					System.out.println("Venta econtrada: "+v);
+					det.setFactura(v);
+					System.out.println("Actualizando venta de notadet: "+det);
+					if(count++%20==0){
+						session.flush();
+						session.clear();
+					}					
+				}
+				return null;
+			}
+			
+		});
 	}
 	
 	@SuppressWarnings("unchecked")
 	@Override
 	protected int contarBeans(Periodo p, Object... args) {
-		String hql="select count(*) from Juridico c where c.mes=? and c.year=?";
-		List<Long> l=getDao().getHibernateTemplate().find(hql,new Object[]{getMes(p),getYear(p)});
-		return l.get(0).intValue();
+		return 0;
 	}
 
 	public List<ReplicaLog> validar(Periodo periodo) {
-		List<Periodo> meses=Periodo.periodosMensuales(periodo);
 		List<ReplicaLog> list=new ArrayList<ReplicaLog>();
-		for(Periodo mes:meses){
-			String table=ReplicationUtils.resolveTable("MOVJUR",mes.getFechaInicial());
-			String sql="select count(*) from "+table+ " where MJUIDENOPE in(3,4) ";					
-			int rows=getFactory().getJdbcTemplate(mes).queryForInt(sql);
-			int beans=contarBeans(mes, "JUR");			
-			list.add(registrar("Juridico","MOVJUR","JUR",mes,beans,rows));
-			
-		}
 		return list;
 	}
 	
 	public void validarBulkImport(Periodo p) {
-		List<Periodo> periodos=Periodo.periodosMensuales(p);
-		for(final Periodo mes:periodos){
-			int beans=contarBeans(mes,"");
-			Assert.isTrue(0==beans,"Existen registros en Cheque para el periodo :"+p);
-		}
 		
 	}
 	
 	@SuppressWarnings("unchecked")
-	public void importarFacturas(Periodo periodo){
+	private void importarFacturas(Periodo periodo){
 		List<Periodo> meses=Periodo.periodosMensuales(periodo);		
 		for(Periodo mes:meses){
 			String table=ReplicationUtils.resolveTable("MOVJUR",mes.getFechaInicial());
@@ -290,7 +312,8 @@ public class JuridicoReplicator extends AbstractReplicatorSupport{
 	public static void main(String[] args) {
 		JuridicoReplicator r=(JuridicoReplicator)ServiceManager.instance().getReplicador(Replicadores.JuridicoReplicator);
 		//r.importarFacturas(new Periodo("01/04/2007","28/06/2007"));
-		r.bulkImport(new Periodo("01/01/2007","31/03/2007"));
+		r.bulkImport(new Periodo("01/01/2008","30/09/2008"));
+		
 	}
 
 }

@@ -2,7 +2,6 @@ package com.luxsoft.siipap.em.replica.notas;
 
 import java.sql.SQLException;
 import java.text.MessageFormat;
-import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.hibernate.HibernateException;
@@ -17,16 +16,11 @@ import com.luxsoft.siipap.cxc.domain.Cliente;
 import com.luxsoft.siipap.cxc.domain.NotaDeCredito;
 import com.luxsoft.siipap.cxc.domain.NotasDeCreditoDet;
 import com.luxsoft.siipap.cxc.domain.Pago;
-import com.luxsoft.siipap.domain.Periodo;
-import com.luxsoft.siipap.em.replica.AbstractReplicatorSupport;
-import com.luxsoft.siipap.em.replica.service.ServiceManager;
 import com.luxsoft.siipap.services.ServiceLocator;
 import com.luxsoft.siipap.ventas.dao.DevolucionDao;
 import com.luxsoft.siipap.ventas.dao.VentasDao;
 import com.luxsoft.siipap.ventas.domain.Devolucion;
-import com.luxsoft.siipap.ventas.domain.DevolucionDet;
 import com.luxsoft.siipap.ventas.domain.Venta;
-import com.luxsoft.siipap.ventas.domain.VentaDet;
 
 /**
  * Parche para corregir vinculaciones de notas y notasdet
@@ -37,15 +31,7 @@ import com.luxsoft.siipap.ventas.domain.VentaDet;
 public class VinculacionDeNotas extends HibernateDaoSupport{
 	
 	
-	
-	private VentasDao ventaDao;
-	private ClienteDao clienteDao;
-	private DevolucionDao devolucionDao;
-	
 	protected Logger logger=Logger.getLogger(getClass());
-	
-	
-	
 	
 	public VinculacionDeNotas() {
 		super();
@@ -56,7 +42,7 @@ public class VinculacionDeNotas extends HibernateDaoSupport{
 		getHibernateTemplate().execute(new HibernateCallback(){
 			public Object doInHibernate(Session session) throws HibernateException, SQLException {
 				String hql="from NotaDeCredito n " +
-						" where  n.year=2007 and n.cliente  is null";
+						" where   and n.cliente  is null";
 				ScrollableResults rs=session.createQuery(hql)				
 				.scroll();
 				int count=0;
@@ -87,7 +73,7 @@ public class VinculacionDeNotas extends HibernateDaoSupport{
 		getHibernateTemplate().execute(new HibernateCallback(){
 
 			public Object doInHibernate(Session session) throws HibernateException, SQLException {
-				String hql="from NotasDeCreditoDet n where  n.year=2007  and n.factura is null";
+				String hql="from NotasDeCreditoDet n where   n.factura is null";
 				ScrollableResults rs=session.createQuery(hql)				
 				.scroll();
 				int count=0;
@@ -114,11 +100,10 @@ public class VinculacionDeNotas extends HibernateDaoSupport{
 		getHibernateTemplate().execute(new HibernateCallback(){
 
 			public Object doInHibernate(Session session) throws HibernateException, SQLException {
-				String hql="from NotaDeCredito n where n.tipo in(?,?,?) and devolucion is null and year=2007";
+				String hql="from NotaDeCredito n where n.tipo in(?,?,?) and devolucion is null ";
 				ScrollableResults rs=session.createQuery(hql)
 				.setString(0, "H")
 				.setString(1, "I")
-				.setString(2, "J")
 				.scroll();
 				int count=0;				
 				while(rs.next()){
@@ -156,7 +141,7 @@ public class VinculacionDeNotas extends HibernateDaoSupport{
 		getHibernateTemplate().execute(new HibernateCallback(){
 
 			public Object doInHibernate(Session session) throws HibernateException, SQLException {
-				String hql="from Pago p where p.tipoDocto in(?,?,?,?) and venta is null and year=2007 and mes=6";
+				String hql="from Pago p where p.tipoDocto in(?,?,?,?) and venta is null ";
 				ScrollableResults rs=session.createQuery(hql)
 				.setString(0, "A")
 				.setString(1, "B")
@@ -189,7 +174,7 @@ public class VinculacionDeNotas extends HibernateDaoSupport{
 		getHibernateTemplate().execute(new HibernateCallback(){
 			public Object doInHibernate(Session session) throws HibernateException, SQLException {
 				String hql="from Pago p " +
-						" where  p.year=2007 and p.cliente  is null";
+						" where   p.cliente  is null";
 				ScrollableResults rs=session.createQuery(hql)				
 				.scroll();
 				int count=0;

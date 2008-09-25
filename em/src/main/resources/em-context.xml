@@ -293,16 +293,15 @@
 			</map>
 		</property>
 	</bean>
- <!--
+ 
 	<bean id="chequesDevueltosReplicator"
 		class="com.luxsoft.siipap.em.replica.notas.ChequesDevueltosReplicator"
 		parent="baseReplicator">
 		<property name="beanClass"
-			value="com.luxsoft.siipap.cxc.domain.Cheque" />
+			value="com.luxsoft.siipap.cxc.domain.ChequeDevuelto" />
 		<property name="dao" ref="notasDeCreditoDao" />
-		<property name="chequeDao" ref="chequeDao" />  
 	</bean>
--->
+
 	<bean id="juridicoReplicator"
 		class="com.luxsoft.siipap.em.replica.notas.JuridicoReplicator"
 		parent="baseReplicator">

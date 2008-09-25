@@ -33,38 +33,17 @@ public class ChequesDevueltosReplicator extends AbstractReplicatorSupport{
 	@Override
 	@SuppressWarnings("unchecked")
 	protected int contarBeans(Periodo p, Object... args) {
-		String hql="select count(*) from Cheque c where c.mes=? and c.year=?";
-		List<Long> l=getDao().getHibernateTemplate().find(hql,new Object[]{getMes(p),getYear(p)});
-		return l.get(0).intValue();
+		return 0;
 	}
 
-	public List<ReplicaLog> validar(Periodo periodo) {
-		List<Periodo> meses=Periodo.periodosMensuales(periodo);
+	public List<ReplicaLog> validar(Periodo periodo) {		
 		List<ReplicaLog> list=new ArrayList<ReplicaLog>();
-		for(Periodo mes:meses){
-			
-			//Validando DDOCRE
-			String table=ReplicationUtils.resolveTable("MOVCHE",mes.getFechaInicial());
-			String sql="select count(*) from "+table+ " where MCHIDENOPE in(3,4) ";					
-			int rows=getFactory().getJdbcTemplate(mes).queryForInt(sql);
-			int beans=contarBeans(mes, "CHE");			
-			list.add(registrar("Cheque","MOVCHE","CHE",mes,beans,rows));
-			
-		}
 		return list;
 	}
-
-
 	
 	public void validarBulkImport(Periodo p) {
-		List<Periodo> periodos=Periodo.periodosMensuales(p);
-		for(final Periodo mes:periodos){
-			int beans=contarBeans(mes,"");
-			Assert.isTrue(0==beans,"Existen registros en Cheque para el periodo :"+p);
-		}
 		
 	}
-
 	
 	public void bulkImport(Periodo p) {
 		validarBulkImport(p);
@@ -167,34 +146,35 @@ public class ChequesDevueltosReplicator extends AbstractReplicatorSupport{
 						});
 						notaCredito=nota;
 						injectYearMonth(mes, nota);
+						getNotaDeCreditoDao().salvar(notaCredito);
 					}
 					//Creamos Juridico
 					Assert.notNull(notaCredito);
-					ChequeDevuelto c=new ChequeDevuelto();
-					/*
-					c.setNota(notaCredito);
+					ChequeDevuelto c=new ChequeDevuelto();					
+					//c.setNota(notaCredito);
 					
 					String concepto=rs.getString(getPrefix()+"CONCEPT");
-					c.setConcepto(concepto);					
+					//c.setConcepto(concepto);					
 					
 					Number origen=(Number)rs.getObject(getPrefix()+"ORIGEN");
-					if(origen!=null)
-						c.setOrigen(origen.intValue());
+					//if(origen!=null)
+						//c.setOrigen(origen.intValue());
+						//c.set
 					
 					Number banco=(Number)rs.getObject(getPrefix()+"BANCO");
-					if(banco!=null)
-						c.setBanco(banco.intValue());					
+					//if(banco!=null)
+						//c.setBanco(banco.intValue());					
 					
 					Number porCarg=(Number)rs.getObject(getPrefix()+"PORCARG");
-					if(porCarg!=null)
-						c.setPorCarg(porCarg.doubleValue());					
+					//if(porCarg!=null)
+						//c.setPorCarg(porCarg.doubleValue());					
 					injectYearMonth(mes, c);
 					try{
-						getChequeDao().salvar(c);
+						//getChequeDao().salvar(c);
 					}catch(Exception ex){
 						logger.error("No se pudo persistir el Cheque, seguramente ya exsite en la base de datos",ex);
 					}
-					*/
+					
 					
 				}
 				
@@ -241,7 +221,7 @@ public class ChequesDevueltosReplicator extends AbstractReplicatorSupport{
 	
 	public static void main(String[] args) {
 		ChequesDevueltosReplicator replicator=(ChequesDevueltosReplicator)ServiceManager.instance().getReplicador(Replicadores.ChequesDevueltosReplicator);
-		replicator.bulkImport(new Periodo("01/01/2007","28/06/2007"));
+		replicator.bulkImport(new Periodo("01/01/2008","30/09/2008"));
 	}	
 	
 	

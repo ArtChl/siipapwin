@@ -14,7 +14,6 @@ import com.luxsoft.siipap.domain.Periodo;
 import com.luxsoft.siipap.em.replica.Replicador;
 import com.luxsoft.siipap.em.replica.Replicadores;
 import com.luxsoft.siipap.em.replica.domain.ReplicaLog;
-import com.luxsoft.siipap.em.replica.notas.VinculacionDeNotas;
 
 /**
  * Bean central para administrar el sistema de replicacion. Funciona como 
@@ -86,16 +85,16 @@ public class ReplicationManager implements ApplicationContextAware{
 		List<Date> dias=periodo.getListaDeDias();
 		for(Date dia:dias){
 			Periodo p=new Periodo(dia);
-			//replicarVentas(p);
+			replicarVentas(p);
 			replicarDevoluciones(p);
 			replicarNotasDeCredito(p);
-			replicarPagos(p);			
+			//replicarPagos(p);			
 		}
 		
 	}
 	
 	public void validar(Periodo periodo){
-		
+		/*
 		List<Date> dias=periodo.getListaDeDias();
 		for(Date dia:dias){
 			Periodo p=new Periodo(dia);
@@ -104,20 +103,21 @@ public class ReplicationManager implements ApplicationContextAware{
 			validarReplica(p,Replicadores.NotasDeCreditoReplicator);
 			validarReplica(p,Replicadores.PagosReplicator);			
 		}
+		*/
 		
 	}
 
 	public static void main(String[] args) {
 		
 		ServiceManager.instance().getReplicationManager()
-		.replicar(new Periodo("22/04/2008","22/04/2008"));
-		
+		.replicar(Periodo.getPeriodoEnUnMes(1, 2008));
+		/*
 		VinculacionDeNotas manager=new VinculacionDeNotas();
 		manager.vincularClientes();
 	    manager.vincularDevoluciones();
 		//manager.vincularVentas();
 		manager.vincularClientesPagos();
-		 
+		 */
 		
 	}
 

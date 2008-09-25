@@ -9,6 +9,7 @@ import com.luxsoft.siipap.em.dao.SiipapJdbcTemplateFactory;
 import com.luxsoft.siipap.em.replica.Replicador;
 import com.luxsoft.siipap.em.replica.Replicadores;
 import com.luxsoft.siipap.em.replica.legacy.BasicReplicator;
+import com.luxsoft.siipap.em.replica.notas.NotasDeCreditoDetReplicator;
 import com.luxsoft.siipap.services.ServiceLocator;
 
 
@@ -54,7 +55,9 @@ public class ServiceManager {
 		return (Replicador)getContext().getBean(r.toString());
 	}
 	
-	
+	public NotasDeCreditoDetReplicator getNotasReplicator(){
+		return (NotasDeCreditoDetReplicator)getContext().getBean("notasDeCreditoReplicator");
+	}
 	
 	public BasicReplicator getCarterReplicator(){
 		BasicReplicator cr=(BasicReplicator)getContext().getBean("carterReplicator");
