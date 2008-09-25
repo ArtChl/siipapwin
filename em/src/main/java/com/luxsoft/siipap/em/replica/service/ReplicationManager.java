@@ -35,25 +35,15 @@ public class ReplicationManager implements ApplicationContextAware{
 		return (Replicador)context.getBean(r.toString());
 	}
 	
-	public void replicarVentas(Periodo p){
-		replicar(Replicadores.VentasReplicator,p);		
-		//validarReplica(p,Replicadores.VentasReplicator);		
-	}
-	
 	public void replicarDevoluciones(Periodo p){
 		replicar(Replicadores.DevolucionesReplicator,p);
-		//validarReplica(p,Replicadores.DevolucionesReplicator);		
 	}
 	
 	public void replicarNotasDeCredito(Periodo p){
 		replicar(Replicadores.NotasDeCreditoReplicator,p);
-		//validarReplica(p,Replicadores.NotasDeCreditoReplicator);
-		
 	}
 	public void replicarPagos(Periodo p){
 		replicar(Replicadores.PagosReplicator,p);
-		//validarReplica(p,Replicadores.PagosReplicator);
-		
 	}
 	
 	public void replicar(Replicadores rr,Periodo p){
@@ -85,40 +75,19 @@ public class ReplicationManager implements ApplicationContextAware{
 		List<Date> dias=periodo.getListaDeDias();
 		for(Date dia:dias){
 			Periodo p=new Periodo(dia);
-			replicarVentas(p);
 			replicarDevoluciones(p);
 			replicarNotasDeCredito(p);
-			//replicarPagos(p);			
+			replicarPagos(p);			
 		}
-		
 	}
 	
-	public void validar(Periodo periodo){
-		/*
-		List<Date> dias=periodo.getListaDeDias();
-		for(Date dia:dias){
-			Periodo p=new Periodo(dia);
-			//validarReplica(p,Replicadores.VentasReplicator);
-			validarReplica(p,Replicadores.DevolucionesReplicator);		
-			validarReplica(p,Replicadores.NotasDeCreditoReplicator);
-			validarReplica(p,Replicadores.PagosReplicator);			
-		}
-		*/
-		
-	}
+	
 
 	public static void main(String[] args) {
 		
 		ServiceManager.instance().getReplicationManager()
 		.replicar(Periodo.getPeriodoEnUnMes(1, 2008));
-		/*
-		VinculacionDeNotas manager=new VinculacionDeNotas();
-		manager.vincularClientes();
-	    manager.vincularDevoluciones();
-		//manager.vincularVentas();
-		manager.vincularClientesPagos();
-		 */
-		
+				
 	}
 
 	public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
