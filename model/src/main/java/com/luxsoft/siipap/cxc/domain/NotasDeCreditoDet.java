@@ -9,8 +9,9 @@ import javax.persistence.Entity;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
+import org.apache.commons.lang.builder.ToStringBuilder;
+import org.apache.commons.lang.builder.ToStringStyle;
 import org.hibernate.validator.Length;
-import org.springframework.util.Assert;
 
 import com.luxsoft.siipap.domain.CantidadMonetaria;
 import com.luxsoft.siipap.domain.Periodo;
@@ -22,6 +23,7 @@ import com.luxsoft.utils.domain.PersistentObject;
  * @author RUBEN
  *
  */
+@SuppressWarnings("serial")
 @Entity
 public class NotasDeCreditoDet extends PersistentObject{
 	
@@ -324,6 +326,24 @@ public class NotasDeCreditoDet extends PersistentObject{
 		.append(this.comentario)
 		.append(this.importe)
 		.toHashCode();
+	}
+	
+	public String toString(){
+		return new ToStringBuilder(this,ToStringStyle.SHORT_PREFIX_STYLE)
+		.append(this.getId())
+		.append(numero)
+		.append(serie)
+		.append(tipo)
+		.append(clave)
+		.append(fecha)
+		.append(numDocumento)
+		.append(sucDocumento)
+		.append(serieDocumento)
+		.append(tipoDocumento)
+		.append(fechaDocumento)
+		.toString();
+		
+		
 	}
 	
 	/** Campos solo utiles para la migracion ***/

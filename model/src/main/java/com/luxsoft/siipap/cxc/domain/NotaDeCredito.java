@@ -419,7 +419,7 @@ public class NotaDeCredito extends PersistentObject implements ClienteHolder{
 	}
 	
 	public String toString(){
-		return new ToStringBuilder(this,ToStringStyle.SIMPLE_STYLE)
+		return new ToStringBuilder(this,ToStringStyle.SHORT_PREFIX_STYLE)
 		.append("Id",getId())
 		.append(getClave())
 		.append(getNumero())

@@ -259,5 +259,28 @@ public class NotaDeCreditoDaoImpl extends HibernateDaoSupport implements NotaDeC
 		});
 	}
 	
+	public void eliminarNotaConAplicaciones(final Long id){
+		getHibernateTemplate().execute(new HibernateCallback(){
+
+			public Object doInHibernate(Session session)
+					throws HibernateException, SQLException {
+				NotaDeCredito nota=(NotaDeCredito)session.get(NotaDeCredito.class, id);
+				
+				//Buscamos posibles devoluciones
+				List<DevolucionDet> devosDets=session.createQuery("from DevolucionDet d where d.nota=?")
+				.setEntity(0, nota)
+				.list();
+				
+				for(DevolucionDet det:devosDets){
+					det.setNota(null);
+				}
+				session.delete(nota);
+				session.flush();
+				
+				return null;
+			}
+			
+		});
+	}
 
 }

@@ -7,6 +7,7 @@ import java.util.List;
 import com.luxsoft.siipap.cxc.domain.Cliente;
 import com.luxsoft.siipap.cxc.domain.NotaDeCredito;
 import com.luxsoft.siipap.cxc.domain.NotasDeCreditoDet;
+import com.luxsoft.siipap.cxc.domain.Pago;
 import com.luxsoft.siipap.domain.Periodo;
 import com.luxsoft.siipap.ventas.domain.Venta;
 
@@ -80,6 +81,12 @@ public interface NotaDeCreditoDao {
 	
 	public List<NotaDeCredito> buscarNotasPorDevolucionYTD(Cliente c);
 	
-	
+	/**
+	 * Permite eliminar una nota de credito con referencias a otras
+	 * entidades.
+	 * 
+	 * @param id
+	 */
+	public void eliminarNotaConAplicaciones(final Long id);
 
 }
