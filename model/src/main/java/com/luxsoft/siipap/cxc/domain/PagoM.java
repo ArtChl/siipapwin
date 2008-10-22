@@ -58,7 +58,7 @@ public class PagoM extends MutableObject implements ClienteHolder{
 	@Length (max=50,message="El tamaño máximo para el comantario es de 50 caracteres")
 	private String comentario;
 	
-	@MinCantidad ( min=0,message="No se permiten pagos con importes <=0.00")
+	//@MinCantidad ( min=0,message="No se permiten pagos con importes <=0.00")
 	private CantidadMonetaria importe=CantidadMonetaria.pesos(0);
 	
 	private Set<Pago> pagos=new HashSet<Pago>();

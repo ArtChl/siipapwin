@@ -26,6 +26,11 @@ public class DepositoUnitario extends MutableObject{
 	
 	private Deposito deposito;
 	
+	private Long clienteId;
+	
+	private String clave;
+	
+	private String formaDePagoDesc;
 	
 	public DepositoUnitario() {}
 	
@@ -116,6 +121,27 @@ public class DepositoUnitario extends MutableObject{
 		this.grupo = grupo;
 	}
 	
+	public Long getClienteId() {
+		return clienteId;
+	}
 	
+	public void setClienteId(Long clienteId) {
+		long old=this.clienteId;
+		this.clienteId = clienteId;
+		propertyChangeSupport.firePropertyChange("clienteId", old, clienteId);
+	}
+	
+	public String getClave() {
+		return clave;
+	}
+	public void setClave(String clave) {
+		this.clave = clave;
+	}
+	public String getFormaDePagoDesc() {
+		return formaDePagoDesc;
+	}
+	public void setFormaDePagoDesc(String formaDePagoDesc) {
+		this.formaDePagoDesc = formaDePagoDesc;
+	}
 		
 }

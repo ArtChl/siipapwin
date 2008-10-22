@@ -42,10 +42,11 @@ public class Deposito extends MutableObject{
 	
 	private int folio;
 	
-	
-	
 	private Set<DepositoUnitario> partidas=new HashSet<DepositoUnitario>();
 	
+	private Long cobradorId;
+	
+	private String cobrador;
 
 	public Date getFecha() {
 		return fecha;
@@ -85,7 +86,7 @@ public class Deposito extends MutableObject{
 		return formaDePago;
 	}
 	public void setFormaDePago(FormaDePago formaDePago) {
-		this.formaDePago = formaDePago;
+		this.formaDePago = formaDePago;		
 	}
 	
 	public Collection<DepositoUnitario> getPartidas() {
@@ -270,6 +271,29 @@ public class Deposito extends MutableObject{
 	public void setFolio(int folio) {
 		this.folio = folio;
 	}
+	
+	public void actualizarDatos(){
+		for(DepositoUnitario d:partidas){
+			d.setFormaDePagoDesc(formaDePago.getDesc());
+		}
+	}
+	
+	public Long getCobradorId() {
+		return cobradorId;
+	}
+	public void setCobradorId(Long cobradorId) {
+		this.cobradorId = cobradorId;
+	}
+	
+	public String getCobrador() {
+		return cobrador;
+	}
+	public void setCobrador(String cobrador) {
+		String old=this.cobrador;
+		this.cobrador = cobrador;
+		propertyChangeSupport.firePropertyChange("cobrador", old, cobrador);
+	}
+	
 	
 	
 

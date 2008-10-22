@@ -52,6 +52,9 @@
         	<column name="FOLIO" default="0"></column>
         </property>
         
+        <property name="cobradorId"/>        
+        <property name="cobrador" />
+        
         <set name="partidas"
         	access="field" 
         	table="SW_DEPOSITOSDET">
@@ -64,6 +67,9 @@
         			<column name="IMPORTE" not-null="true" length="2"></column>
         		</property>
         		<property name="grupo"/>
+        		<property name="clienteId"/>        
+        		<property name="clave" length="7"/>        
+        		<property name="formaDePagoDesc" length="20"/>
         	</composite-element>
         </set>
 

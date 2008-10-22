@@ -28,6 +28,7 @@ public class DepositosManagerImpl extends HibernateDaoSupport implements Deposit
 	public void salvarDepositos(List<Deposito> depositos,final Date fecha) {
 		for(Deposito d:depositos){
 			d.setFecha(fecha);
+			d.actualizarDatos();
 			getUniversalDao().save(d);
 		}
 	}
