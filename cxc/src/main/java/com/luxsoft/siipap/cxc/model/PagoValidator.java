@@ -25,7 +25,7 @@ public class PagoValidator implements Validator{
 		if("U".equals(pago.getFormaDePago())){
 			support.addError("importe", "No se permiten pagos tipo U");
 		}else{
-			if(pago.getImporte().amount().doubleValue()<=0){
+			if(pago.getImporte().amount().doubleValue()<=0 && "X".equalsIgnoreCase(pago.getFormaDePago())){
 				support.addError("importe", "El importe debe ser mayor a cero");
 			}if(StringUtils.isBlank(pago.getReferencia())){
 				support.addWarning("referencia", "Preferentemente anote un dato como referencia ");
