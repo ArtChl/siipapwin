@@ -44,13 +44,11 @@ public class PagosReplicator extends AbstractReplicatorSupport{
 			pagos.addAll(cargarPagosGenerales(periodo, "PAGCAM", "PCA"));
 			pagos.addAll(cargarPagosMostrador(periodo, "CAJNOR", "CAN"));
 			pagos.addAll(cargarPagosDeAnticipos(periodo, "CAMANT", "CAMANT"));
+			//pagos.addAll(cargarPagosGenerales(periodo, "PAGCHE", "PCH"));
+			//pagos.addAll(cargarPagosGenerales(periodo, "PAGJUR", "PJU"));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		//pagos.addAll(cargarPagosGenerales(periodo, "PAGCRE", "PCR"));
-		
-		//pagos.addAll(cargarPagosGenerales(periodo, "PAGCHE", "PCH"));
-		//pagos.addAll(cargarPagosGenerales(periodo, "PAGJUR", "PJU"));
 		
 		
 		vincular(pagos);
