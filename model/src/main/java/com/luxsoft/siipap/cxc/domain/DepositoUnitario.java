@@ -32,6 +32,12 @@ public class DepositoUnitario extends MutableObject{
 	
 	private String formaDePagoDesc;
 	
+	private Long pagoAplicado;
+	
+	private Long cobradorId;
+	
+	private String cobrador;
+	
 	public DepositoUnitario() {}
 	
 	public DepositoUnitario(String banco, int numero, BigDecimal importe) {		
@@ -143,5 +149,31 @@ public class DepositoUnitario extends MutableObject{
 	public void setFormaDePagoDesc(String formaDePagoDesc) {
 		this.formaDePagoDesc = formaDePagoDesc;
 	}
+
+	public Long getPagoAplicado() {
+		return pagoAplicado;
+	}
+
+	public void setPagoAplicado(Long pagoAplicado) {
+		this.pagoAplicado = pagoAplicado;
+	}
+
+	public Long getCobradorId() {
+		return cobradorId;
+	}
+
+	public void setCobradorId(Long cobradorId) {
+		this.cobradorId = cobradorId;
+	}
+
+	public String getCobrador() {
+		return cobrador;
+	}
+
+	public void setCobrador(String cobrador) {
+		this.cobrador = cobrador;
+	}
+	
+	
 		
 }

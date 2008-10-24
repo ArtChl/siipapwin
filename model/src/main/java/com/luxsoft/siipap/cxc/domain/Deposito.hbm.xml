@@ -70,6 +70,9 @@
         		<property name="clienteId"/>        
         		<property name="clave" length="7"/>        
         		<property name="formaDePagoDesc" length="20"/>
+        		<property name="pagoAplicado" />
+        		<property name="cobradorId"/>        
+        		<property name="cobrador" />
         	</composite-element>
         </set>
 

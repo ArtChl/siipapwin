@@ -95,7 +95,9 @@ public class PagoM extends MutableObject implements ClienteHolder{
 
 	private int mes=Periodo.obtenerMes(new Date())+1;
 	
-	private int version;	
+	private int version;
+	
+	
 	
 
 	public PagoM() {
@@ -117,6 +119,7 @@ public class PagoM extends MutableObject implements ClienteHolder{
 		this.id = id;
 	}
 	
+
 	public Cliente getCliente() {		
 		return cliente;
 	}
@@ -552,7 +555,29 @@ public class PagoM extends MutableObject implements ClienteHolder{
 	public void setCambiaria(boolean cambiaria) {
 		this.cambiaria = cambiaria;
 	}
+	
+	/**
+	 * Util para importar datos de deposito
+	 * 
+	 */
+	private DepositoRow depositoRow;
 
+
+	public DepositoRow getDepositoRow() {
+		return depositoRow;
+	}
+
+	public void setDepositoRow(DepositoRow depositoRow) {
+		this.depositoRow = depositoRow;
+		setReferencia(String.valueOf(depositoRow.getNumero()));
+		setFormaDePago(depositoRow.getFP());
+		setBanco(depositoRow.getBanco());
+		CantidadMonetaria imp=CantidadMonetaria.pesos(depositoRow.getImporte().doubleValue());
+		setImporte(imp);
+		
+	}
+	
+	
 	
 	
 }

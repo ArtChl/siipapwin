@@ -18,6 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.luxsoft.siipap.cxc.dao.PagoMDao;
 import com.luxsoft.siipap.cxc.domain.Cliente;
+import com.luxsoft.siipap.cxc.domain.DepositoRow;
 import com.luxsoft.siipap.cxc.domain.Pago;
 import com.luxsoft.siipap.cxc.domain.PagoConOtros;
 import com.luxsoft.siipap.cxc.domain.PagoM;
@@ -66,12 +67,22 @@ public class PagosManagerImpl extends HibernateDaoSupport implements PagosManage
 		}
 		pago.depurar();		
 		getPagoMDao().salvar(pago);
+		if(pago.getDepositoRow()!=null)
+			actualizarTablaDepositos(pago);
 		for(Pago p:pago.getPagos()){
 			if(p.getVenta()!=null){
 				//getVentasManager().actualizarVenta(p.getVenta());
 			}
 		}
-		
+	}
+	
+	private void actualizarTablaDepositos(final PagoM pago){
+		System.out.println("Debemos salvar pagom_id en depositosdet : "+pago.getDepositoRow());
+		String sql="UPDATE SW_DEPOSITOSDET SET PAGOAPLICADO=? WHERE DEPOSITO_ID=? AND CLAVE=? AND NUMERO=?";
+		DepositoRow row=pago.getDepositoRow();
+		Object[] args={pago.getId(),row.getDepositoId(),row.getClave(),row.getNumero()};
+		int updated=ServiceLocator.getJdbcTemplate().update(sql, args);
+		logger.debug("Actualizados: "+updated);
 	}
 	
 	/**

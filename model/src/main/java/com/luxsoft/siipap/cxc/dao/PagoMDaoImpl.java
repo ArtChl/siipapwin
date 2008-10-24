@@ -47,7 +47,7 @@ public class PagoMDaoImpl extends HibernateDaoSupport implements PagoMDao{
 	//@Transactional (propagation=Propagation.REQUIRED, readOnly=false)
 	public void salvar(final PagoM pd) {
 		//Assert.isTrue(!pd.getPagos().isEmpty(),"No se puede salvar un PagosConDescuento sin pagos");
-		pd.setModificado(new Date());		
+		pd.setModificado(new Date());
 		getHibernateTemplate().saveOrUpdate(pd);
 		
 	}

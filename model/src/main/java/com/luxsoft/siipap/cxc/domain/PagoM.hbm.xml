@@ -33,7 +33,7 @@
 			name="cliente"
 			column="CLIENTE_ID"
 			foreign-key="PAGOSDESC_CLIE_FK"
-			not-null="true"/>
+			not-null="true"/>		 
 			
 		<property name="tipoDeDocumento" length="1" not-null="true"/>
 		 
