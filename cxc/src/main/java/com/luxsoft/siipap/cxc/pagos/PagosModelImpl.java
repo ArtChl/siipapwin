@@ -2,7 +2,11 @@ package com.luxsoft.siipap.cxc.pagos;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.List;
+
+import org.springframework.jdbc.core.RowMapper;
 
 import ca.odell.glazedlists.BasicEventList;
 import ca.odell.glazedlists.EventList;
@@ -17,9 +21,13 @@ import com.jgoodies.binding.value.ValueModel;
 import com.jgoodies.validation.ValidationResultModel;
 import com.jgoodies.validation.util.DefaultValidationResultModel;
 import com.luxsoft.siipap.cxc.domain.Cliente;
+import com.luxsoft.siipap.cxc.domain.Deposito;
+import com.luxsoft.siipap.cxc.domain.DepositoRow;
+import com.luxsoft.siipap.cxc.domain.DepositoUnitario;
 import com.luxsoft.siipap.cxc.domain.Pago;
 import com.luxsoft.siipap.cxc.domain.PagoM;
 import com.luxsoft.siipap.domain.CantidadMonetaria;
+import com.luxsoft.siipap.services.ServiceLocator;
 import com.luxsoft.siipap.ventas.domain.Venta;
 
 /**
@@ -293,7 +301,34 @@ public class PagosModelImpl extends Model implements PagosModel {
 		}
 		
 	}
-	
-	
 
+	@SuppressWarnings("unchecked")
+	public List<DepositoRow> buscarDepositosDisponibles() {
+		String sql="select b.FORMADP,a.* from SW_DEPOSITOSDET a " +
+		"left join SW_DEPOSITOS b on a.DEPOSITO_ID=b.DEOPSITO_ID " +
+		"where pagoaplicado is null and clave is not null" +
+		" and clave=?";
+		
+		String clave=getPagoM().getCliente().getClave();
+		
+		List<DepositoRow> rows=ServiceLocator.getJdbcTemplate()
+			.query(sql,new Object[]{clave},new RowMapper(){
+			public Object mapRow(ResultSet rs, int rowNum) throws SQLException {
+				DepositoRow row=new DepositoRow();
+				row.setDepositoId(rs.getLong("DEPOSITO_ID"));
+				row.setBanco(rs.getString("BANCO"));
+				row.setClave(rs.getString("CLAVE"));
+				row.setNombre(rs.getString("NOMBRE"));
+				row.setClienteId(rs.getLong("CLIENTEID"));
+				row.setImporte(rs.getBigDecimal("IMPORTE"));
+				row.setNumero(rs.getInt("NUMERO"));
+				row.setFormaDePago(rs.getString("FORMADP"));
+				
+				return row;
+			}
+		});
+		return rows;
+	}
+	
+	
 }

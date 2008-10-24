@@ -7,6 +7,7 @@ import ca.odell.glazedlists.EventList;
 import com.jgoodies.binding.PresentationModel;
 import com.jgoodies.binding.value.ValueModel;
 import com.jgoodies.validation.ValidationResultModel;
+import com.luxsoft.siipap.cxc.domain.DepositoRow;
 import com.luxsoft.siipap.cxc.domain.Pago;
 import com.luxsoft.siipap.cxc.domain.PagoM;
 import com.luxsoft.siipap.domain.CantidadMonetaria;
@@ -106,4 +107,5 @@ public interface PagosModel {
 	public CantidadMonetaria estimarPago(final Venta v);
 	
 	
+	public List<DepositoRow> buscarDepositosDisponibles();
 }

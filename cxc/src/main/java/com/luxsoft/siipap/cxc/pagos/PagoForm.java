@@ -7,6 +7,7 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
 import javax.swing.Action;
+import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
@@ -27,6 +28,9 @@ import ca.odell.glazedlists.swing.EventTableModel;
 import ca.odell.glazedlists.swing.TableComparatorChooser;
 
 import com.jgoodies.binding.adapter.BasicComponentFactory;
+import com.jgoodies.binding.list.SelectionInList;
+import com.jgoodies.binding.value.ValueHolder;
+import com.jgoodies.binding.value.ValueModel;
 import com.jgoodies.forms.builder.DefaultFormBuilder;
 import com.jgoodies.forms.builder.PanelBuilder;
 import com.jgoodies.forms.layout.CellConstraints;
@@ -91,10 +95,15 @@ public class PagoForm extends SXAbstractDialog{
 	private void initComponents(){
 		fecha=Binder.createDateComponent(model.getPagoMPModel().getModel("fecha"));
 		formaDePago=CXCBindings.createFormaDePagoBinding(model.getPagoMPModel().getModel("formaDePago"));
+		formaDePago.setEnabled(false);
 		referencia=BasicComponentFactory.createTextField(model.getPagoMPModel().getComponentModel("referencia"));
+		referencia.setEnabled(false);
 		bancoOrigen=CXCBindings.createBancosBinding(model.getPagoMPModel().getModel("banco"));
+		bancoOrigen.setEnabled(false);
 		cuentaDeposito=CXCBindings.createCuentasDeposito(model.getPagoMPModel().getModel("cuentaDeposito"));
+		cuentaDeposito.setEnabled(false);
 		importe=Binder.createCantidadMonetariaBinding(model.getPagoMPModel().getComponentModel("importe"));
+		importe.setEditable(false);
 		disponible=Binder.createMonetariNumberBinding(model.getPagoMPModel().getComponentModel("disponible"));
 		saldoTotal=Binder.createCantidadMonetariaBinding(model.getPorPagar());
 		comentario=BasicComponentFactory.createTextArea(model.getPagoMPModel().getComponentModel("comentario"),false);
@@ -116,7 +125,8 @@ public class PagoForm extends SXAbstractDialog{
 		ValidationComponentUtils.setMessageKey(formaDePago, "Pago.formaDePago");
 	}
 	
-	private void initEventHandling(){		
+	private void initEventHandling(){	
+		System.out.println("Inicializando bean..");
 		model.getPagoMPModel().addBeanPropertyChangeListener(new ProcesoHandler());
 		ValidationHandler handler=new ValidationHandler();		
 		model.getValidationModel().addPropertyChangeListener(handler);
@@ -158,6 +168,23 @@ public class PagoForm extends SXAbstractDialog{
 		return builder.getPanel();
 	}
 	
+	JButton locButton;
+	
+	private JButton createLocbutton(){
+		if(locButton==null){
+			locButton=new JButton("Localizar pago");
+		}
+		return locButton;
+	}
+	
+	private JComboBox buildPagosbox(final ValueModel vm){
+		SelectionInList sl=new SelectionInList(model.buscarDepositosDisponibles(),vm);
+		return BasicComponentFactory.createComboBox(sl);
+	}
+	
+	
+	
+	
 	protected JComponent createMasterPanel(){
 		final FormLayout layout=new FormLayout(
 				"l:p,2dlu,f:max(p;50dlu):g(.3) ,3dlu " +
@@ -172,7 +199,8 @@ public class PagoForm extends SXAbstractDialog{
 		builder.append("Referencia",referencia,true);
 		builder.append("Cuenta Depósito",cuentaDeposito,true);
 		builder.append("Importe",importe);
-		builder.append("Disponible",disponible,true);
+		builder.append("Pago",buildPagosbox(model.getPagoMPModel().getModel("depositoRow")),true);
+		builder.append("Disponible",disponible);
 		builder.append("Por pagar",saldoTotal);
 		builder.append("Pendiente",saldoPendiente,true);
 		
