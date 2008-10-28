@@ -304,7 +304,7 @@ public class PagosModelImpl extends Model implements PagosModel {
 
 	@SuppressWarnings("unchecked")
 	public List<DepositoRow> buscarDepositosDisponibles() {
-		String sql="select b.FORMADP,a.* from SW_DEPOSITOSDET a " +
+		String sql="select b.FORMADP,b.CUENTADESTINO,a.* from SW_DEPOSITOSDET a " +
 		"left join SW_DEPOSITOS b on a.DEPOSITO_ID=b.DEOPSITO_ID " +
 		"where pagoaplicado is null and clave is not null" +
 		" and clave=?";
@@ -323,7 +323,7 @@ public class PagosModelImpl extends Model implements PagosModel {
 				row.setImporte(rs.getBigDecimal("IMPORTE"));
 				row.setNumero(rs.getInt("NUMERO"));
 				row.setFormaDePago(rs.getString("FORMADP"));
-				
+				row.setCuentaDeposito(rs.getString("CUENTADESTINO"));
 				return row;
 			}
 		});
