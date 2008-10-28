@@ -54,6 +54,9 @@
         
         <property name="cobradorId"/>        
         <property name="cobrador" />
+        <property name="noenviar"/>
+        <property name="comentario"/>
+        <property name="cuentaId"/>
         
         <set name="partidas"
         	access="field" 

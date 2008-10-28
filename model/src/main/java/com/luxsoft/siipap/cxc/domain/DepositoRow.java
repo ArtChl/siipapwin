@@ -19,6 +19,7 @@ public class DepositoRow {
 	private String nombre;
 	private Long clienteId;
 	private String formaDePago;
+	private String cuentaDeposito;
 	
 	
 	public Long getDepositoId() {
@@ -77,6 +78,12 @@ public class DepositoRow {
 	
 	public FormaDePago getFP(){
 		return FormaDePago.valueOf(getFormaDePago());
+	}
+	public String getCuentaDeposito() {
+		return cuentaDeposito;
+	}
+	public void setCuentaDeposito(String cuentaDeposito) {
+		this.cuentaDeposito = cuentaDeposito;
 	}
 	
 

@@ -574,6 +574,8 @@ public class PagoM extends MutableObject implements ClienteHolder{
 		setBanco(depositoRow.getBanco());
 		CantidadMonetaria imp=CantidadMonetaria.pesos(depositoRow.getImporte().doubleValue());
 		setImporte(imp);
+		System.out.println("Cuenta destino: "+depositoRow.getCuentaDeposito());
+		setCuentaDeposito(depositoRow.getCuentaDeposito());
 		
 	}
 	

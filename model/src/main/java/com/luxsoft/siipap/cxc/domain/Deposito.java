@@ -47,6 +47,12 @@ public class Deposito extends MutableObject{
 	private Long cobradorId;
 	
 	private String cobrador;
+	
+	private Boolean noenviar;
+	
+	private String comentario;
+	
+	private Long cuentaId;
 
 	public Date getFecha() {
 		return fecha;
@@ -292,6 +298,24 @@ public class Deposito extends MutableObject{
 		String old=this.cobrador;
 		this.cobrador = cobrador;
 		propertyChangeSupport.firePropertyChange("cobrador", old, cobrador);
+	}
+	public Boolean getNoenviar() {
+		return noenviar;
+	}
+	public void setNoenviar(Boolean noenviar) {
+		this.noenviar = noenviar;
+	}
+	public String getComentario() {
+		return comentario;
+	}
+	public void setComentario(String comentario) {
+		this.comentario = comentario;
+	}
+	public Long getCuentaId() {
+		return cuentaId;
+	}
+	public void setCuentaId(Long cuentaId) {
+		this.cuentaId = cuentaId;
 	}
 	
 	
