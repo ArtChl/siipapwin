@@ -93,10 +93,10 @@ public class ComsSinAnalizarReport extends SXAbstractDialog {
 		builder.add(fecha_ini,cc.xyw(3, 1, 3));
 		builder.addLabel("Fecha Final",cc.xyw(1, 3, 2));
 		builder.add(fecha_fin,cc.xyw(3, 3, 3));
-//		builder.addLabel("Sucursal",cc.xyw(1, 5, 2));
-//		builder.add(sucursales,cc.xyw(3, 5, 3));
-		builder.addLabel("Articulo",cc.xyw(1, 5, 2));
-		builder.add(articulo,cc.xyw(3, 5, 3));
+		builder.addLabel("Sucursal",cc.xyw(1, 5, 2));
+		builder.add(sucursales,cc.xyw(3, 5, 3));
+		builder.addLabel("Articulo",cc.xyw(1, 7, 2));
+		builder.add(articulo,cc.xyw(3, 7, 3));
 		
 		return builder.getPanel();
 	}
