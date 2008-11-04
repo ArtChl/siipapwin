@@ -233,7 +233,7 @@
         <profile>
 			<id>qro</id>
 			<properties>
-				<db.url>jdbc:oracle:thin:@server_ofi_d:1521:qro</db.url>
+				<db.url>jdbc:oracle:thin:@10.10.9.1:1521:qro</db.url>
 				<db.user>siipap</db.user>
 				<db.password>sis</db.password>
 				<db.driver>oracle.jdbc.driver.OracleDriver</db.driver>
