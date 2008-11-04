@@ -151,7 +151,11 @@ HAVING SUM((CANTIDAD-ANALIZADA_CXP+ANALIZADOS_MAQUILA_BOBINAS-ANALIZADO_MAQUILA_
 						width="59"
 						height="18"
 						key="textField"/>
-					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<box>					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+</box>
 					<textElement textAlignment="Center" verticalAlignment="Middle">
 						<font pdfFontName="Helvetica-Bold" size="8" isBold="true" isItalic="false" isUnderline="true"/>
 					</textElement>
@@ -164,7 +168,11 @@ HAVING SUM((CANTIDAD-ANALIZADA_CXP+ANALIZADOS_MAQUILA_BOBINAS-ANALIZADO_MAQUILA_
 						width="420"
 						height="18"
 						key="textField-7"/>
-					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<box>					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+</box>
 					<textElement textAlignment="Left" verticalAlignment="Middle">
 						<font pdfFontName="Helvetica-BoldOblique" size="8" isBold="true" isItalic="true" isUnderline="true"/>
 					</textElement>
@@ -194,7 +202,11 @@ HAVING SUM((CANTIDAD-ANALIZADA_CXP+ANALIZADOS_MAQUILA_BOBINAS-ANALIZADO_MAQUILA_
 						width="590"
 						height="12"
 						key="textField-1"/>
-					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<box>					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+</box>
 					<textElement textAlignment="Right" verticalAlignment="Middle">
 						<font pdfFontName="Helvetica-Bold" size="8" isBold="true"/>
 					</textElement>
@@ -210,16 +222,19 @@ HAVING SUM((CANTIDAD-ANALIZADA_CXP+ANALIZADOS_MAQUILA_BOBINAS-ANALIZADO_MAQUILA_
 						forecolor="#000000"
 						backcolor="#FFFFFF"
 						key="staticText-1"/>
-					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#FFFFFF" bottomBorder="2Point" bottomBorderColor="#000000"/>
+					<box>					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#FFFFFF"/>
+</box>
 					<textElement textAlignment="Right" verticalAlignment="Top" rotation="None" lineSpacing="Single">
 						<font fontName="Arial" pdfFontName="Helvetica" size="8" isBold="false" isItalic="false" isUnderline="false" isPdfEmbedded ="false" pdfEncoding ="Cp1252" isStrikeThrough="false" />
 					</textElement>
-				<text><![CDATA[OFICINAS GENERALES
-Gracianp Sanchez #3
-Colonia Casa Blanca
-cp 66030 Qro.
-Tel. 01-442-2154510 al 12 
-Fax  01-442-2153513
+				<text><![CDATA[Biólogo Maximino Martínez No. 3902 
+Col. San Salvador Xochimanca
+C.P. 02870 México D.F. 
+Tel. 53 42 71 66   
+Fax 24 65 03 88
 ]]></text>
 				</staticText>
 				<staticText>
@@ -229,7 +244,11 @@ Fax  01-442-2153513
 						width="129"
 						height="11"
 						key="staticText-2"/>
-					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<box>					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+</box>
 					<textElement textAlignment="Center" verticalAlignment="Middle">
 						<font pdfFontName="Helvetica-BoldOblique" size="8" isBold="true" isItalic="true" isUnderline="false" isStrikeThrough="false" />
 					</textElement>
@@ -243,7 +262,11 @@ Fax  01-442-2153513
 						height="13"
 						forecolor="#666666"
 						key="staticText-16"/>
-					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#CCCCCC" bottomBorder="4Point" bottomBorderColor="#CCCCCC"/>
+					<box>					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineColor="#CCCCCC"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#CCCCCC"/>
+</box>
 					<textElement textAlignment="Right" verticalAlignment="Middle">
 						<font pdfFontName="Helvetica-BoldOblique" size="8" isBold="true" isItalic="true" isUnderline="false" isStrikeThrough="false" />
 					</textElement>
@@ -257,7 +280,11 @@ Fax  01-442-2153513
 						height="13"
 						forecolor="#666666"
 						key="staticText-17"/>
-					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#CCCCCC" bottomBorder="4Point" bottomBorderColor="#CCCCCC"/>
+					<box>					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineColor="#CCCCCC"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#CCCCCC"/>
+</box>
 					<textElement textAlignment="Center" verticalAlignment="Middle">
 						<font pdfFontName="Helvetica-BoldOblique" size="8" isBold="true" isItalic="true" isUnderline="false" isStrikeThrough="false" />
 					</textElement>
@@ -271,7 +298,11 @@ Fax  01-442-2153513
 						height="13"
 						forecolor="#666666"
 						key="textField-2"/>
-					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#CCCCCC" bottomBorder="4Point" bottomBorderColor="#CCCCCC"/>
+					<box>					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineColor="#CCCCCC"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#CCCCCC"/>
+</box>
 					<textElement textAlignment="Center" verticalAlignment="Middle">
 						<font pdfFontName="Helvetica-BoldOblique" size="8" isBold="true" isItalic="true" isUnderline="false" isStrikeThrough="false" />
 					</textElement>
@@ -285,7 +316,11 @@ Fax  01-442-2153513
 						height="13"
 						forecolor="#666666"
 						key="textField-3"/>
-					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="2Point" rightBorderColor="#CCCCCC" bottomBorder="4Point" bottomBorderColor="#CCCCCC"/>
+					<box>					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineColor="#CCCCCC"/>
+					<rightPen lineWidth="2.0" lineStyle="Solid" lineColor="#CCCCCC"/>
+</box>
 					<textElement textAlignment="Center" verticalAlignment="Middle">
 						<font pdfFontName="Helvetica-BoldOblique" size="8" isBold="true" isItalic="true" isUnderline="false" isStrikeThrough="false" />
 					</textElement>
@@ -301,7 +336,11 @@ Fax  01-442-2153513
 						forecolor="#666666"
 						backcolor="#FFFFFF"
 						key="staticText-18"/>
-					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#CCCCCC" bottomBorder="4Point" bottomBorderColor="#CCCCCC"/>
+					<box>					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineColor="#CCCCCC"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#CCCCCC"/>
+</box>
 					<textElement textAlignment="Right" verticalAlignment="Middle" rotation="None" lineSpacing="Single">
 						<font fontName="Arial" pdfFontName="Helvetica-BoldOblique" size="8" isBold="true" isItalic="true" isUnderline="false" isPdfEmbedded ="false" pdfEncoding ="Cp1252" isStrikeThrough="false" />
 					</textElement>
@@ -316,7 +355,11 @@ Fax  01-442-2153513
 						forecolor="#666666"
 						backcolor="#FFFFFF"
 						key="textField-4"/>
-					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="2Point" rightBorderColor="#CCCCCC" bottomBorder="4Point" bottomBorderColor="#CCCCCC"/>
+					<box>					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineColor="#CCCCCC"/>
+					<rightPen lineWidth="2.0" lineStyle="Solid" lineColor="#CCCCCC"/>
+</box>
 					<textElement textAlignment="Center" verticalAlignment="Middle" rotation="None" lineSpacing="Single">
 						<font fontName="Arial" pdfFontName="Helvetica-BoldOblique" size="8" isBold="true" isItalic="true" isUnderline="false" isPdfEmbedded ="false" pdfEncoding ="Cp1252" isStrikeThrough="false" />
 					</textElement>
@@ -329,7 +372,11 @@ Fax  01-442-2153513
 						width="129"
 						height="51"
 						key="image-1"/>
-					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<box>					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+</box>
 					<graphicElement stretchType="NoStretch"/>
 					<imageExpression class="java.lang.String"><![CDATA["images/siipapwin/papelLogo.jpg"]]></imageExpression>
 				</image>
@@ -347,7 +394,11 @@ Fax  01-442-2153513
 						forecolor="#FFFFFF"
 						backcolor="#999999"
 						key="staticText-3"/>
-					<box topBorder="Thin" topBorderColor="#CCCCCC" leftBorder="Thin" leftBorderColor="#CCCCCC" rightBorder="Thin" rightBorderColor="#CCCCCC" bottomBorder="Thin" bottomBorderColor="#CCCCCC"/>
+					<box>					<topPen lineWidth="0.25" lineStyle="Solid" lineColor="#CCCCCC"/>
+					<leftPen lineWidth="0.25" lineStyle="Solid" lineColor="#CCCCCC"/>
+					<bottomPen lineWidth="0.0" lineColor="#CCCCCC"/>
+					<rightPen lineWidth="0.25" lineStyle="Solid" lineColor="#CCCCCC"/>
+</box>
 					<textElement textAlignment="Center" verticalAlignment="Middle" rotation="Left" isStyledText="true" lineSpacing="Single">
 						<font fontName="Arial" pdfFontName="Helvetica-Bold" size="6" isBold="true" isItalic="false" isUnderline="false" isPdfEmbedded ="false" pdfEncoding ="Cp1252" isStrikeThrough="false" />
 					</textElement>
@@ -363,7 +414,11 @@ Fax  01-442-2153513
 						forecolor="#FFFFFF"
 						backcolor="#999999"
 						key="staticText-4"/>
-					<box topBorder="Thin" topBorderColor="#CCCCCC" leftBorder="Thin" leftBorderColor="#CCCCCC" rightBorder="Thin" rightBorderColor="#CCCCCC" bottomBorder="Thin" bottomBorderColor="#CCCCCC"/>
+					<box>					<topPen lineWidth="0.25" lineStyle="Solid" lineColor="#CCCCCC"/>
+					<leftPen lineWidth="0.25" lineStyle="Solid" lineColor="#CCCCCC"/>
+					<bottomPen lineWidth="0.0" lineColor="#CCCCCC"/>
+					<rightPen lineWidth="0.25" lineStyle="Solid" lineColor="#CCCCCC"/>
+</box>
 					<textElement textAlignment="Center" verticalAlignment="Middle" rotation="None" isStyledText="true" lineSpacing="Single">
 						<font fontName="Arial" pdfFontName="Helvetica-Bold" size="6" isBold="true" isItalic="false" isUnderline="false" isPdfEmbedded ="false" pdfEncoding ="Cp1252" isStrikeThrough="false" />
 					</textElement>
@@ -379,7 +434,11 @@ Fax  01-442-2153513
 						forecolor="#FFFFFF"
 						backcolor="#999999"
 						key="staticText-5"/>
-					<box topBorder="Thin" topBorderColor="#CCCCCC" leftBorder="Thin" leftBorderColor="#CCCCCC" rightBorder="Thin" rightBorderColor="#CCCCCC" bottomBorder="Thin" bottomBorderColor="#CCCCCC"/>
+					<box>					<topPen lineWidth="0.25" lineStyle="Solid" lineColor="#CCCCCC"/>
+					<leftPen lineWidth="0.25" lineStyle="Solid" lineColor="#CCCCCC"/>
+					<bottomPen lineWidth="0.0" lineColor="#CCCCCC"/>
+					<rightPen lineWidth="0.25" lineStyle="Solid" lineColor="#CCCCCC"/>
+</box>
 					<textElement textAlignment="Center" verticalAlignment="Middle" rotation="None" isStyledText="true" lineSpacing="Single">
 						<font fontName="Arial" pdfFontName="Helvetica-Bold" size="6" isBold="true" isItalic="false" isUnderline="false" isPdfEmbedded ="false" pdfEncoding ="Cp1252" isStrikeThrough="false" />
 					</textElement>
@@ -395,7 +454,11 @@ Fax  01-442-2153513
 						forecolor="#FFFFFF"
 						backcolor="#999999"
 						key="staticText-6"/>
-					<box topBorder="Thin" topBorderColor="#CCCCCC" leftBorder="Thin" leftBorderColor="#CCCCCC" rightBorder="Thin" rightBorderColor="#CCCCCC" bottomBorder="Thin" bottomBorderColor="#CCCCCC"/>
+					<box>					<topPen lineWidth="0.25" lineStyle="Solid" lineColor="#CCCCCC"/>
+					<leftPen lineWidth="0.25" lineStyle="Solid" lineColor="#CCCCCC"/>
+					<bottomPen lineWidth="0.0" lineColor="#CCCCCC"/>
+					<rightPen lineWidth="0.25" lineStyle="Solid" lineColor="#CCCCCC"/>
+</box>
 					<textElement textAlignment="Center" verticalAlignment="Middle" rotation="None" isStyledText="true" lineSpacing="Single">
 						<font fontName="Arial" pdfFontName="Helvetica-Bold" size="6" isBold="true" isItalic="false" isUnderline="false" isPdfEmbedded ="false" pdfEncoding ="Cp1252" isStrikeThrough="false" />
 					</textElement>
@@ -411,7 +474,11 @@ Fax  01-442-2153513
 						forecolor="#FFFFFF"
 						backcolor="#999999"
 						key="staticText-7"/>
-					<box topBorder="Thin" topBorderColor="#CCCCCC" leftBorder="Thin" leftBorderColor="#CCCCCC" rightBorder="Thin" rightBorderColor="#CCCCCC" bottomBorder="Thin" bottomBorderColor="#CCCCCC"/>
+					<box>					<topPen lineWidth="0.25" lineStyle="Solid" lineColor="#CCCCCC"/>
+					<leftPen lineWidth="0.25" lineStyle="Solid" lineColor="#CCCCCC"/>
+					<bottomPen lineWidth="0.0" lineColor="#CCCCCC"/>
+					<rightPen lineWidth="0.25" lineStyle="Solid" lineColor="#CCCCCC"/>
+</box>
 					<textElement textAlignment="Center" verticalAlignment="Middle" rotation="None" isStyledText="true" lineSpacing="Single">
 						<font fontName="Arial" pdfFontName="Helvetica-Bold" size="6" isBold="true" isItalic="false" isUnderline="false" isPdfEmbedded ="false" pdfEncoding ="Cp1252" isStrikeThrough="false" />
 					</textElement>
@@ -427,7 +494,11 @@ Fax  01-442-2153513
 						forecolor="#FFFFFF"
 						backcolor="#999999"
 						key="staticText-8"/>
-					<box topBorder="Thin" topBorderColor="#CCCCCC" leftBorder="Thin" leftBorderColor="#CCCCCC" rightBorder="Thin" rightBorderColor="#CCCCCC" bottomBorder="Thin" bottomBorderColor="#CCCCCC"/>
+					<box>					<topPen lineWidth="0.25" lineStyle="Solid" lineColor="#CCCCCC"/>
+					<leftPen lineWidth="0.25" lineStyle="Solid" lineColor="#CCCCCC"/>
+					<bottomPen lineWidth="0.0" lineColor="#CCCCCC"/>
+					<rightPen lineWidth="0.25" lineStyle="Solid" lineColor="#CCCCCC"/>
+</box>
 					<textElement textAlignment="Center" verticalAlignment="Middle" rotation="None" isStyledText="true" lineSpacing="Single">
 						<font fontName="Arial" pdfFontName="Helvetica-Bold" size="6" isBold="true" isItalic="false" isUnderline="false" isPdfEmbedded ="false" pdfEncoding ="Cp1252" isStrikeThrough="false" />
 					</textElement>
@@ -444,7 +515,11 @@ PROMEDIO]]></text>
 						forecolor="#FFFFFF"
 						backcolor="#999999"
 						key="staticText-9"/>
-					<box topBorder="Thin" topBorderColor="#CCCCCC" leftBorder="Thin" leftBorderColor="#CCCCCC" rightBorder="Thin" rightBorderColor="#CCCCCC" bottomBorder="Thin" bottomBorderColor="#CCCCCC"/>
+					<box>					<topPen lineWidth="0.25" lineStyle="Solid" lineColor="#CCCCCC"/>
+					<leftPen lineWidth="0.25" lineStyle="Solid" lineColor="#CCCCCC"/>
+					<bottomPen lineWidth="0.0" lineColor="#CCCCCC"/>
+					<rightPen lineWidth="0.25" lineStyle="Solid" lineColor="#CCCCCC"/>
+</box>
 					<textElement textAlignment="Center" verticalAlignment="Middle" rotation="None" isStyledText="true" lineSpacing="Single">
 						<font fontName="Arial" pdfFontName="Helvetica-Bold" size="6" isBold="true" isItalic="false" isUnderline="false" isPdfEmbedded ="false" pdfEncoding ="Cp1252" isStrikeThrough="false" />
 					</textElement>
@@ -460,7 +535,11 @@ PROMEDIO]]></text>
 						forecolor="#FFFFFF"
 						backcolor="#999999"
 						key="staticText-10"/>
-					<box topBorder="Thin" topBorderColor="#CCCCCC" leftBorder="Thin" leftBorderColor="#CCCCCC" rightBorder="Thin" rightBorderColor="#CCCCCC" bottomBorder="Thin" bottomBorderColor="#CCCCCC"/>
+					<box>					<topPen lineWidth="0.25" lineStyle="Solid" lineColor="#CCCCCC"/>
+					<leftPen lineWidth="0.25" lineStyle="Solid" lineColor="#CCCCCC"/>
+					<bottomPen lineWidth="0.0" lineColor="#CCCCCC"/>
+					<rightPen lineWidth="0.25" lineStyle="Solid" lineColor="#CCCCCC"/>
+</box>
 					<textElement textAlignment="Center" verticalAlignment="Middle" rotation="None" isStyledText="true" lineSpacing="Single">
 						<font fontName="Arial" pdfFontName="Helvetica-Bold" size="6" isBold="true" isItalic="false" isUnderline="false" isPdfEmbedded ="false" pdfEncoding ="Cp1252" isStrikeThrough="false" />
 					</textElement>
@@ -476,7 +555,11 @@ PROMEDIO]]></text>
 						forecolor="#FFFFFF"
 						backcolor="#999999"
 						key="staticText-11"/>
-					<box topBorder="Thin" topBorderColor="#CCCCCC" leftBorder="Thin" leftBorderColor="#CCCCCC" rightBorder="Thin" rightBorderColor="#CCCCCC" bottomBorder="Thin" bottomBorderColor="#CCCCCC"/>
+					<box>					<topPen lineWidth="0.25" lineStyle="Solid" lineColor="#CCCCCC"/>
+					<leftPen lineWidth="0.25" lineStyle="Solid" lineColor="#CCCCCC"/>
+					<bottomPen lineWidth="0.0" lineColor="#CCCCCC"/>
+					<rightPen lineWidth="0.25" lineStyle="Solid" lineColor="#CCCCCC"/>
+</box>
 					<textElement textAlignment="Center" verticalAlignment="Middle" rotation="None" isStyledText="true" lineSpacing="Single">
 						<font fontName="Arial" pdfFontName="Helvetica-Bold" size="6" isBold="true" isItalic="false" isUnderline="false" isPdfEmbedded ="false" pdfEncoding ="Cp1252" isStrikeThrough="false" />
 					</textElement>
@@ -492,7 +575,11 @@ PROMEDIO]]></text>
 						forecolor="#FFFFFF"
 						backcolor="#999999"
 						key="staticText-15"/>
-					<box topBorder="Thin" topBorderColor="#CCCCCC" leftBorder="Thin" leftBorderColor="#CCCCCC" rightBorder="Thin" rightBorderColor="#CCCCCC" bottomBorder="Thin" bottomBorderColor="#CCCCCC"/>
+					<box>					<topPen lineWidth="0.25" lineStyle="Solid" lineColor="#CCCCCC"/>
+					<leftPen lineWidth="0.25" lineStyle="Solid" lineColor="#CCCCCC"/>
+					<bottomPen lineWidth="0.0" lineColor="#CCCCCC"/>
+					<rightPen lineWidth="0.25" lineStyle="Solid" lineColor="#CCCCCC"/>
+</box>
 					<textElement textAlignment="Center" verticalAlignment="Middle" rotation="None" isStyledText="true" lineSpacing="Single">
 						<font fontName="Arial" pdfFontName="Helvetica-Bold" size="6" isBold="true" isItalic="false" isUnderline="false" isPdfEmbedded ="false" pdfEncoding ="Cp1252" isStrikeThrough="false" />
 					</textElement>
@@ -508,7 +595,11 @@ PROMEDIO]]></text>
 						forecolor="#FFFFFF"
 						backcolor="#999999"
 						key="staticText-19"/>
-					<box topBorder="Thin" topBorderColor="#CCCCCC" leftBorder="Thin" leftBorderColor="#CCCCCC" rightBorder="Thin" rightBorderColor="#CCCCCC" bottomBorder="Thin" bottomBorderColor="#CCCCCC"/>
+					<box>					<topPen lineWidth="0.25" lineStyle="Solid" lineColor="#CCCCCC"/>
+					<leftPen lineWidth="0.25" lineStyle="Solid" lineColor="#CCCCCC"/>
+					<bottomPen lineWidth="0.0" lineColor="#CCCCCC"/>
+					<rightPen lineWidth="0.25" lineStyle="Solid" lineColor="#CCCCCC"/>
+</box>
 					<textElement textAlignment="Center" verticalAlignment="Middle" rotation="None" isStyledText="true" lineSpacing="Single">
 						<font fontName="Arial" pdfFontName="Helvetica-Bold" size="6" isBold="true" isItalic="false" isUnderline="false" isPdfEmbedded ="false" pdfEncoding ="Cp1252" isStrikeThrough="false" />
 					</textElement>
@@ -524,7 +615,11 @@ PROMEDIO]]></text>
 						forecolor="#FFFFFF"
 						backcolor="#999999"
 						key="staticText-20"/>
-					<box topBorder="Thin" topBorderColor="#CCCCCC" leftBorder="Thin" leftBorderColor="#CCCCCC" rightBorder="Thin" rightBorderColor="#CCCCCC" bottomBorder="Thin" bottomBorderColor="#CCCCCC"/>
+					<box>					<topPen lineWidth="0.25" lineStyle="Solid" lineColor="#CCCCCC"/>
+					<leftPen lineWidth="0.25" lineStyle="Solid" lineColor="#CCCCCC"/>
+					<bottomPen lineWidth="0.0" lineColor="#CCCCCC"/>
+					<rightPen lineWidth="0.25" lineStyle="Solid" lineColor="#CCCCCC"/>
+</box>
 					<textElement textAlignment="Center" verticalAlignment="Middle" rotation="None" isStyledText="true" lineSpacing="Single">
 						<font fontName="Arial" pdfFontName="Helvetica-Bold" size="6" isBold="true" isItalic="false" isUnderline="false" isPdfEmbedded ="false" pdfEncoding ="Cp1252" isStrikeThrough="false" />
 					</textElement>
@@ -540,7 +635,11 @@ PROMEDIO]]></text>
 						forecolor="#FFFFFF"
 						backcolor="#999999"
 						key="staticText-24"/>
-					<box topBorder="Thin" topBorderColor="#CCCCCC" leftBorder="Thin" leftBorderColor="#CCCCCC" rightBorder="Thin" rightBorderColor="#CCCCCC" bottomBorder="Thin" bottomBorderColor="#CCCCCC"/>
+					<box>					<topPen lineWidth="0.25" lineStyle="Solid" lineColor="#CCCCCC"/>
+					<leftPen lineWidth="0.25" lineStyle="Solid" lineColor="#CCCCCC"/>
+					<bottomPen lineWidth="0.0" lineColor="#CCCCCC"/>
+					<rightPen lineWidth="0.25" lineStyle="Solid" lineColor="#CCCCCC"/>
+</box>
 					<textElement textAlignment="Center" verticalAlignment="Middle" rotation="None" isStyledText="true" lineSpacing="Single">
 						<font fontName="Arial" pdfFontName="Helvetica-Bold" size="6" isBold="true" isItalic="false" isUnderline="false" isPdfEmbedded ="false" pdfEncoding ="Cp1252" isStrikeThrough="false" />
 					</textElement>
@@ -556,7 +655,11 @@ PROMEDIO]]></text>
 						forecolor="#FFFFFF"
 						backcolor="#999999"
 						key="staticText-25"/>
-					<box topBorder="Thin" topBorderColor="#CCCCCC" leftBorder="Thin" leftBorderColor="#CCCCCC" rightBorder="Thin" rightBorderColor="#CCCCCC" bottomBorder="Thin" bottomBorderColor="#CCCCCC"/>
+					<box>					<topPen lineWidth="0.25" lineStyle="Solid" lineColor="#CCCCCC"/>
+					<leftPen lineWidth="0.25" lineStyle="Solid" lineColor="#CCCCCC"/>
+					<bottomPen lineWidth="0.0" lineColor="#CCCCCC"/>
+					<rightPen lineWidth="0.25" lineStyle="Solid" lineColor="#CCCCCC"/>
+</box>
 					<textElement textAlignment="Center" verticalAlignment="Middle" rotation="None" isStyledText="true" lineSpacing="Single">
 						<font fontName="Arial" pdfFontName="Helvetica-Bold" size="6" isBold="true" isItalic="false" isUnderline="false" isPdfEmbedded ="false" pdfEncoding ="Cp1252" isStrikeThrough="false" />
 					</textElement>
@@ -572,7 +675,11 @@ PROMEDIO]]></text>
 						forecolor="#FFFFFF"
 						backcolor="#999999"
 						key="staticText-26"/>
-					<box topBorder="Thin" topBorderColor="#CCCCCC" leftBorder="Thin" leftBorderColor="#CCCCCC" rightBorder="Thin" rightBorderColor="#CCCCCC" bottomBorder="Thin" bottomBorderColor="#CCCCCC"/>
+					<box>					<topPen lineWidth="0.25" lineStyle="Solid" lineColor="#CCCCCC"/>
+					<leftPen lineWidth="0.25" lineStyle="Solid" lineColor="#CCCCCC"/>
+					<bottomPen lineWidth="0.0" lineColor="#CCCCCC"/>
+					<rightPen lineWidth="0.25" lineStyle="Solid" lineColor="#CCCCCC"/>
+</box>
 					<textElement textAlignment="Center" verticalAlignment="Middle" rotation="None" isStyledText="true" lineSpacing="Single">
 						<font fontName="Arial" pdfFontName="Helvetica-Bold" size="6" isBold="true" isItalic="false" isUnderline="false" isPdfEmbedded ="false" pdfEncoding ="Cp1252" isStrikeThrough="false" />
 					</textElement>
@@ -588,7 +695,11 @@ PROMEDIO]]></text>
 						forecolor="#FFFFFF"
 						backcolor="#999999"
 						key="staticText-27"/>
-					<box topBorder="Thin" topBorderColor="#CCCCCC" leftBorder="Thin" leftBorderColor="#CCCCCC" rightBorder="Thin" rightBorderColor="#CCCCCC" bottomBorder="Thin" bottomBorderColor="#CCCCCC"/>
+					<box>					<topPen lineWidth="0.25" lineStyle="Solid" lineColor="#CCCCCC"/>
+					<leftPen lineWidth="0.25" lineStyle="Solid" lineColor="#CCCCCC"/>
+					<bottomPen lineWidth="0.0" lineColor="#CCCCCC"/>
+					<rightPen lineWidth="0.25" lineStyle="Solid" lineColor="#CCCCCC"/>
+</box>
 					<textElement textAlignment="Center" verticalAlignment="Middle" rotation="None" isStyledText="true" lineSpacing="Single">
 						<font fontName="Arial" pdfFontName="Helvetica-Bold" size="6" isBold="true" isItalic="false" isUnderline="false" isPdfEmbedded ="false" pdfEncoding ="Cp1252" isStrikeThrough="false" />
 					</textElement>
@@ -604,7 +715,11 @@ PROMEDIO]]></text>
 						forecolor="#FFFFFF"
 						backcolor="#999999"
 						key="staticText-28"/>
-					<box topBorder="Thin" topBorderColor="#CCCCCC" leftBorder="Thin" leftBorderColor="#CCCCCC" rightBorder="Thin" rightBorderColor="#CCCCCC" bottomBorder="Thin" bottomBorderColor="#CCCCCC"/>
+					<box>					<topPen lineWidth="0.25" lineStyle="Solid" lineColor="#CCCCCC"/>
+					<leftPen lineWidth="0.25" lineStyle="Solid" lineColor="#CCCCCC"/>
+					<bottomPen lineWidth="0.0" lineColor="#CCCCCC"/>
+					<rightPen lineWidth="0.25" lineStyle="Solid" lineColor="#CCCCCC"/>
+</box>
 					<textElement textAlignment="Center" verticalAlignment="Middle" rotation="None" isStyledText="true" lineSpacing="Single">
 						<font fontName="Arial" pdfFontName="Helvetica-Bold" size="6" isBold="true" isItalic="false" isUnderline="false" isPdfEmbedded ="false" pdfEncoding ="Cp1252" isStrikeThrough="false" />
 					</textElement>
@@ -620,7 +735,11 @@ PROMEDIO]]></text>
 						forecolor="#FFFFFF"
 						backcolor="#999999"
 						key="staticText-29"/>
-					<box topBorder="Thin" topBorderColor="#CCCCCC" leftBorder="Thin" leftBorderColor="#CCCCCC" rightBorder="Thin" rightBorderColor="#CCCCCC" bottomBorder="Thin" bottomBorderColor="#CCCCCC"/>
+					<box>					<topPen lineWidth="0.25" lineStyle="Solid" lineColor="#CCCCCC"/>
+					<leftPen lineWidth="0.25" lineStyle="Solid" lineColor="#CCCCCC"/>
+					<bottomPen lineWidth="0.0" lineColor="#CCCCCC"/>
+					<rightPen lineWidth="0.25" lineStyle="Solid" lineColor="#CCCCCC"/>
+</box>
 					<textElement textAlignment="Center" verticalAlignment="Middle" rotation="None" isStyledText="true" lineSpacing="Single">
 						<font fontName="Arial" pdfFontName="Helvetica-Bold" size="6" isBold="true" isItalic="false" isUnderline="false" isPdfEmbedded ="false" pdfEncoding ="Cp1252" isStrikeThrough="false" />
 					</textElement>
@@ -636,7 +755,9 @@ PROMEDIO]]></text>
 						forecolor="#000000"
 						backcolor="#FFFFFF"
 						key="line-5"/>
-					<graphicElement stretchType="NoStretch" pen="2Point" fill="Solid" />
+					<graphicElement stretchType="NoStretch" fill="Solid" >
+					<pen lineWidth="2.0" lineStyle="Solid"/>
+</graphicElement>
 				</line>
 				<line direction="TopDown">
 					<reportElement
@@ -648,7 +769,9 @@ PROMEDIO]]></text>
 						forecolor="#000000"
 						backcolor="#FFFFFF"
 						key="line-6"/>
-					<graphicElement stretchType="NoStretch" pen="1Point" fill="Solid" />
+					<graphicElement stretchType="NoStretch" fill="Solid" >
+					<pen lineWidth="1.0" lineStyle="Solid"/>
+</graphicElement>
 				</line>
 				<staticText>
 					<reportElement
@@ -660,7 +783,11 @@ PROMEDIO]]></text>
 						forecolor="#FFFFFF"
 						backcolor="#999999"
 						key="staticText-30"/>
-					<box topBorder="Thin" topBorderColor="#CCCCCC" leftBorder="Thin" leftBorderColor="#CCCCCC" rightBorder="Thin" rightBorderColor="#CCCCCC" bottomBorder="Thin" bottomBorderColor="#CCCCCC"/>
+					<box>					<topPen lineWidth="0.25" lineStyle="Solid" lineColor="#CCCCCC"/>
+					<leftPen lineWidth="0.25" lineStyle="Solid" lineColor="#CCCCCC"/>
+					<bottomPen lineWidth="0.0" lineColor="#CCCCCC"/>
+					<rightPen lineWidth="0.25" lineStyle="Solid" lineColor="#CCCCCC"/>
+</box>
 					<textElement textAlignment="Center" verticalAlignment="Middle" rotation="None" isStyledText="true" lineSpacing="Single">
 						<font fontName="Arial" pdfFontName="Helvetica-Bold" size="6" isBold="true" isItalic="false" isUnderline="false" isPdfEmbedded ="false" pdfEncoding ="Cp1252" isStrikeThrough="false" />
 					</textElement>
@@ -677,7 +804,11 @@ PROMEDIO]]></text>
 						width="16"
 						height="13"
 						key="textField"/>
-					<box topBorder="None" topBorderColor="#CCCCFF" leftBorder="None" leftBorderColor="#CCCCFF" rightBorder="Thin" rightBorderColor="#CCCCFF" bottomBorder="4Point" bottomBorderColor="#CCCCFF"/>
+					<box>					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#CCCCFF"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#CCCCFF"/>
+					<bottomPen lineWidth="0.0" lineColor="#CCCCFF"/>
+					<rightPen lineWidth="0.25" lineStyle="Solid" lineColor="#CCCCFF"/>
+</box>
 					<textElement textAlignment="Center" verticalAlignment="Middle">
 						<font size="7"/>
 					</textElement>
@@ -690,7 +821,11 @@ PROMEDIO]]></text>
 						width="23"
 						height="13"
 						key="textField"/>
-					<box topBorder="None" topBorderColor="#CCCCFF" leftBorder="None" leftBorderColor="#CCCCFF" rightBorder="Thin" rightBorderColor="#CCCCFF" bottomBorder="4Point" bottomBorderColor="#CCCCFF"/>
+					<box>					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#CCCCFF"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#CCCCFF"/>
+					<bottomPen lineWidth="0.0" lineColor="#CCCCFF"/>
+					<rightPen lineWidth="0.25" lineStyle="Solid" lineColor="#CCCCFF"/>
+</box>
 					<textElement textAlignment="Center" verticalAlignment="Middle">
 						<font size="7"/>
 					</textElement>
@@ -703,7 +838,11 @@ PROMEDIO]]></text>
 						width="42"
 						height="13"
 						key="textField"/>
-					<box topBorder="None" topBorderColor="#CCCCFF" leftBorder="None" leftBorderColor="#CCCCFF" rightBorder="Thin" rightBorderColor="#CCCCFF" bottomBorder="4Point" bottomBorderColor="#CCCCFF"/>
+					<box>					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#CCCCFF"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#CCCCFF"/>
+					<bottomPen lineWidth="0.0" lineColor="#CCCCFF"/>
+					<rightPen lineWidth="0.25" lineStyle="Solid" lineColor="#CCCCFF"/>
+</box>
 					<textElement textAlignment="Center" verticalAlignment="Middle">
 						<font size="7"/>
 					</textElement>
@@ -716,7 +855,11 @@ PROMEDIO]]></text>
 						width="43"
 						height="13"
 						key="textField"/>
-					<box topBorder="None" topBorderColor="#CCCCFF" leftBorder="None" leftBorderColor="#CCCCFF" rightBorder="Thin" rightBorderColor="#CCCCFF" bottomBorder="4Point" bottomBorderColor="#CCCCFF"/>
+					<box>					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#CCCCFF"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#CCCCFF"/>
+					<bottomPen lineWidth="0.0" lineColor="#CCCCFF"/>
+					<rightPen lineWidth="0.25" lineStyle="Solid" lineColor="#CCCCFF"/>
+</box>
 					<textElement textAlignment="Center" verticalAlignment="Middle">
 						<font size="7"/>
 					</textElement>
@@ -729,7 +872,11 @@ PROMEDIO]]></text>
 						width="56"
 						height="13"
 						key="textField"/>
-					<box topBorder="None" topBorderColor="#CCCCFF" leftBorder="None" leftBorderColor="#CCCCFF" rightBorder="Thin" rightBorderColor="#CCCCFF" bottomBorder="4Point" bottomBorderColor="#CCCCFF"/>
+					<box>					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#CCCCFF"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#CCCCFF"/>
+					<bottomPen lineWidth="0.0" lineColor="#CCCCFF"/>
+					<rightPen lineWidth="0.25" lineStyle="Solid" lineColor="#CCCCFF"/>
+</box>
 					<textElement textAlignment="Center" verticalAlignment="Middle">
 						<font size="7"/>
 					</textElement>
@@ -742,7 +889,11 @@ PROMEDIO]]></text>
 						width="104"
 						height="13"
 						key="textField"/>
-					<box topBorder="None" topBorderColor="#CCCCFF" leftBorder="None" leftBorderColor="#CCCCFF" rightBorder="Thin" rightBorderColor="#CCCCFF" bottomBorder="4Point" bottomBorderColor="#CCCCFF"/>
+					<box>					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#CCCCFF"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#CCCCFF"/>
+					<bottomPen lineWidth="0.0" lineColor="#CCCCFF"/>
+					<rightPen lineWidth="0.25" lineStyle="Solid" lineColor="#CCCCFF"/>
+</box>
 					<textElement textAlignment="Left" verticalAlignment="Middle">
 						<font size="7"/>
 					</textElement>
@@ -755,7 +906,11 @@ PROMEDIO]]></text>
 						width="36"
 						height="13"
 						key="textField"/>
-					<box topBorder="None" topBorderColor="#CCCCFF" leftBorder="None" leftBorderColor="#CCCCFF" rightBorder="Thin" rightBorderColor="#CCCCFF" bottomBorder="4Point" bottomBorderColor="#CCCCFF"/>
+					<box>					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#CCCCFF"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#CCCCFF"/>
+					<bottomPen lineWidth="0.0" lineColor="#CCCCFF"/>
+					<rightPen lineWidth="0.25" lineStyle="Solid" lineColor="#CCCCFF"/>
+</box>
 					<textElement textAlignment="Right" verticalAlignment="Middle">
 						<font size="7"/>
 					</textElement>
@@ -768,7 +923,11 @@ PROMEDIO]]></text>
 						width="40"
 						height="13"
 						key="textField"/>
-					<box topBorder="None" topBorderColor="#CCCCFF" leftBorder="None" leftBorderColor="#CCCCFF" rightBorder="Thin" rightBorderColor="#CCCCFF" bottomBorder="4Point" bottomBorderColor="#CCCCFF"/>
+					<box>					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#CCCCFF"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#CCCCFF"/>
+					<bottomPen lineWidth="0.0" lineColor="#CCCCFF"/>
+					<rightPen lineWidth="0.25" lineStyle="Solid" lineColor="#CCCCFF"/>
+</box>
 					<textElement textAlignment="Center" verticalAlignment="Middle">
 						<font size="7"/>
 					</textElement>
@@ -781,7 +940,11 @@ PROMEDIO]]></text>
 						width="40"
 						height="13"
 						key="textField"/>
-					<box topBorder="None" topBorderColor="#CCCCFF" leftBorder="None" leftBorderColor="#CCCCFF" rightBorder="Thin" rightBorderColor="#CCCCFF" bottomBorder="4Point" bottomBorderColor="#CCCCFF"/>
+					<box>					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#CCCCFF"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#CCCCFF"/>
+					<bottomPen lineWidth="0.0" lineColor="#CCCCFF"/>
+					<rightPen lineWidth="0.25" lineStyle="Solid" lineColor="#CCCCFF"/>
+</box>
 					<textElement textAlignment="Center" verticalAlignment="Middle">
 						<font size="7"/>
 					</textElement>
@@ -794,7 +957,11 @@ PROMEDIO]]></text>
 						width="40"
 						height="13"
 						key="textField"/>
-					<box topBorder="None" topBorderColor="#CCCCFF" leftBorder="None" leftBorderColor="#CCCCFF" rightBorder="Thin" rightBorderColor="#CCCCFF" bottomBorder="4Point" bottomBorderColor="#CCCCFF"/>
+					<box>					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#CCCCFF"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#CCCCFF"/>
+					<bottomPen lineWidth="0.0" lineColor="#CCCCFF"/>
+					<rightPen lineWidth="0.25" lineStyle="Solid" lineColor="#CCCCFF"/>
+</box>
 					<textElement textAlignment="Center" verticalAlignment="Middle">
 						<font size="7"/>
 					</textElement>
@@ -807,7 +974,11 @@ PROMEDIO]]></text>
 						width="40"
 						height="13"
 						key="textField"/>
-					<box topBorder="None" topBorderColor="#CCCCFF" leftBorder="None" leftBorderColor="#CCCCFF" rightBorder="Thin" rightBorderColor="#CCCCFF" bottomBorder="4Point" bottomBorderColor="#CCCCFF"/>
+					<box>					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#CCCCFF"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#CCCCFF"/>
+					<bottomPen lineWidth="0.0" lineColor="#CCCCFF"/>
+					<rightPen lineWidth="0.25" lineStyle="Solid" lineColor="#CCCCFF"/>
+</box>
 					<textElement textAlignment="Center" verticalAlignment="Middle">
 						<font size="7"/>
 					</textElement>
@@ -820,7 +991,11 @@ PROMEDIO]]></text>
 						width="40"
 						height="13"
 						key="textField-5"/>
-					<box topBorder="None" topBorderColor="#CCCCFF" leftBorder="None" leftBorderColor="#CCCCFF" rightBorder="Thin" rightBorderColor="#CCCCFF" bottomBorder="4Point" bottomBorderColor="#CCCCFF"/>
+					<box>					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#CCCCFF"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#CCCCFF"/>
+					<bottomPen lineWidth="0.0" lineColor="#CCCCFF"/>
+					<rightPen lineWidth="0.25" lineStyle="Solid" lineColor="#CCCCFF"/>
+</box>
 					<textElement textAlignment="Right" verticalAlignment="Middle">
 						<font pdfFontName="Helvetica-Bold" size="7" isBold="true"/>
 					</textElement>
@@ -833,7 +1008,11 @@ PROMEDIO]]></text>
 						width="51"
 						height="13"
 						key="textField"/>
-					<box topBorder="None" topBorderColor="#CCCCFF" leftBorder="None" leftBorderColor="#CCCCFF" rightBorder="Thin" rightBorderColor="#CCCCFF" bottomBorder="4Point" bottomBorderColor="#CCCCFF"/>
+					<box>					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#CCCCFF"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#CCCCFF"/>
+					<bottomPen lineWidth="0.0" lineColor="#CCCCFF"/>
+					<rightPen lineWidth="0.25" lineStyle="Solid" lineColor="#CCCCFF"/>
+</box>
 					<textElement textAlignment="Center" verticalAlignment="Middle">
 						<font size="7"/>
 					</textElement>
@@ -846,7 +1025,11 @@ PROMEDIO]]></text>
 						width="40"
 						height="13"
 						key="textField-6"/>
-					<box topBorder="None" topBorderColor="#CCCCFF" leftBorder="None" leftBorderColor="#CCCCFF" rightBorder="Thin" rightBorderColor="#CCCCFF" bottomBorder="4Point" bottomBorderColor="#CCCCFF"/>
+					<box>					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#CCCCFF"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#CCCCFF"/>
+					<bottomPen lineWidth="0.0" lineColor="#CCCCFF"/>
+					<rightPen lineWidth="0.25" lineStyle="Solid" lineColor="#CCCCFF"/>
+</box>
 					<textElement textAlignment="Center" verticalAlignment="Middle">
 						<font size="7"/>
 					</textElement>
@@ -859,7 +1042,11 @@ PROMEDIO]]></text>
 						width="40"
 						height="13"
 						key="textField-14"/>
-					<box topBorder="None" topBorderColor="#CCCCFF" leftBorder="None" leftBorderColor="#CCCCFF" rightBorder="Thin" rightBorderColor="#CCCCFF" bottomBorder="4Point" bottomBorderColor="#CCCCFF"/>
+					<box>					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#CCCCFF"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#CCCCFF"/>
+					<bottomPen lineWidth="0.0" lineColor="#CCCCFF"/>
+					<rightPen lineWidth="0.25" lineStyle="Solid" lineColor="#CCCCFF"/>
+</box>
 					<textElement textAlignment="Right" verticalAlignment="Middle">
 						<font pdfFontName="Helvetica-Bold" size="7" isBold="true"/>
 					</textElement>
@@ -872,7 +1059,11 @@ PROMEDIO]]></text>
 						width="111"
 						height="13"
 						key="textField"/>
-					<box topBorder="None" topBorderColor="#CCCCFF" leftBorder="None" leftBorderColor="#CCCCFF" rightBorder="Thin" rightBorderColor="#CCCCFF" bottomBorder="4Point" bottomBorderColor="#CCCCFF"/>
+					<box>					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#CCCCFF"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#CCCCFF"/>
+					<bottomPen lineWidth="0.0" lineColor="#CCCCFF"/>
+					<rightPen lineWidth="0.25" lineStyle="Solid" lineColor="#CCCCFF"/>
+</box>
 					<textElement textAlignment="Left" verticalAlignment="Middle">
 						<font size="7"/>
 					</textElement>
@@ -886,7 +1077,11 @@ PROMEDIO]]></text>
 						height="3"
 						backcolor="#CCCCFF"
 						key="frame-1"/>
-					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="1Point" bottomBorderColor="#CCCCFF"/>
+					<box>					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineColor="#CCCCFF"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+</box>
 				</frame>			</band>
 		</detail>
 		<columnFooter>
@@ -905,7 +1100,11 @@ PROMEDIO]]></text>
 						forecolor="#000000"
 						backcolor="#FFFFFF"
 						key="staticText-22"/>
-					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#FFFFFF" bottomBorder="None" bottomBorderColor="#000000"/>
+					<box>					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#FFFFFF"/>
+</box>
 					<textElement textAlignment="Right" verticalAlignment="Middle" rotation="None" lineSpacing="Single">
 						<font fontName="Arial" pdfFontName="Helvetica" size="8" isBold="false" isItalic="false" isUnderline="false" isPdfEmbedded ="false" pdfEncoding ="Cp1252" isStrikeThrough="false" />
 					</textElement>
@@ -921,7 +1120,11 @@ PROMEDIO]]></text>
 						forecolor="#000000"
 						backcolor="#FFFFFF"
 						key="textField-11"/>
-					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#FFFFFF" bottomBorder="None" bottomBorderColor="#000000"/>
+					<box>					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#FFFFFF"/>
+</box>
 					<textElement textAlignment="Right" verticalAlignment="Middle" rotation="None" lineSpacing="Single">
 						<font fontName="Times-Roman" pdfFontName="Times-Roman" size="8" isBold="false" isItalic="false" isUnderline="false" isPdfEmbedded ="false" pdfEncoding ="CP1252" isStrikeThrough="false" />
 					</textElement>
@@ -937,7 +1140,9 @@ PROMEDIO]]></text>
 						forecolor="#000000"
 						backcolor="#FFFFFF"
 						key="line-3"/>
-					<graphicElement stretchType="NoStretch" pen="2Point" fill="Solid" />
+					<graphicElement stretchType="NoStretch" fill="Solid" >
+					<pen lineWidth="2.0" lineStyle="Solid"/>
+</graphicElement>
 				</line>
 				<textField isStretchWithOverflow="false" pattern="" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
@@ -949,7 +1154,11 @@ PROMEDIO]]></text>
 						forecolor="#000000"
 						backcolor="#FFFFFF"
 						key="textField-12"/>
-					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#FFFFFF" bottomBorder="None" bottomBorderColor="#000000"/>
+					<box>					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#FFFFFF"/>
+</box>
 					<textElement textAlignment="Left" verticalAlignment="Top" rotation="None" lineSpacing="Single">
 						<font fontName="Arial" pdfFontName="Helvetica" size="8" isBold="false" isItalic="false" isUnderline="false" isPdfEmbedded ="false" pdfEncoding ="Cp1252" isStrikeThrough="false" />
 					</textElement>
@@ -965,7 +1174,11 @@ PROMEDIO]]></text>
 						forecolor="#000000"
 						backcolor="#FFFFFF"
 						key="textField-13"/>
-					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#FFFFFF" bottomBorder="None" bottomBorderColor="#000000"/>
+					<box>					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#FFFFFF"/>
+</box>
 					<textElement textAlignment="Left" verticalAlignment="Top" rotation="None" lineSpacing="Single">
 						<font fontName="Arial" pdfFontName="Helvetica" size="8" isBold="false" isItalic="false" isUnderline="false" isPdfEmbedded ="false" pdfEncoding ="CP1252" isStrikeThrough="false" />
 					</textElement>
@@ -981,7 +1194,9 @@ PROMEDIO]]></text>
 						forecolor="#000000"
 						backcolor="#FFFFFF"
 						key="line-4"/>
-					<graphicElement stretchType="NoStretch" pen="2Point" fill="Solid" />
+					<graphicElement stretchType="NoStretch" fill="Solid" >
+					<pen lineWidth="2.0" lineStyle="Solid"/>
+</graphicElement>
 				</line>
 			</band>
 		</pageFooter>
@@ -997,7 +1212,11 @@ PROMEDIO]]></text>
 						forecolor="#000000"
 						backcolor="#FFFFFF"
 						key="staticText-21"/>
-					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#FFFFFF" bottomBorder="None" bottomBorderColor="#000000"/>
+					<box>					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#FFFFFF"/>
+</box>
 					<textElement textAlignment="Right" verticalAlignment="Middle" rotation="None" lineSpacing="Single">
 						<font fontName="Arial" pdfFontName="Helvetica" size="8" isBold="false" isItalic="false" isUnderline="false" isPdfEmbedded ="false" pdfEncoding ="Cp1252" isStrikeThrough="false" />
 					</textElement>
@@ -1013,7 +1232,11 @@ PROMEDIO]]></text>
 						forecolor="#000000"
 						backcolor="#FFFFFF"
 						key="textField-8"/>
-					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#FFFFFF" bottomBorder="None" bottomBorderColor="#000000"/>
+					<box>					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#FFFFFF"/>
+</box>
 					<textElement textAlignment="Right" verticalAlignment="Middle" rotation="None" lineSpacing="Single">
 						<font fontName="Times-Roman" pdfFontName="Times-Roman" size="8" isBold="false" isItalic="false" isUnderline="false" isPdfEmbedded ="false" pdfEncoding ="CP1252" isStrikeThrough="false" />
 					</textElement>
@@ -1029,7 +1252,9 @@ PROMEDIO]]></text>
 						forecolor="#000000"
 						backcolor="#FFFFFF"
 						key="line-1"/>
-					<graphicElement stretchType="NoStretch" pen="2Point" fill="Solid" />
+					<graphicElement stretchType="NoStretch" fill="Solid" >
+					<pen lineWidth="2.0" lineStyle="Solid"/>
+</graphicElement>
 				</line>
 				<textField isStretchWithOverflow="false" pattern="" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
@@ -1041,7 +1266,11 @@ PROMEDIO]]></text>
 						forecolor="#000000"
 						backcolor="#FFFFFF"
 						key="textField-9"/>
-					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#FFFFFF" bottomBorder="None" bottomBorderColor="#000000"/>
+					<box>					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#FFFFFF"/>
+</box>
 					<textElement textAlignment="Left" verticalAlignment="Top" rotation="None" lineSpacing="Single">
 						<font fontName="Arial" pdfFontName="Helvetica" size="8" isBold="false" isItalic="false" isUnderline="false" isPdfEmbedded ="false" pdfEncoding ="Cp1252" isStrikeThrough="false" />
 					</textElement>
@@ -1057,7 +1286,11 @@ PROMEDIO]]></text>
 						forecolor="#000000"
 						backcolor="#FFFFFF"
 						key="textField-10"/>
-					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#FFFFFF" bottomBorder="None" bottomBorderColor="#000000"/>
+					<box>					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#FFFFFF"/>
+</box>
 					<textElement textAlignment="Left" verticalAlignment="Top" rotation="None" lineSpacing="Single">
 						<font fontName="Arial" pdfFontName="Helvetica" size="8" isBold="false" isItalic="false" isUnderline="false" isPdfEmbedded ="false" pdfEncoding ="CP1252" isStrikeThrough="false" />
 					</textElement>
@@ -1073,7 +1306,9 @@ PROMEDIO]]></text>
 						forecolor="#000000"
 						backcolor="#FFFFFF"
 						key="line-2"/>
-					<graphicElement stretchType="NoStretch" pen="2Point" fill="Solid" />
+					<graphicElement stretchType="NoStretch" fill="Solid" >
+					<pen lineWidth="2.0" lineStyle="Solid"/>
+</graphicElement>
 				</line>
 			</band>
 		</lastPageFooter>

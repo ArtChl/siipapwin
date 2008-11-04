@@ -91,7 +91,7 @@ public class CostoPromedioPorPeriodoForm extends SXAbstractDialog {
 		SimpleDateFormat fechaaño=new SimpleDateFormat("dd/MM/yyyy");
 		SimpleDateFormat fechames=new SimpleDateFormat("dd/MM/yyyy");
 
-		Articulo a=(Articulo)articuloModel.getValue();
+		Articulo a=(Articulo)articuloModel .getValue();
 		if(a!=null){
 			parametros.put("ARTICULO",a.getClave());
 		}
