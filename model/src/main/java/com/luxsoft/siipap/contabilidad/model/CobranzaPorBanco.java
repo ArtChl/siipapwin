@@ -47,18 +47,18 @@ public class CobranzaPorBanco implements Comparable<CobranzaPorBanco>{
 	 */
 	public String getCuentaContable(){
 		String cta=getBanco();
-		if(cta.startsWith("BANCOMER")){
+		if(cta.startsWith("BBV")){
 			return "102-0001-000";
 		}else if(cta.startsWith("BANAMEX")){
 			return "102-0002-000";
 		}else if(cta.startsWith("HSBC")){
 			return "102-0004-000";
-		}else if(cta.startsWith("SCOTTIA")){
+		}else if(cta.startsWith("SCOT")){
 			return "102-0005-000";
 		}else if(cta.startsWith("SANTANDER")){
 			return "102-0008-000";
 		}else
-			return "ERRROR";
+			return "SIN CUENTA PARA:"+getBanco();
 	}
 	
 	public String toString(){		
