@@ -3,17 +3,24 @@ package com.luxsoft.siipap.cxc.model2;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.math.BigDecimal;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.List;
+
+import org.springframework.jdbc.core.RowMapper;
 
 import ca.odell.glazedlists.BasicEventList;
 import ca.odell.glazedlists.EventList;
 
 import com.jgoodies.validation.util.PropertyValidationSupport;
+import com.luxsoft.siipap.cxc.domain.DepositoRow;
 import com.luxsoft.siipap.cxc.domain.Pago;
 import com.luxsoft.siipap.cxc.domain.PagoConNota;
 import com.luxsoft.siipap.cxc.domain.PagoConOtros;
 //import com.luxsoft.siipap.cxc.domain.PagoConOtros;
 import com.luxsoft.siipap.cxc.domain.PagoM;
 import com.luxsoft.siipap.domain.CantidadMonetaria;
+import com.luxsoft.siipap.services.ServiceLocator;
 import com.luxsoft.siipap.swing.form2.DefaultFormModel;
 
 /**
@@ -192,6 +199,34 @@ public class DefaultPagoFormModelImpl extends DefaultFormModel implements PagoFo
 		if(getBaseBean() instanceof PagoConOtros)
 			return ((PagoConOtros)getBaseBean()).getOrigen().getDisponible();
 		return getPago().getDisponible();
+	}
+	
+	@SuppressWarnings("unchecked")
+	public List<DepositoRow> buscarDepositosDisponibles() {
+		String sql="select b.FORMADP,b.CUENTADESTINO,a.* from SW_DEPOSITOSDET a " +
+		"left join SW_DEPOSITOS b on a.DEPOSITO_ID=b.DEOPSITO_ID " +
+		"where pagoaplicado is null and clave is not null" +
+		" and clave=?";
+		
+		String clave=getPago().getCliente().getClave();
+		
+		List<DepositoRow> rows=ServiceLocator.getJdbcTemplate()
+			.query(sql,new Object[]{clave},new RowMapper(){
+			public Object mapRow(ResultSet rs, int rowNum) throws SQLException {
+				DepositoRow row=new DepositoRow();
+				row.setDepositoId(rs.getLong("DEPOSITO_ID"));
+				row.setBanco(rs.getString("BANCO"));
+				row.setClave(rs.getString("CLAVE"));
+				row.setNombre(rs.getString("NOMBRE"));
+				row.setClienteId(rs.getLong("CLIENTEID"));
+				row.setImporte(rs.getBigDecimal("IMPORTE"));
+				row.setNumero(rs.getInt("NUMERO"));
+				row.setFormaDePago(rs.getString("FORMADP"));
+				row.setCuentaDeposito(rs.getString("CUENTADESTINO"));
+				return row;
+			}
+		});
+		return rows;
 	}
 	
 }

@@ -1,9 +1,11 @@
 package com.luxsoft.siipap.cxc.model2;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 import ca.odell.glazedlists.EventList;
 
+import com.luxsoft.siipap.cxc.domain.DepositoRow;
 import com.luxsoft.siipap.cxc.domain.Pago;
 import com.luxsoft.siipap.cxc.domain.PagoM;
 import com.luxsoft.siipap.swing.form2.IFormModel;
@@ -58,5 +60,7 @@ public interface PagoFormModel extends IFormModel{
 	 * @return
 	 */
 	public BigDecimal getDisponible();
+	
+	public List<DepositoRow> buscarDepositosDisponibles();
 
 }

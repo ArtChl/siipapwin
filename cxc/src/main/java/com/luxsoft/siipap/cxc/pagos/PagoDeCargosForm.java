@@ -25,6 +25,8 @@ import ca.odell.glazedlists.swing.EventTableModel;
 import ca.odell.glazedlists.swing.TableComparatorChooser;
 
 import com.jgoodies.binding.adapter.BasicComponentFactory;
+import com.jgoodies.binding.list.SelectionInList;
+import com.jgoodies.binding.value.ValueModel;
 import com.jgoodies.forms.builder.DefaultFormBuilder;
 import com.jgoodies.forms.layout.CellConstraints;
 import com.jgoodies.forms.layout.FormLayout;
@@ -97,10 +99,17 @@ public class PagoDeCargosForm extends AbstractForm{
 		builder.setDefaultDialogBorder();
 		
 		builder.append("Fecha",getControl("fecha"));
-		builder.append("Forma de Pago",getControl("formaDePago"),true);
+		//builder.append("Forma de Pago",getControl("formaDePago"),true);
+		getControl("formaDePago").setEnabled(false);
+		getControl("referencia").setEnabled(false);
+		getControl("banco").setEnabled(false);
+		getControl("cuentaDeposito").setEnabled(false);
+		
+		builder.append("Forma de Pago",getControl("formaDePago"),true);		
 		builder.append("Banco",getControl("banco"));
 		builder.append("Referencia",getControl("referencia"),true);
-		builder.append("Cuenta Depósito",getControl("cuentaDeposito"),true);
+		builder.append("Cuenta Depósito",getControl("cuentaDeposito"));
+		builder.append("Pago",buildPagosbox(getModel().getModel("depositoRow")));
 		builder.append("Importe",getControl("importe"));
 		builder.append("Disponible",getControl("disponible"),true);
 		final CellConstraints cc=new CellConstraints();		
@@ -172,7 +181,10 @@ public class PagoDeCargosForm extends AbstractForm{
 		return sp;
 	}
 	
-	
+	private JComboBox buildPagosbox(final ValueModel vm){
+		SelectionInList sl=new SelectionInList(getModel().buscarDepositosDisponibles(),vm);
+		return BasicComponentFactory.createComboBox(sl);
+	}
 	
 	@Override
 	protected JComponent buildHeader() {
