@@ -202,8 +202,8 @@ public class ClientesReplicator extends AbstractReplicatorSupport  {
 		ClientesReplicator r=(ClientesReplicator)ServiceManager.instance().getReplicador(Replicadores.ClientesReplicator);
 		//r.importar(Periodo.hoy());
 		//r.actualizar();
-		r.actualizar("E010022");
-		//Cliente c=r.importar("A010462");
+		r.actualizar("C050967");
+		//Cliente c=r.importar("C050967");
 		//r.persistir(c);
 		//System.out.println("Plazo: "+c.getPlazo());
 	}
