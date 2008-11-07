@@ -6,6 +6,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.log4j.Logger;
 import org.springframework.jdbc.core.JdbcTemplate;
 
 import com.luxsoft.siipap.domain.Periodo;
@@ -32,6 +33,7 @@ public class VentasSupport {
 	
 	private SiipapJdbcTemplateFactory factory;
 	
+	private Logger logger=Logger.getLogger(getClass());
 	
 	/**
 	 * Busca las ventas sin cliente asignado
@@ -67,8 +69,21 @@ public class VentasSupport {
 			v.setYear(Periodo.obtenerYear(dia));
 			v.setMes(Periodo.obtenerMes(dia)+1);
 		}
+		String pattern="Ventas end DBF para {0} :{1}";
+		logger.info(MessageFormat.format(pattern, dia,ventas.size()));
 		return ventas;
 	}
+	
+	/**
+	 * Copia de manera adecuada las propiedades de una venta a la otra
+	 * 
+	 * @param source
+	 * @param target
+	 */
+	public void copyVenta(final Venta source,final Venta target){
+		
+	}
+	
 	/*
 	public List<Map<String, Object>> buscarEnSiipapDbf(final long numero,final int sucursal,final String tipo,final String serie, final Date fecha){
 		

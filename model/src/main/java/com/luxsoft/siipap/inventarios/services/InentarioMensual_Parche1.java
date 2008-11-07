@@ -74,7 +74,7 @@ public class InentarioMensual_Parche1 extends HibernateDaoSupport{
 			public Object doInHibernate(Session session) throws HibernateException, SQLException {
 				
 				List<InventarioMensual> list=session.createQuery("from InventarioMensual i  " +						
-						" order by i.clave,i.year,i.mes")						
+						" where  i.clave=? order by i.clave,i.year,i.mes ").setString(0, "S/BT301056")						
 						.list();				
 				
 				for(int index=0;index<list.size()-1;index++){					
@@ -220,8 +220,8 @@ public class InentarioMensual_Parche1 extends HibernateDaoSupport{
 		
 		//EJECUCION DE PARCHES
 		test.execute2();
-		test.fordwarCosto();
-		test.execute3();
+		//test.fordwarCosto();
+		//test.execute3();
 		
 	}
 

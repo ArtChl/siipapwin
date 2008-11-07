@@ -86,7 +86,7 @@ public class ReplicationManager implements ApplicationContextAware{
 	public static void main(String[] args) {
 		
 		ServiceManager.instance().getReplicationManager()
-		.replicar(Periodo.getPeriodoEnUnMes(1, 2008));
+		.replicar(new Periodo("24/05/2008","24/05/2008"));
 				
 	}
 

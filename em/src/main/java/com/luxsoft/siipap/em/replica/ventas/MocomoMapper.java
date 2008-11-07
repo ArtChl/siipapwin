@@ -30,9 +30,7 @@ public class MocomoMapper implements RowMapper{
 			venta.setCantidad(cant.doubleValue());
 		
 		venta.setClasificacion(rs.getBigDecimal(getPrefix()+"CLASCLI").intValue());
-		String clave=rs.getString(getPrefix()+"CLAVCLI");
-		//if(clave!=null)
-			//clave=clave.trim();
+		String clave=rs.getString(getPrefix()+"CLAVCLI");		
 		venta.setClave(clave);
 		BigDecimal cortes=rs.getBigDecimal(getPrefix()+"CANTCOR");	
 		

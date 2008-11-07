@@ -53,8 +53,17 @@ public class DataBaseLocator extends AbstractControl{
 						}
 						
 					});
-				}else
-					return "ERROR";
+				}else{
+					return ServiceLocator.getJdbcTemplate().execute(new ConnectionCallback(){
+
+						public Object doInConnection(Connection con) throws SQLException, DataAccessException {
+							String s=con.getMetaData().getURL();
+							return StringUtils.substringAfter(s, "@");
+						}
+						
+					});
+				}
+					
 			}
 
 			@Override

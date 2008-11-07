@@ -1,9 +1,6 @@
 package com.luxsoft.siipap.em.importar;
 
-import java.beans.PropertyChangeSupport;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
+import java.text.MessageFormat;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
@@ -12,15 +9,8 @@ import org.apache.commons.collections.Closure;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.log4j.Logger;
 
-import ca.odell.glazedlists.BasicEventList;
-import ca.odell.glazedlists.EventList;
-import ca.odell.glazedlists.GlazedLists;
-
 import com.luxsoft.siipap.cxc.domain.Cliente;
-import com.luxsoft.siipap.domain.Periodo;
 import com.luxsoft.siipap.services.ServiceLocator;
-import com.luxsoft.siipap.services.ServicesUtils;
-import com.luxsoft.siipap.swing.utils.TaskUtils;
 import com.luxsoft.siipap.ventas.dao.VentasDao;
 import com.luxsoft.siipap.ventas.domain.Venta;
 import com.luxsoft.siipap.ventas.managers.VentasManager;
@@ -35,14 +25,11 @@ import com.luxsoft.siipap.ventas.managers.VentasManager;
 public class VentasSync {
 	
 	private Logger logger=Logger.getLogger(getClass());
-	private PropertyChangeSupport propertySupport=new PropertyChangeSupport(this);
+	
 	private VentasSupport support;
 	private ImportadorDeVentas importadorDeVentas;
 	private VentasDao ventasDao;
 	private VentasManager ventasManager;
-	private EventList<Venta> buffer;
-	private Date dia;
-	private DateFormat df=new SimpleDateFormat("dd/MM/yyyy");
 	
 	public void sincronizar(){
 		sinconizar(new Date());
@@ -55,23 +42,38 @@ public class VentasSync {
 	 * @param dia
 	 */
 	public void sinconizar(final Date dia){
-		logger.info("\n\t\tDB: "+ServicesUtils.getDataBaseLocationInfo()+"\n");
-		logger.info("Sincronizando ventas :"+TaskUtils.getHora()+" para: "+dia);
-		siipapToWin(dia);
-		winToSiipap(dia);
+		importarVentas(dia);
+		eliminarVentasSobrantes(dia);
 			
 	}
 	
-	private void siipapToWin(final Date dia){
-		logger.info("Procesando faltantes en SiipapWin.......");
-		int year=Periodo.obtenerYear(dia);
-		String target="H:\\"+year;
-		SafeCopia.execute("G:\\SIIPAP\\ARCHIVOS",target);
-		SafeCopia.execute("G:\\SIIPAP\\ARCHIVOS\\DATO2008",target);
-		List<Venta> faltantes=new ArrayList<Venta>(faltantes(dia));
-		
-		///Buscar los clientes nuevos y persistirlos
-		CollectionUtils.forAllDo(faltantes, new Closure(){
+	private void importarVentas(final Date dia){
+		logger.info("Importando ventas a SiipapWin");
+		final List<Venta> ventas=this.support.buscarVentasEnSiipap(dia);		
+		actualizarClientesCredito(ventas);
+		if(!ventas.isEmpty()){
+			for(Venta v:ventas){
+				try {					
+					Venta target=getImportadorDeVentas().importarVenta(v);
+					Venta source=getVentasManager().getVentasDao().buscarVenta(target.getSucursal(), target.getSerie(),target.getTipo(),target.getNumero());
+					if(source!=null){
+						getVentasManager().actualizarVenta(target);
+						support.copyVenta(source, target);
+						logger.info("Venta ACTUALIZADA..."+target.getId());
+					}else{
+						getVentasManager().actualizarVenta(target);
+						logger.info("Venta GENERADA......: "+v.getId());
+					}
+				} catch (Exception e) {
+					logger.error("No se pudo salvar/actualizar la venta: "+v.getId(),e);
+				}
+			}
+		}
+		logger.info("No hay ventas por importar");
+	}
+	
+	private void actualizarClientesCredito(final List<Venta> ventas){
+		CollectionUtils.forAllDo(ventas, new Closure(){
 			public void execute(Object input) {
 				Venta v=(Venta)input;
 				Cliente c=v.getCliente();
@@ -83,52 +85,28 @@ public class VentasSync {
 					}
 					ServiceLocator.getClienteDao().salvar(c);
 				}
-			}
-			
+			}			
 		});
-		if(!faltantes.isEmpty()){
-			int ok=0;
-			for(Venta v:faltantes){
-				persistirVenta(v);
-				ok++;
+	}
+	
+	private void eliminarVentasSobrantes(final Date dia){
+		logger.info("Procesando Sobrantes (Borrados) en SiipapWin.......");
+		Collection<Venta> sobrantes=sobrantes(dia);
+		if(!sobrantes.isEmpty()){
+			for(Venta v:sobrantes){
+				try {
+					eliminarVenta(v);
+				} catch (Exception e) {
+					logger.error("No se pudo eliminar la venta: "+v.getId(),e);
+					continue;
+				}
+				
 			}
-			logger.info("Ventas persistidas exitosamente: "+ok+"\t Hora:"+TaskUtils.getHora());
 		}
-		logger.info("No hay ventas por sincronizar");
 		
 	}
 	
-	private void winToSiipap(final Date dia){
-		logger.info("Procesando Sobrantes (Borrados) en SiipapWin.......");
-		List<Venta> sobrantes=new ArrayList<Venta>(sobrantes(dia));
-		if(!sobrantes.isEmpty()){
-			int ok=0;
-			for(Venta v:sobrantes){
-				eliminarVenta(v);
-				ok++;
-			}
-			logger.info("Ventas eliminada exitosamente: "+ok+"\t Hora:"+TaskUtils.getHora());
-		}
-		logger.info("No hay ventas por eliminar");
-	}
 	
-	/**
-	 * Salva las ventas en siipapw
-	 * @param v
-	 */
-	public void persistirVenta(final Venta v){
-		try {
-			getImportadorDeVentas().importarVenta(v);
-			getVentasManager().actualizarVenta(v);
-			buffer.add(v);
-			if(logger.isDebugEnabled()){
-				logger.debug("Venta existosamente importada: "+v.getId());
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-			logger.error(e);
-		}
-	}
 	
 	/**
 	 * Elimina una venta en siipapwin
@@ -136,37 +114,10 @@ public class VentasSync {
 	 * @param v
 	 */
 	private void eliminarVenta(final Venta v){
-		try {			
-			getVentasManager().eliminarVenta(v.getId());
-			buffer.remove(v);
-			if(logger.isDebugEnabled()){
-				logger.debug("Venta existosamente eliminada: "+v.getId());
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-			logger.error(e);
-		}
+		getVentasManager().eliminarVenta(v.getId());
+		logger.debug("SW - Venta eliminada: "+v.getId());
 	}
 	
-	/**
-	 * Busca las ventas faltantes en siipapw
-	 * @param dia
-	 * @return
-	 */
-	@SuppressWarnings("unchecked")
-	public Collection<Venta> faltantes(final Date dia){
-		if(this.dia!=dia){
-			//getVentas();//Inicializar el buffer			
-			setDia(dia);
-		}
-		List<Venta> siipap=getSupport().buscarVentasEnSiipap(dia);
-		logger.info("Ventas DBF: "+siipap.size());
-		List<Venta> win=getVentas();
-		logger.info("Ventas beans: "+win.size());
-		Collection<Venta> c=CollectionUtils.subtract(siipap, win);
-		logger.info("Faltantes: "+c.size());
-		return c;
-	}
 	
 	/**
 	 * Busca las ventas eliminadas en siipap
@@ -175,40 +126,35 @@ public class VentasSync {
 	 * @return
 	 */
 	@SuppressWarnings("unchecked")
-	private Collection<Venta> sobrantes(final Date dia){
-		List<Venta> win=getVentas();
-		logger.info("Ventas beans: "+win.size());
-		
+	public Collection<Venta> sobrantes(final Date dia){
+		List<Venta> win=buscarVentasEnSW(dia);
 		List<Venta> siipap=getSupport().buscarVentasEnSiipap(dia);
-		logger.info("Ventas DBF: "+siipap.size());
-		
 		Collection<Venta> c=CollectionUtils.subtract(win,siipap);
-		logger.info("Sobrantes: "+c.size());
+		logger.info("Ventas sobrantes (No existentes en siipap DBF: "+c.size());
 		return c;
 	}
 	
-	
 	/**
-	 * Cargas las ventas actuales en el dia de siipapw en un buffer
-	 * para reducir el acceso a la base de datos
+	 * Busca las ventas sobrantes del dia
 	 * 
-	 *
+	 * @param dia
+	 * @return
 	 */
-	private void loadBuffer(){
-		buffer.clear();
-		buffer.addAll(getVentasDao().buscarVentas(dia));
+	public  List<Venta> buscarVentasEnSW(Date dia){
+		List<Venta> ventas=getVentasDao().buscarVentas(dia);
+		String pattern="Ventas end SW2 para {0} :{1}";
+		logger.info(MessageFormat.format(pattern, dia,ventas.size()));
+		return ventas;
 	}
 	
 	/**
-	 * Ventas del dia en siipapwin
+	 * Comodity para localizar las ventas en siipap dbf
+	 * 
+	 * @param dia
 	 * @return
 	 */
-	private List<Venta> getVentas(){
-		if(buffer==null){
-			buffer=GlazedLists.threadSafeList(new BasicEventList<Venta>());
-			loadBuffer();
-		}
-		return buffer;
+	public List<Venta> buscarVentasEnSiipap(final Date dia){
+		return support.buscarVentasEnSiipap(dia);
 	}
 	
 
@@ -226,17 +172,8 @@ public class VentasSync {
 
 	public void setVentasDao(VentasDao ventasDao) {
 		this.ventasDao = ventasDao;
-	}
-
-	public Date getDia() {
-		return dia;
-	}
-
-	public void setDia(Date dia) {
-		Object old=this.dia;
-		this.dia = dia;
-		propertySupport.firePropertyChange("dia", old, dia);
-	}
+	}	
+	
 
 	public ImportadorDeVentas getImportadorDeVentas() {
 		return importadorDeVentas;

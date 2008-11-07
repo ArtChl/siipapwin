@@ -29,8 +29,8 @@ public class StatusBar{
 		return statusPanel;
 	}
 	
-	private JComponent getComponents(){
-		FormLayout layout=new FormLayout("p,2dlu,p","p");
+	protected JComponent getComponents(){
+		FormLayout layout=new FormLayout("p,2dlu,p,2dlu,p","p");
 		PanelBuilder builder=new PanelBuilder(layout);
 		CellConstraints cc=new CellConstraints();
 		final DataBaseLocator dbLocator=new DataBaseLocator();
