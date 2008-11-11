@@ -97,6 +97,12 @@
 							</mainClass>
 							<name>LxImporter</name>
 						</program>
+						<program>
+							<mainClass>
+								com.luxsoft.siipap.em.importar.ui.ReplicatorApp
+							</mainClass>
+							<name>ReplicadorApp</name>
+						</program>
 					</programs>
 				</configuration>
 

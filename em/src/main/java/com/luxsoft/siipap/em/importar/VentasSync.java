@@ -10,9 +10,12 @@ import org.apache.commons.collections.CollectionUtils;
 import org.apache.log4j.Logger;
 
 import com.luxsoft.siipap.cxc.domain.Cliente;
+import com.luxsoft.siipap.domain.Periodo;
+import com.luxsoft.siipap.em.replica.ReplicationUtils;
 import com.luxsoft.siipap.services.ServiceLocator;
 import com.luxsoft.siipap.ventas.dao.VentasDao;
 import com.luxsoft.siipap.ventas.domain.Venta;
+import com.luxsoft.siipap.ventas.domain.VentaDet;
 import com.luxsoft.siipap.ventas.managers.VentasManager;
 
 /**
@@ -54,15 +57,15 @@ public class VentasSync {
 		if(!ventas.isEmpty()){
 			for(Venta v:ventas){
 				try {					
-					Venta target=getImportadorDeVentas().importarVenta(v);
-					Venta source=getVentasManager().getVentasDao().buscarVenta(target.getSucursal(), target.getSerie(),target.getTipo(),target.getNumero());
-					if(source!=null){
-						getVentasManager().actualizarVenta(target);
+					Venta source=getImportadorDeVentas().importarVenta(v);
+					Venta target=getVentasManager().getVentasDao().buscarVenta(source.getSucursal(), source.getSerie(),source.getTipo(),source.getNumero());
+					if(target!=null){
 						support.copyVenta(source, target);
+						getVentasManager().getVentasDao().salvar(target);
 						logger.info("Venta ACTUALIZADA..."+target.getId());
 					}else{
-						getVentasManager().actualizarVenta(target);
-						logger.info("Venta GENERADA......: "+v.getId());
+						getVentasManager().actualizarVenta(source);
+						logger.info("Venta GENERADA......: "+source.getId());
 					}
 				} catch (Exception e) {
 					logger.error("No se pudo salvar/actualizar la venta: "+v.getId(),e);
@@ -155,6 +158,22 @@ public class VentasSync {
 	 */
 	public List<Venta> buscarVentasEnSiipap(final Date dia){
 		return support.buscarVentasEnSiipap(dia);
+	}
+	
+	public List<VentaDet> buscarVentasDetEnSiipap(final Date dia){
+		StringBuffer sql=new StringBuffer();
+		sql.append("SELECT * FROM ");
+		sql.append(ReplicationUtils.resolveTable("ALMACE", dia));		
+		sql.append(ReplicationUtils.resolveWherePart(new Periodo(dia), "ALMFECHA"));
+		String where=" AND  ALMTIPO=\'FAC\'";
+		sql.append(where);
+		if(logger.isDebugEnabled()){
+			logger.debug("Query generado: "+sql.toString());
+		}
+		System.out.println("Det SQL: "+sql.toString());
+		List<VentaDet> res= getSupport().getFactory().getJdbcTemplate().query(sql.toString(),getImportadorDeVentas().getPartidasMapper() );
+		System.out.println("Res: "+res.size());
+		return res;
 	}
 	
 

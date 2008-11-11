@@ -2,11 +2,13 @@ package com.luxsoft.siipap.em.importar;
 
 import java.text.MessageFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
 import org.apache.log4j.Logger;
+import org.springframework.beans.BeanUtils;
 import org.springframework.jdbc.core.JdbcTemplate;
 
 import com.luxsoft.siipap.domain.Periodo;
@@ -18,6 +20,7 @@ import com.luxsoft.siipap.em.replica.ventas.MovcreMapper;
 import com.luxsoft.siipap.services.ServiceLocator;
 import com.luxsoft.siipap.ventas.dao.VentasDao;
 import com.luxsoft.siipap.ventas.domain.Venta;
+import com.luxsoft.siipap.ventas.domain.VentaDet;
 
 /**
  * Proporciona informacion relacionada con ventas tanto en Siipap
@@ -81,8 +84,14 @@ public class VentasSupport {
 	 * @param target
 	 */
 	public void copyVenta(final Venta source,final Venta target){
-		
+		//BeanUtils.copyProperties(source, target, new String[]{"id","partidas"});
+		System.out.println("Partidas antes: "+target.getPartidas().size());
+		for(VentaDet det:source.getPartidas()){
+			target.agregarDetalle(det);
+		}
+		System.out.println("Partidas despues: "+target.getPartidas().size());
 	}
+	
 	
 	/*
 	public List<Map<String, Object>> buscarEnSiipapDbf(final long numero,final int sucursal,final String tipo,final String serie, final Date fecha){

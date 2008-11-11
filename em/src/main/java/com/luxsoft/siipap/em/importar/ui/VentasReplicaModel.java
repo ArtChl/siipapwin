@@ -13,7 +13,9 @@ import javax.swing.SwingWorker;
 import javax.swing.SwingWorker.StateValue;
 
 import org.apache.commons.collections.CollectionUtils;
-import org.apache.commons.collections.Predicate;
+
+import ca.odell.glazedlists.BasicEventList;
+import ca.odell.glazedlists.EventList;
 
 import com.jgoodies.binding.PresentationModel;
 import com.luxsoft.siipap.em.importar.VentasSync;
@@ -21,11 +23,7 @@ import com.luxsoft.siipap.em.managers.EMServiceLocator;
 import com.luxsoft.siipap.em.utils.DbUtils;
 import com.luxsoft.siipap.swing.utils.TaskUtils;
 import com.luxsoft.siipap.ventas.domain.Venta;
-
-import ca.odell.glazedlists.BasicEventList;
-import ca.odell.glazedlists.EventList;
-import ca.odell.glazedlists.FilterList;
-import ca.odell.glazedlists.matchers.Matcher;
+import com.luxsoft.siipap.ventas.domain.VentaDet;
 
 public class VentasReplicaModel extends PresentationModel implements PropertyChangeListener{
 	
@@ -35,7 +33,9 @@ public class VentasReplicaModel extends PresentationModel implements PropertyCha
 	private static final long serialVersionUID = 1L;
 	
 	private EventList<Venta> ventasWin;
+	private EventList<VentaDet> ventasDetWin;
 	private EventList<Venta> ventasDbf;
+	private EventList<VentaDet> ventasDetDbf;
 	private EventList<Venta> faltantes;
 	private EventList<Venta> sobrantes;
 	
@@ -53,7 +53,9 @@ public class VentasReplicaModel extends PresentationModel implements PropertyCha
 	
 	private void initGlazedLists(){
 		ventasWin=new BasicEventList<Venta>();
+		ventasDetWin=new BasicEventList<VentaDet>();
 		ventasDbf=new BasicEventList<Venta>();
+		ventasDetDbf=new BasicEventList<VentaDet>();
 		faltantes=new BasicEventList<Venta>();
 		sobrantes=new BasicEventList<Venta>();
 	}
@@ -64,39 +66,33 @@ public class VentasReplicaModel extends PresentationModel implements PropertyCha
 		TaskUtils.executeSwingWorker(worker);
 	}
 	
+	@SuppressWarnings("unchecked")
 	private void cargarFaltantes(){
 		faltantes.clear();
 		sobrantes.clear();
-		System.out.println("Win "+ventasWin.size());
-		System.out.println("Dbf:"+ventasDbf.size());
-		Collection<Venta> res=CollectionUtils.subtract( ventasWin,ventasDbf);
+		Collection<Venta> res=CollectionUtils.subtract(ventasDbf, ventasWin);
 		faltantes.addAll(res);
-		sobrantes.addAll(CollectionUtils.subtract( ventasDbf,ventasWin));
+		sobrantes.addAll(CollectionUtils.subtract( ventasWin,ventasDbf));
 		
 	}
 	
-	private boolean exists(EventList<Venta> source,final Venta bean){
-		return CollectionUtils.exists(source, new Predicate(){
-
-			public boolean evaluate(Object object) {
-				Venta v=(Venta)object;
-				System.out.println("Evaluando: "+v);
-				if(v.getSucursal().equals(bean.getSucursal()))
-					if(v.getNumero().equals(bean.getNumero()))
-						if(v.getSerie().equals(bean.getSerie()))
-							return v.getTipo().equals(bean.getTipo());
-				return false;
-			}
-			
-		});
-	}
-
+	
+	
 	public EventList<Venta> getVentasWin() {
 		return ventasWin;
+	}
+	
+
+	public EventList<VentaDet> getVentasDetWin() {
+		return ventasDetWin;
 	}
 
 	public EventList<Venta> getVentasDbf() {
 		return ventasDbf;
+	}
+
+	public EventList<VentaDet> getVentasDetDbf() {
+		return ventasDetDbf;
 	}
 
 	public EventList<Venta> getFaltantes() {
@@ -175,20 +171,48 @@ public class VentasReplicaModel extends PresentationModel implements PropertyCha
 		
 	}
 	
+	@SuppressWarnings("unchecked")
+	public void sincronizar(){
+		SwingWorker worker=new SwingWorker(){
+			protected Object doInBackground() throws Exception {
+				getVentasSync().sinconizar(getDia());
+				return "OK";
+			}
+			protected void done() {
+				loadData();
+			}
+			
+		};
+		TaskUtils.executeSwingWorker(worker);
+		
+	}
+	
+	
+	
 	/**
 	 * SwingWorker para cargar las listas de ventas 
 	 * 
 	 * @author RUBEN
 	 *
 	 */
-	private class LoadWorker extends SwingWorker<List<List<Venta>>, String>{
+	@SuppressWarnings("unchecked")
+	private class LoadWorker extends SwingWorker<List<List>, String>{
 		
-		@SuppressWarnings("unchecked")
+		
 		@Override
-		protected List<List<Venta>> doInBackground() throws Exception {
-			List<List<Venta>> list=new ArrayList<List<Venta>>();
-			list.add(0,getVentasSync().buscarVentasEnSiipap(getDia()));
-			list.add(1,getVentasSync().buscarVentasEnSW(getDia()));
+		protected List<List> doInBackground() throws Exception {
+			List<List> list=new ArrayList<List>();
+			List<Venta> vdbf=getVentasSync().buscarVentasEnSiipap(getDia());			
+			List<Venta> vwin=getVentasSync().buscarVentasEnSW(getDia());
+			List<VentaDet> vdetDbf=getVentasSync().buscarVentasDetEnSiipap(getDia());
+			list.add(0,vdbf);
+			list.add(1,vwin);
+			list.add(2,vdetDbf);
+			List<VentaDet> vdetWin=new ArrayList<VentaDet>();
+			for(Venta v:vwin){
+				vdetWin.addAll(v.getPartidas());
+			}
+			list.add(3,vdetWin);
 			return list;
 		}
 		
@@ -196,11 +220,15 @@ public class VentasReplicaModel extends PresentationModel implements PropertyCha
 		@Override
 		protected void done() {
 			try {
-				List<List<Venta>> res=get();
+				List<List> res=get();
 				ventasWin.clear();
-				ventasWin.addAll(res.get(0));
+				ventasWin.addAll(res.get(1));
 				ventasDbf.clear();
-				ventasDbf.addAll(res.get(1));
+				ventasDbf.addAll(res.get(0));
+				ventasDetDbf.clear();
+				ventasDetDbf.addAll(res.get(2));
+				ventasDetWin.clear();
+				ventasDetWin.addAll(res.get(3));
 				cargarFaltantes();
 				VentasReplicaModel.this.afterDataLoaded();
 			} catch (InterruptedException e) {
@@ -212,6 +240,8 @@ public class VentasReplicaModel extends PresentationModel implements PropertyCha
 				setOdbc(DbUtils.getSiipapOdbc());
 		}
 	}
+	
+	
 	
 	
 }

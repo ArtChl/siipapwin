@@ -11,7 +11,7 @@ import com.luxsoft.siipap.swing.controls.StatusBar;
 import com.luxsoft.siipap.swing.utils.SWExtUIManager;
 
 @SuppressWarnings("serial")
-public class VentasReplicatorApp extends JFrame{
+public class ReplicatorApp extends JFrame{
 	
 	private StatusBar statusBar;
 	
@@ -30,7 +30,7 @@ public class VentasReplicatorApp extends JFrame{
 		SwingUtilities.invokeAndWait(new Runnable(){
 			public void run() {
 				 SWExtUIManager.setup();	 
-				VentasReplicatorApp app=new VentasReplicatorApp();
+				ReplicatorApp app=new ReplicatorApp();
 				app.start();
 			}
 		});

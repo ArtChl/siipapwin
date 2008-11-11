@@ -279,13 +279,13 @@ public class VentaDet extends PersistentObject{
 		
 		return new EqualsBuilder()
 		.append(getSucursal(),det.getSucursal())
-		.append(getTipo(),det.getTipo())
+		//.append(getTipo(),det.getTipo())
 		.append(getNumero(),det.getNumero())
 		.append(getSerie(),det.getSerie())
 		.append(getTipoFactura(),det.getTipoFactura())
 		.append(getRenglon(),det.getRenglon())
-		.append(getCreado(),det.getCreado())
-		.append(getId(), det.getId())
+		//.append(getCreado(),det.getCreado())
+		//.append(getId(), det.getId())
 		.isEquals();
 		
 	}
@@ -293,12 +293,12 @@ public class VentaDet extends PersistentObject{
 	public int hashCode() {
 		return new HashCodeBuilder(17,35)
 		.append(getSucursal())
-		.append(getTipo())
+		//.append(getTipo())
 		.append(getNumero())
 		.append(getSerie())
 		.append(getTipoFactura())
 		.append(getRenglon())
-		.append(getCreado())
+		//.append(getCreado())
 		.toHashCode();
 	}
 	

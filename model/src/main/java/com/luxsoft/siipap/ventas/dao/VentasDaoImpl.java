@@ -10,6 +10,7 @@ import java.util.Currency;
 import java.util.Date;
 import java.util.List;
 
+import org.apache.commons.collections.list.SetUniqueList;
 import org.hibernate.Hibernate;
 import org.hibernate.HibernateException;
 import org.hibernate.LockMode;
@@ -300,9 +301,13 @@ public class VentasDaoImpl extends HibernateDaoSupport implements  VentasDao{
 	public List<Venta> buscarVentas(final Date dia){
 		return getHibernateTemplate().executeFind(new HibernateCallback(){
 			public Object doInHibernate(Session session) throws HibernateException, SQLException {
-				return session.createQuery("from Venta v where  v.fecha=:fecha")				
+				List res=session.createQuery(
+						"from Venta v left join fetch v.partidas " +
+						"where  v.fecha=:fecha")				
 				.setParameter("fecha", dia,Hibernate.DATE)
 				.list();
+				SetUniqueList list=SetUniqueList.decorate(res);
+				return list;
 			}
 			
 		});

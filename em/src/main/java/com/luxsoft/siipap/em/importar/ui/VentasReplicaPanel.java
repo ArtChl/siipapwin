@@ -2,13 +2,18 @@ package com.luxsoft.siipap.em.importar.ui;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.beans.EventHandler;
 
+import javax.swing.Action;
 import javax.swing.JComponent;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 import javax.swing.JTextField;
 import javax.swing.JToolBar;
+import javax.swing.Timer;
 
 import net.infonode.docking.RootWindow;
 import net.infonode.docking.View;
@@ -36,11 +41,13 @@ import com.jgoodies.forms.builder.PanelBuilder;
 import com.jgoodies.forms.layout.CellConstraints;
 import com.jgoodies.forms.layout.FormLayout;
 import com.jgoodies.uif.builder.ToolBarBuilder;
+import com.luxsoft.siipap.swing.actions.DispatchingAction;
 import com.luxsoft.siipap.swing.binding.Binder;
 import com.luxsoft.siipap.swing.utils.CommandUtils;
 import com.luxsoft.siipap.swing.utils.ComponentUtils;
 import com.luxsoft.siipap.swing.utils.DockingUtils;
 import com.luxsoft.siipap.ventas.domain.Venta;
+import com.luxsoft.siipap.ventas.domain.VentaDet;
 
 
 @SuppressWarnings("serial")
@@ -130,14 +137,17 @@ public class VentasReplicaPanel extends JPanel{
 		DockingUtil.addWindow(createVentasFaltantesView(), rootWindow);
 		DockingUtil.addWindow(createVentasSobrantesView(), rootWindow);
 		DockingUtil.addWindow(createVentasSiipapWindView(), rootWindow);
+		DockingUtil.addWindow(createVentasDetWinView(), rootWindow);
 		DockingUtil.addWindow(createVentasSiipapDbfView(), rootWindow);
-		
+		DockingUtil.addWindow(createVentasDetSiipapDbfView(), rootWindow);
 		return rootWindow;
 	}
 	
 	private JXTable winGrid;
 	
 	
+	
+	@SuppressWarnings("unchecked")
 	private View createVentasSiipapWindView(){
 		winGrid=ComponentUtils.getStandardTable();
 		EventList<Venta> source=decorate(model.getVentasWin());
@@ -151,8 +161,25 @@ public class VentasReplicaPanel extends JPanel{
 		return v;
 	}
 	
+	private JXTable winDetGrid;
+	
+	@SuppressWarnings("unchecked")
+	private View createVentasDetWinView(){
+		winDetGrid=ComponentUtils.getStandardTable();
+		EventList<VentaDet> source=decorateDet(model.getVentasDetWin());
+		SortedList<VentaDet> sorted=new SortedList<VentaDet>(source,null);
+		EventTableModel<VentaDet> tm=new EventTableModel<VentaDet>(sorted,getVentasDetTableFormat());
+		winDetGrid.setModel(tm);
+		new TableComparatorChooser(winDetGrid,sorted,true);
+		JScrollPane sp=new JScrollPane(winDetGrid);
+		sp.setBorder(null);
+		View v=new View("Siipap Det Win",null,sp);
+		return v;
+	}
+	
 	private JXTable dbfGrid;
 	
+	@SuppressWarnings("unchecked")
 	private View createVentasSiipapDbfView(){
 		dbfGrid=ComponentUtils.getStandardTable();
 		EventList<Venta> source=decorate(model.getVentasDbf());
@@ -166,8 +193,25 @@ public class VentasReplicaPanel extends JPanel{
 		return v;
 	}
 	
+	private JXTable dbfDetGrid;
+	
+	@SuppressWarnings("unchecked")
+	private View createVentasDetSiipapDbfView(){
+		dbfDetGrid=ComponentUtils.getStandardTable();
+		EventList<VentaDet> source=decorateDet(model.getVentasDetDbf());
+		SortedList<VentaDet> sorted=new SortedList<VentaDet>(source,null);
+		EventTableModel<VentaDet> tm=new EventTableModel<VentaDet>(sorted,getVentasDetTableFormat());
+		dbfDetGrid.setModel(tm);
+		new TableComparatorChooser(dbfDetGrid,sorted,true);
+		JScrollPane sp=new JScrollPane(dbfDetGrid);
+		sp.setBorder(null);
+		View v=new View("Siipap Det DBF",null,sp);
+		return v;
+	}
+	
 	private JXTable faltantesGrid;
 	
+	@SuppressWarnings("unchecked")
 	private View createVentasFaltantesView(){
 		faltantesGrid=ComponentUtils.getStandardTable();
 		EventList<Venta> source=decorate(model.getFaltantes());
@@ -183,6 +227,7 @@ public class VentasReplicaPanel extends JPanel{
 	
 	private JXTable sobrantesGrid;
 	
+	@SuppressWarnings("unchecked")
 	private View createVentasSobrantesView(){
 		sobrantesGrid=ComponentUtils.getStandardTable();
 		EventList<Venta> source=decorate(model.getSobrantes());
@@ -200,6 +245,12 @@ public class VentasReplicaPanel extends JPanel{
 		String[] props={"id","sucursal","clave","nombre","fecha","numero","serie","tipo"};
 		String[] names={"Id","Suc","Cliente","Nombre","Fecha","Fac","S","T"};
 		return GlazedLists.tableFormat(Venta.class, props,names);
+	}
+	
+	private TableFormat<VentaDet> getVentasDetTableFormat(){
+		String[] props={"id","sucursal","numero","serie","tipo","clave","descripcion","cantidad"};
+		String[] names={"id","Suc","Num","S","T","Articulo","Desc","Cantidad"};
+		return GlazedLists.tableFormat(VentaDet.class, props,names);
 	}
 	
 	EventList<MatcherEditor<Venta>> editors;
@@ -227,6 +278,10 @@ public class VentasReplicaPanel extends JPanel{
 		final FilterList<Venta> filterList=new FilterList<Venta>(source,editor);
 		return filterList;
 	}
+	
+	private EventList<VentaDet> decorateDet(final EventList<VentaDet> source){
+		return source;
+	}
  	
 	private JToolBar toolBar;
 	
@@ -234,6 +289,11 @@ public class VentasReplicaPanel extends JPanel{
 		if(toolBar==null){
 			ToolBarBuilder builder=new ToolBarBuilder();
 			builder.add(CommandUtils.createRefreshAction(this, "updateData"));
+			
+			Action sync=new DispatchingAction(model,"sincronizar");
+			sync.putValue(Action.SMALL_ICON, CommandUtils.getIconFromResource("images/misc/twowaycompare_co.gif"));
+			builder.add(sync);
+			
 			toolBar=builder.getToolBar();
 		}
 		return toolBar;
@@ -245,6 +305,19 @@ public class VentasReplicaPanel extends JPanel{
 	
 	private void dataLoaded(){
 		winGrid.packAll();
+	}
+	
+	private Timer timer;
+	
+	private void initTimer(){
+		timer=new Timer(1000*60*5,EventHandler.create(ActionListener.class,model,"sincronizar"));
+		timer.start();
+		timer.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e) {
+				System.out.println("Event: ");
+			}
+			
+		});
 	}
 
 }

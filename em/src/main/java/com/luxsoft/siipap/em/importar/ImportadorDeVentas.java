@@ -2,9 +2,12 @@ package com.luxsoft.siipap.em.importar;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
+import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.collections.Predicate;
 import org.apache.log4j.Logger;
 import org.springframework.jdbc.core.RowMapper;
 
@@ -12,6 +15,7 @@ import com.luxsoft.siipap.cxc.dao.ClienteDao;
 import com.luxsoft.siipap.cxc.domain.Cliente;
 import com.luxsoft.siipap.dao.ArticuloDao;
 import com.luxsoft.siipap.domain.Articulo;
+import com.luxsoft.siipap.domain.Periodo;
 import com.luxsoft.siipap.em.dao.SiipapJdbcTemplateFactory;
 import com.luxsoft.siipap.em.replica.ReplicationUtils;
 import com.luxsoft.siipap.ventas.domain.Venta;
@@ -91,14 +95,22 @@ public class ImportadorDeVentas implements Importador{
 	}
 	
 	/**
-	 * Busca
+	 * Busca las partidas de una venta en el dbf
+	 * 
 	 * @param v
 	 * @return
 	 */
 	@SuppressWarnings("unchecked")
 	public List<VentaDet> buscarPartidas(final Venta v){
-		String sql=getSql(v);
+		/*String sql=getSql(v);
 		List<VentaDet> partidas=getFactory().getJdbcTemplate().query(sql, getPartidasMapper());
+		for(VentaDet det:partidas){
+			det.setYear(v.getYear());
+			det.setMes(v.getMes());	
+			det.setCantidad(det.getCantidad()/det.getFactorDeConversionUnitaria());
+		}
+		*/
+		List<VentaDet> partidas=new ArrayList<VentaDet>(buscarPartidasEnBuffer(v));
 		for(VentaDet det:partidas){
 			det.setYear(v.getYear());
 			det.setMes(v.getMes());	
@@ -169,6 +181,46 @@ public class ImportadorDeVentas implements Importador{
 			logger.debug("Query generado: "+sql.toString());
 		}
 		return sql.toString();
+	}
+	
+	private List<VentaDet> partidasBuffer=new ArrayList<VentaDet>();
+	
+	private void cargarBufferDePartidas(final Date dia){
+		System.out.println("Cargando buffer de partidas para el dia: "+dia);
+		StringBuffer sql=new StringBuffer();
+		sql.append("SELECT * FROM ");
+		sql.append(ReplicationUtils.resolveTable("ALMACE", dia));		
+		sql.append(ReplicationUtils.resolveWherePart(new Periodo(dia), "ALMFECHA"));
+		String where=" AND  ALMTIPO=\'FAC\'";
+		sql.append(where);
+		if(logger.isDebugEnabled()){
+			logger.debug("Query generado: "+sql.toString());
+		}
+		System.out.println("Det SQL: "+sql.toString());
+		List<VentaDet> res= getFactory().getJdbcTemplate().query(sql.toString(),getPartidasMapper() );
+		
+		System.out.println("Res: "+res.size());
+		partidasBuffer.addAll(res);
+	}
+	
+	public Collection<VentaDet> buscarPartidasEnBuffer(final Venta v){
+		if(partidasBuffer.isEmpty())
+			cargarBufferDePartidas(v.getFecha());
+		return CollectionUtils.select(partidasBuffer, new Predicate(){
+
+			public boolean evaluate(Object object) {
+				VentaDet det=(VentaDet)object;
+				if(det.getSucursal().equals(v.getSucursal())){
+					if(det.getNumero().equals(v.getNumero()))
+						if(det.getSerie().equals(v.getSerie()))
+						return det.getTipoFactura().equals(v.getTipo());
+							
+					
+				}
+				return false;
+			}
+			
+		});
 	}
 	
 	/*** Colaboradores **/
