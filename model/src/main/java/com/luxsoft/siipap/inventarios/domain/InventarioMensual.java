@@ -271,9 +271,15 @@ public class InventarioMensual extends MutableObject implements Comparable<Inven
 			setCostoPromedio(CantidadMonetaria.pesos(0));
 		if(fixCosto)
 			setCostoInicial(getCostoPromedio().multiply(getInicial()));
-		// Si el saldo al final del periodo es 0 y existieron compras en el periodo
-		if(getSaldo().doubleValue()==0 && getCostoCxp().amount().doubleValue()!=0 && getCostoInicial().amount().doubleValue()==0){
-			setCostoPromedio(getCostoCxp().divide(getCxp()));
+		// Si el saldo al final del periodo es 0 y existieron compras/maquila en el periodo
+		BigDecimal costoCxP_Maquila=getCostoCxp().add(getCostoIntegradMaq()).amount();
+		if(getSaldo().doubleValue()==0 
+				&& costoCxP_Maquila.doubleValue()!=0 
+				&& getCostoInicial().amount().doubleValue()==0){
+			double cantidad2=cxp.doubleValue()+maq.doubleValue();
+			
+			CantidadMonetaria costo2=CantidadMonetaria.pesos(costoCxP_Maquila.doubleValue());
+			setCostoPromedio(costo2.divide(cantidad2));
 		}
 	}
 	

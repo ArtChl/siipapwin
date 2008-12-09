@@ -74,7 +74,9 @@ public class InentarioMensual_Parche1 extends HibernateDaoSupport{
 			public Object doInHibernate(Session session) throws HibernateException, SQLException {
 				
 				List<InventarioMensual> list=session.createQuery("from InventarioMensual i  " +						
-						" where i.clave=? order by i.clave,i.year,i.mes ").setString(0, "CAP100140")						
+						//" where i.clave=? " +
+						"order by i.clave,i.year,i.mes ")
+						//.setString(0, "CAP100140")						
 						.list();				
 				
 				for(int index=0;index<list.size()-1;index++){					
@@ -142,13 +144,13 @@ public class InentarioMensual_Parche1 extends HibernateDaoSupport{
 			public Object doInHibernate(Session session) throws HibernateException, SQLException {
 				
 				List<InventarioMensual> list=session.createQuery("from InventarioMensual i  " +
-						//" where i.clave in (?,?,?,?)" +						
+						//" where i.clave in (?)" +						
 						" order by i.clave,i.year,i.mes")
-						/*.setString(0, "CAP614716")
-						.setString(1, "CAP10214")
-						.setString(2, "CAP635214")
-						.setString(3, "CAP487320")
-						*/
+						//.setString(0, "SBS210212")
+						//.setString(1, "CAP10214")
+						//.setString(2, "CAP635214")
+						//.setString(3, "CAP487320")
+						
 						.list();
 				
 				String currentClave=null;
@@ -182,7 +184,16 @@ public class InentarioMensual_Parche1 extends HibernateDaoSupport{
 		});
 	}
 	
-	public void execute3(){
+	/**
+	 * Actualiza el CP tomando el valor del catalogo de articulos.
+	 * Se aplica:
+	 * 
+	 * 	 El costo promedio ==0
+	 * 	 Existan movimientos en el periodo (FACS)
+	 * 	 El saldo/costo inicial ==0
+	 * 
+	 */
+	public void actualizaElCostoPromedioUsandoElCatalogoDeArticulos(){
 		getHibernateTemplate().execute(new HibernateCallback(){
 			@SuppressWarnings("unchecked")
 			public Object doInHibernate(Session session) throws HibernateException, SQLException {
@@ -219,9 +230,9 @@ public class InentarioMensual_Parche1 extends HibernateDaoSupport{
 		//test.verificarCostoInicialContraFinal();
 		
 		//EJECUCION DE PARCHES
-		test.execute2();
-		//test.fordwarCosto();
-		//test.execute3();
+		//test.execute2();
+		test.fordwarCosto();
+		//test.actualizaElCostoPromedioUsandoElCatalogoDeArticulos();
 		
 	}
 

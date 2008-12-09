@@ -150,4 +150,6 @@ public interface VentasDao {
 	 */
 	//public CantidadMonetaria acumuladoDelCliente(String cliente,Periodo periodo,boolean credito);
 	
+	
+	
 }

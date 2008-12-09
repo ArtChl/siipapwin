@@ -429,5 +429,7 @@ public class VentasDaoImpl extends HibernateDaoSupport implements  VentasDao{
 		System.out.println(ventas.size());
 		
 	}
+	
+	
 
 }
