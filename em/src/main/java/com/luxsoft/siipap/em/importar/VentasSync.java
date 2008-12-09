@@ -60,8 +60,12 @@ public class VentasSync {
 					Venta source=getImportadorDeVentas().importarVenta(v);
 					Venta target=getVentasManager().getVentasDao().buscarVenta(source.getSucursal(), source.getSerie(),source.getTipo(),source.getNumero());
 					if(target!=null){
+						if(target.getId()==3050812L){
+							System.out.println("DEBUG");
+						}
 						support.copyVenta(source, target);
-						getVentasManager().getVentasDao().salvar(target);
+						//getVentasManager().getVentasDao().salvar(target);
+						getVentasManager().actualizarVenta(target);
 						logger.info("Venta ACTUALIZADA..."+target.getId());
 					}else{
 						getVentasManager().actualizarVenta(source);
