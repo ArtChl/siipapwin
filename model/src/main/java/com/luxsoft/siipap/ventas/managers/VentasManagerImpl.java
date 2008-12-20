@@ -514,7 +514,7 @@ public class VentasManagerImpl extends HibernateDaoSupport implements VentasMana
 	public static void main(String[] args) {
 		
 		VentasManager manager=ServiceLocator.getVentasManager();		
-		manager.actualizarVenta(2792646L);
+		manager.actualizarVenta(3058041L);
 		
 		/**
 		StopWatch watch=new StopWatch();

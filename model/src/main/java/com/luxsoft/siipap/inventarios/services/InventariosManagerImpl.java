@@ -588,10 +588,9 @@ public class InventariosManagerImpl extends HibernateDaoSupport implements Inven
 		*/
 		
 		for(int i=1;i<=12;i++){
-			InventarioMensual im=ServiceLocator.getInventariosManager().actualizarInventario(2008,i, "SBS210212");
-			InventarioMensual im2=ServiceLocator.getInventariosManager().actualizarInventario(2008,i, "CAP457116");
+			InventarioMensual im=ServiceLocator.getInventariosManager().actualizarInventario(2008,i, "CAP9011018");			
 			System.out.println("\t"+im);
-			System.out.println("\t"+im2);
+			
 		
 		}
 		
