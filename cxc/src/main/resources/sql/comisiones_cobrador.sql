@@ -8,7 +8,7 @@ select a.origen,a.venta_id,b.fecha as FECHA_FAC,b.COBRADOR,b.sucursal,a.clave,b.
 ,max(a.fecha) as FECHA_PAG
 ,ROUND(case when a.origen<>'CRE' then 1 else (select x.descuento     from SW_VENTASCREDITO x where a.venta_id=x.venta_id)  end,2) as DESCUENTO
 ,max(case when a.origen<>'CRE' then 0 else (select round(a.fecha-x.vencimiento,0)     from SW_VENTASCREDITO x where a.venta_id=x.venta_id)  end) as ATRASO
-,CASE WHEN a.CLAVE='U050008' THEN 0.05 ELSE 0.14 END as COMISION
+,CASE WHEN a.CLAVE='U050008' THEN 0.05 ELSE 0.12 END as COMISION
 ,b.CANCELCOMIVENT,case when b.PAGOCOMICOB is not null  then 1 else 0 end as APLICADO
 ,b.IMPCOMICOB as IMPORTE
 from sw_pagos a join sw_ventas b on(a.venta_id=b.venta_id)

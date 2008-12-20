@@ -307,7 +307,7 @@ public class PagosModelImpl extends Model implements PagosModel {
 		String sql="select b.FORMADP,b.CUENTADESTINO,a.* from SW_DEPOSITOSDET a " +
 		"left join SW_DEPOSITOS b on a.DEPOSITO_ID=b.DEOPSITO_ID " +
 		"where pagoaplicado is null and clave is not null" +
-		" and clave=?";
+		" and clave=? and b.origen=\'CRE\'";
 		
 		String clave=getPagoM().getCliente().getClave();
 		
