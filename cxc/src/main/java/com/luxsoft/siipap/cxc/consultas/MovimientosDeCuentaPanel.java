@@ -73,6 +73,7 @@ import com.luxsoft.siipap.swing.utils.CommandUtils;
 import com.luxsoft.siipap.swing.utils.MessageUtils;
 import com.luxsoft.siipap.swing.utils.Renderers;
 import com.luxsoft.siipap.swing.utils.SWExtUIManager;
+import com.luxsoft.siipap.swing.utils.TaskUtils;
 import com.luxsoft.siipap.utils.DateUtils;
 import com.luxsoft.siipap.ventas.domain.Venta;
 
@@ -199,8 +200,7 @@ public class MovimientosDeCuentaPanel extends AbstractControl{
 		
 		builder.add(new UIFButton(getLoadAction()),cc.xy(col, 1));
 		col+=2;
-		builder.add(new UIFButton(getLocalizarCliente()),cc.xy(col, 1));
-		col+=2;
+		
 		builder.addLabel("Filtrar: ",cc.xy(col, 1));
 		col+=2;
 		builder.add(filterField,cc.xy(col, 1));
@@ -240,26 +240,19 @@ public class MovimientosDeCuentaPanel extends AbstractControl{
 	public Action getLoadAction(){
 		if(loadAction==null){
 			loadAction=CommandUtils.createLoadAction(this, "load");
+			loadAction.putValue(Action.NAME, "Buscar");
 		}
 		return loadAction;
 	}
 	
-	private Action localizarCliente;
-	public Action getLocalizarCliente(){
-		if(localizarCliente==null){
-			localizarCliente=CommandUtils.createFilterAction(this, "seleccionarCliente");
-		}
-		return localizarCliente;
-	}
 	
-	public void load(){
-		if(StringUtils.isBlank(cliente)){
-			seleccionarCliente();			
-		}
+	
+	public void load(){		
+		seleccionarCliente();
 		source.clear();
 		getLoadAction().setEnabled(false);
 		Loader loader=new Loader();
-		loader.execute();
+		TaskUtils.executeSwingWorker(loader);
 	}
 	
 	public static String[] PROPS={
@@ -397,7 +390,7 @@ public class MovimientosDeCuentaPanel extends AbstractControl{
 			this.corte=(Date)fechaModel.getValue();
 			this.header.setTitle(cliente.getNombre());
 			this.header.setDescription("Movimientos al: "+DateUtils.format(corte));
-			load();
+			
 		}
 	}
 	
