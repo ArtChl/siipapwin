@@ -65,6 +65,7 @@ public enum CXCActions {
 	,PagoAutomaticoDeCargos("Pago automatico de cargos")
 	,MostrarDepositos("Mantenimiento a depositos")
 	,TransferirAJuridico("Transferir a jurídico")
+	,EstadoDeCuentaPanel("Estado de Cuenta report")
 	;
 	
 	

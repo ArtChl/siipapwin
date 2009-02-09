@@ -15,6 +15,7 @@ public class CXCToolbarFactory extends ToolbarFactoryImpl{
 	protected void addCustomButtons(ToolBarBuilder builder){
 		builder.add(getActionManager().getAction(CXCActions.ShowAltA.getId()));
 		builder.add(getActionManager().getAction(CXCActions.MostrarCXCView.getId()));
+		builder.add(getActionManager().getAction(CXCActions.EstadoDeCuentaPanel.getId()));
 		
 		buildReportButton(builder.getToolBar());
 	}

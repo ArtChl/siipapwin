@@ -38,13 +38,13 @@ public class EstadoDeCuentaReport extends SWXAction{
 			}
 			if(form.getCliente()!=null && form.getTodos().isSelected()==false){
 				System.out.println("Reporte 1");
-				ReportUtils.viewReport("reportes/EstadoDeCuentaCte.jasper", form.getParametros());
-				//ReportUtils.viewReport("reportes/EstadoDeCuentaCteConta.jasper", form.getParametros());
+				//ReportUtils.viewReport("reportes/EstadoDeCuentaCte.jasper", form.getParametros());
+				ReportUtils.viewReport("reportes/EstadoDeCuentaCteConta.jasper", form.getParametros());
 			}
 			if(form.getCliente()==null && form.getTodos().isSelected()==true ){
 				System.out.println("Reporte 2");
-				ReportUtils.viewReport("reportes/EstadoDeCuentaCte.jasper", form.getParametros());
-				//ReportUtils.viewReport("reportes/EstadoDeCuentaCteConta.jasper", form.getParametros());
+				//ReportUtils.viewReport("reportes/EstadoDeCuentaCte.jasper", form.getParametros());
+				ReportUtils.viewReport("reportes/EstadoDeCuentaCteConta.jasper", form.getParametros());
 			}		
 			if(form.getCliente()==null && form.getTodos().isSelected()==false ){
 				System.out.println("Reporte 3");

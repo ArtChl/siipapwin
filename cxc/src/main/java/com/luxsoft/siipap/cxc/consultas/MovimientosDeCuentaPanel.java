@@ -12,6 +12,7 @@ import java.util.List;
 
 import javax.swing.Action;
 import javax.swing.JComponent;
+import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
@@ -359,11 +360,22 @@ public class MovimientosDeCuentaPanel extends AbstractControl{
 		this.notaAFavor.setText(nf.format(saldoNota.doubleValue()));
 	}
 	
+	private JFrame owner;
+	
+	
+	public JFrame getOwner() {
+		return owner;
+	}
+
+	public void setOwner(JFrame owner) {
+		this.owner = owner;
+	}
+
 	public void seleccionarCliente(){
 		final ValueModel clienteModel=new ValueHolder(null);
 		final ValueModel fechaModel=new ValueHolder(new Date());
 		
-		final SXAbstractDialog dialog=new SXAbstractDialog("Buscar Movimientos"){
+		final SXAbstractDialog dialog=new SXAbstractDialog(owner,"Buscar Movimientos"){
 			@Override
 			protected JComponent buildContent() {
 				JPanel panel=new JPanel(new BorderLayout());

@@ -144,5 +144,9 @@
      	class="com.luxsoft.siipap.swing.actions.ShowViewAction">
      	<property name="viewId" value="chequesView"/>
      </bean>
+     
+     <bean id="estadoDeCuentaPanel"
+    	class="com.luxsoft.siipap.cxc.consultas.MovimientoCuentaPanelAction">
+    </bean>
   
 </beans>
