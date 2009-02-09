@@ -234,5 +234,32 @@ public class Renderers {
 		
 		
 	}
+	
+	public static  class BigDecimalStdRenderer extends DefaultTableCellRenderer{
+		
+		private DecimalFormat nf;
+
+		public BigDecimalStdRenderer() {
+			super();
+			nf=(DecimalFormat)NumberFormat.getInstance();
+			nf.setMaximumFractionDigits(2);
+			nf.setMinimumFractionDigits(2);
+		}
+
+		@Override
+		protected void setValue(Object value) {			
+			if(value instanceof Number){
+				double monto=((Number)value).doubleValue();				
+				setValue(nf.format(monto));
+				setHorizontalAlignment(JLabel.RIGHT);
+			}else{
+				setHorizontalAlignment(JLabel.LEFT);
+				super.setValue(value);
+			}
+				
+		}
+		
+		
+	}
 
 }
