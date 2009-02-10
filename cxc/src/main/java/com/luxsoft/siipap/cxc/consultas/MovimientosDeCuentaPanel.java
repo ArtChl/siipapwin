@@ -72,6 +72,7 @@ import com.luxsoft.siipap.swing.controls.SXAbstractDialog;
 import com.luxsoft.siipap.swing.controls.SXTable;
 import com.luxsoft.siipap.swing.selectores.CheckBoxSelector;
 import com.luxsoft.siipap.swing.utils.CommandUtils;
+import com.luxsoft.siipap.swing.utils.ComponentUtils;
 import com.luxsoft.siipap.swing.utils.MessageUtils;
 import com.luxsoft.siipap.swing.utils.Renderers;
 import com.luxsoft.siipap.swing.utils.SWExtUIManager;
@@ -171,6 +172,7 @@ public class MovimientosDeCuentaPanel extends AbstractControl{
 		final EventTableModel<Movimiento> tm=new EventTableModel<Movimiento>(flist,tf);
 		grid.setModel(tm);
 		grid.packAll();
+		ComponentUtils.decorateActions(grid);
 		JComponent c=UIFactory.createTablePanel(grid);
 		c.setPreferredSize(new Dimension(750,600));
 		panel.add(c,BorderLayout.CENTER);
