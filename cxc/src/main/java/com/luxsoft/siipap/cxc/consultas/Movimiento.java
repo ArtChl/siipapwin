@@ -140,7 +140,7 @@ public class Movimiento implements Comparable<Movimiento>{
 		this.revision=null;
 		this.vencimiento=null;
 		this.formaDePago=pago.getDescFormaDePago();
-		this.pagoRef=pago.getReferencia();
+		this.pagoRef=MessageFormat.format("{0} {1}", pago.getReferencia(),pago.getPagoM().getBanco());
 		this.descuento=0;
 		this.importe=pago.getImporte().amount().multiply(BigDecimal.valueOf(-1d));
 		if(pago.getFormaDePago().equals("S"))

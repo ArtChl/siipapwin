@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.math.BigDecimal;
 import java.sql.SQLException;
+import java.text.DateFormat;
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.Collection;
@@ -37,6 +38,7 @@ import org.springframework.orm.hibernate3.HibernateCallback;
 import ca.odell.glazedlists.BasicEventList;
 import ca.odell.glazedlists.EventList;
 import ca.odell.glazedlists.FilterList;
+import ca.odell.glazedlists.Filterator;
 import ca.odell.glazedlists.GlazedLists;
 import ca.odell.glazedlists.SortedList;
 import ca.odell.glazedlists.TextFilterator;
@@ -117,6 +119,8 @@ public class MovimientosDeCuentaPanel extends AbstractControl{
 	private EventSelectionModel<Movimiento> selectionModel;
 	JXTable grid;
 	CheckBoxSelector<Movimiento> conSaldo;
+	private JTextField fechaField=new JTextField(8);
+	private DateFormat df=new SimpleDateFormat("dd/MM/yyyy");
 	
 	private JComponent buildGridPanel(){
 		
@@ -136,6 +140,18 @@ public class MovimientosDeCuentaPanel extends AbstractControl{
  		final EventList<MatcherEditor<Movimiento>> editors=new BasicEventList<MatcherEditor<Movimiento>>();
  		editors.add(e1);
  		editors.add(conSaldo);
+ 		
+ 		
+ 		TextFilterator<Movimiento> fechaFilterator=new TextFilterator<Movimiento>(){
+			public void getFilterStrings(List<String> baseList,Movimiento element) {
+				baseList.add(df.format(element.getFecha()));
+				
+			}
+ 			
+ 		};
+ 		
+ 		TextComponentMatcherEditor<Movimiento> fechaEditor=new TextComponentMatcherEditor<Movimiento>(fechaField,fechaFilterator);
+ 		editors.add(fechaEditor);
  		
  		CompositeMatcherEditor editor=new CompositeMatcherEditor(editors);
  		
@@ -188,7 +204,7 @@ public class MovimientosDeCuentaPanel extends AbstractControl{
 	private JTextField notaAFavor=new JTextField(10);
 	
 	private JComponent buildToolbar(){
-		FormLayout layout=new FormLayout("p,2dlu,p,2dlu,p,2dlu,p,2dlu,p,2dlu,p,2dlu,p,2dlu,p,2dlu,p,2dlu,p,2dlu,p,2dlu,p,2dlu","p");
+		FormLayout layout=new FormLayout("p,2dlu,p,2dlu,p,2dlu,p,2dlu,p,2dlu,p,2dlu,p,2dlu,p,2dlu,p,2dlu,p,2dlu,p,2dlu,p,2dlu,p,2dlu","p");
 		PanelBuilder builder=new PanelBuilder(layout);
 		CellConstraints cc=new CellConstraints();
 		
@@ -204,6 +220,10 @@ public class MovimientosDeCuentaPanel extends AbstractControl{
 		builder.addLabel("Filtrar: ",cc.xy(col, 1));
 		col+=2;
 		builder.add(filterField,cc.xy(col, 1));
+		col+=2;
+		builder.addLabel("Fecha: ",cc.xy(col, 1));
+		col+=2;
+		builder.add(fechaField,cc.xy(col, 1));
 		col+=2;
 		builder.addLabel("Con Saldo ",cc.xy(col, 1));
 		col+=2;
