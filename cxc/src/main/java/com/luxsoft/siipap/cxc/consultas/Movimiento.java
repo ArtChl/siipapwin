@@ -52,6 +52,8 @@ public class Movimiento implements Comparable<Movimiento>{
 	
 	private BigDecimal notaAFavor=BigDecimal.ZERO;
 	
+	private BigDecimal aplicacionesAnteriores=BigDecimal.ZERO;
+	
 	public Movimiento(final Integer orden){
 		this.orden=orden;
 	}
@@ -342,6 +344,14 @@ public class Movimiento implements Comparable<Movimiento>{
 			return orden.compareTo(o.getOrden());
 		}
 		return fecha.compareTo(o.getFecha());
+	}
+
+	public BigDecimal getAplicacionesAnteriores() {
+		return aplicacionesAnteriores;
+	}
+
+	public void setAplicacionesAnteriores(BigDecimal aplicacionesAnteriores) {
+		this.aplicacionesAnteriores = aplicacionesAnteriores;
 	}
 	
 

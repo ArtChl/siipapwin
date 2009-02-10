@@ -65,6 +65,7 @@ import com.luxsoft.siipap.cxc.domain.NotaDeCredito;
 import com.luxsoft.siipap.cxc.domain.NotasDeCreditoDet;
 import com.luxsoft.siipap.cxc.domain.Pago;
 import com.luxsoft.siipap.cxc.domain.PagoM;
+import com.luxsoft.siipap.domain.CantidadMonetaria;
 import com.luxsoft.siipap.services.ServiceLocator;
 import com.luxsoft.siipap.swing.binding.Binder;
 import com.luxsoft.siipap.swing.controls.AbstractControl;
@@ -297,6 +298,7 @@ public class MovimientosDeCuentaPanel extends AbstractControl{
 		,"saldoCargo"	
 		,"saldoAFavor"		
 		,"notaAFavor"
+		,"aplicacionesAnteriores"
 	};
 	
 	public static String[] NAMES={
@@ -319,6 +321,7 @@ public class MovimientosDeCuentaPanel extends AbstractControl{
 		,"Saldo Car"
 		,"Saldo AFav"		
 		,"NotaAFav"
+		,"Aplic <2008"
 	};
 	
 	public void actualizarAcumulado(){
@@ -496,8 +499,25 @@ public class MovimientosDeCuentaPanel extends AbstractControl{
 					while(rs.next()){
 						PagoM pago=(PagoM)rs.get()[0];
 						Movimiento m=new Movimiento(pago);
-						if(m.getSaldoAFavor().doubleValue()>0)
+						CantidadMonetaria aplicadoAnt=CantidadMonetaria.pesos(0);
+						for(Pago pa:pago.getPagos()){
+							if(pa.getVenta()!=null){
+								if(pa.getVenta().getFecha().compareTo(desde)<0){
+									aplicadoAnt=aplicadoAnt.add(pa.getImporte());
+								}
+								if(pa.getNota()!=null){
+									if(pa.getNota().getFecha().compareTo(desde)<0){
+										aplicadoAnt=aplicadoAnt.add(pa.getImporte());
+									}
+								}
+							}
+							
+						}
+						if((aplicadoAnt.amount().doubleValue()>0)||(m.getSaldoAFavor().doubleValue()>0)){
+							m.setAplicacionesAnteriores(aplicadoAnt.amount());
 							publish(m);
+						}	
+						
 					}					
 					
 					return null;
