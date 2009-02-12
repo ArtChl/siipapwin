@@ -1,7 +1,11 @@
 package com.luxsoft.siipap.cxc.consultas;
 
 import java.awt.BorderLayout;
+import java.awt.Checkbox;
+import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.SystemColor;
+import java.awt.event.ActionEvent;
 import java.math.BigDecimal;
 import java.sql.SQLException;
 import java.text.DateFormat;
@@ -11,6 +15,8 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
+import javax.swing.AbstractAction;
+import javax.swing.Action;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -48,6 +54,7 @@ import com.luxsoft.siipap.services.ServiceLocator;
 import com.luxsoft.siipap.swing.binding.Binder;
 import com.luxsoft.siipap.swing.controls.SXAbstractDialog;
 import com.luxsoft.siipap.swing.selectores.CheckBoxSelector;
+import com.luxsoft.siipap.swing.utils.CommandUtils;
 import com.luxsoft.siipap.swing.utils.MessageUtils;
 import com.luxsoft.siipap.swing.utils.SWExtUIManager;
 import com.luxsoft.siipap.swing.utils.TaskUtils;
@@ -62,6 +69,9 @@ public class MovimientosDeCuentaPanel extends FilteredBrowserPanel<Movimiento>{
 	private Date desde=DateUtils.obtenerFecha("01/01/2008");
 	
 	private DateFormat df=new SimpleDateFormat("dd/MM/yyyy");
+	
+	
+	private Action accion;
 	
 	public MovimientosDeCuentaPanel(){
 		super(Movimiento.class);
@@ -101,11 +111,41 @@ public class MovimientosDeCuentaPanel extends FilteredBrowserPanel<Movimiento>{
  		
  		installTextComponentMatcherEditor("Tipo","mov");
  		installTextComponentMatcherEditor("Docto","documento");
- 		installTextComponentMatcherEditor("F.P","pagoRef");
+ 		installTextComponentMatcherEditor("F.P","formaDePago");
+ 		installTextComponentMatcherEditor("P.Ref", "pagoRef");
  		installTextComponentMatcherEditor("Fecha", fechaFilterator, new JTextField(10));
+ 		//installTextComponentMatcherEditor("", propertyNames)
+ 		
+ 		
 	}
 	
 	private HeaderPanel header;
+	
+	
+	private JComponent totalesPanel(){
+		saldoField.setEnabled(false);
+		saldoAFavor.setEnabled(false);
+		notaAFavor.setEnabled(false);
+		FormLayout layout=new FormLayout("p,4dlu,p,4dlu,p,4dlu","20dlu,5dlu,20dlu,5dlu");
+		DefaultFormBuilder builder=new DefaultFormBuilder(layout);
+		builder.getPanel().setBackground(new Color(214, 223, 247));
+		builder.append("Saldo",saldoField);
+		builder.nextLine(2);
+		builder.append("A favor",saldoAFavor);
+		builder.nextLine(2);
+		builder.append("A Favor Notas",notaAFavor);
+		return builder.getPanel();
+	}
+	
+	
+	private JComponent buildCheck(){
+		FormLayout layout=new FormLayout("p,4dlu,p,4dlu,p,4dlu","20dlu");
+		DefaultFormBuilder builder=new DefaultFormBuilder(layout);
+		builder.getPanel().setBackground(new Color(214, 223, 247));
+		builder.append("Con Saldo",conSaldo.getBox());
+		return builder.getPanel();
+		
+	}
 	
 
 	@Override
@@ -117,23 +157,40 @@ public class MovimientosDeCuentaPanel extends FilteredBrowserPanel<Movimiento>{
 		panel.add(header,BorderLayout.NORTH);
 		
 		JXTaskPaneContainer container=new JXTaskPaneContainer();
-		//container.setPreferredSize(new Dimension(200,200));
+		JXTaskPane accionesPanel=new JXTaskPane();
+		accionesPanel.setTitle("Operaciones");
+		accionesPanel.setSpecial(true);		
+		accionesPanel.add(CargaDatos());
+		container.add(accionesPanel);
+		
+		
 		JXTaskPane filtrosPanel=new JXTaskPane();
 		filtrosPanel.setTitle("Filtros");
 		filtrosPanel.setSpecial(true);
 		filtrosPanel.add(getFilterPanel());
+		filtrosPanel.add(buildCheck());
 		container.add(filtrosPanel);
 		
-		JXTaskPane accionesPanel=new JXTaskPane();
-		accionesPanel.setTitle("Operaciones");
-		accionesPanel.add(getLoadAction());
-		container.add(accionesPanel);
+		JXTaskPane totales=new JXTaskPane();
+		totales.setSpecial(true);
+		totales.add(totalesPanel());
+		container.add(totales);
 		
 		panel.add(container,BorderLayout.WEST);
 		
 		return panel;
 	}
 	
+
+	
+	private Action CargaDatos(){
+		if(loadAction==null)
+			loadAction=CommandUtils.createLoadAction(this, "load");
+		loadAction.putValue(Action.NAME, "Carga Cliente");
+		return loadAction;
+	}
+
+
 	public static String[] PROPS={
 		"mov"
 		,"id"
@@ -245,6 +302,16 @@ public class MovimientosDeCuentaPanel extends FilteredBrowserPanel<Movimiento>{
 	public void setOwner(JFrame owner) {
 		this.owner = owner;
 	}
+
+	
+	
+	
+	@Override
+	protected void installCustomComponentsInFilterPanel(DefaultFormBuilder builder) {
+		
+		super.installCustomComponentsInFilterPanel(builder);
+	}
+
 
 	public void seleccionarCliente(){
 		final ValueModel clienteModel=new ValueHolder(null);
@@ -414,6 +481,10 @@ public class MovimientosDeCuentaPanel extends FilteredBrowserPanel<Movimiento>{
 				MessageUtils.showError("Error al cargar datos", e);
 			}
 		}
+		
+	
+
+		
 		
 		
 		
