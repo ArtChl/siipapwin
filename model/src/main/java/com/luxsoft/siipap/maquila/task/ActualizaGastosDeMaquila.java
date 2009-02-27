@@ -64,8 +64,11 @@ public class ActualizaGastosDeMaquila extends HibernateDaoSupport{
 		//m.execute(Periodo.getPeriodoEnUnMes(6,2008), new BigDecimal(163973.12));
 		//m.execute(Periodo.getPeriodoEnUnMes(7,2008), new BigDecimal(193168.69));
 		//m.execute(Periodo.getPeriodoEnUnMes(8,2008), new BigDecimal(138151.41));
-		m.execute(Periodo.getPeriodoEnUnMes(9,2008), new BigDecimal(187471.52));
-		m.execute(Periodo.getPeriodoEnUnMes(10,2008), new BigDecimal(227595.65));
+		//m.execute(Periodo.getPeriodoEnUnMes(9,2008), new BigDecimal(187471.52));
+		//m.execute(Periodo.getPeriodoEnUnMes(10,2008), new BigDecimal(227595.65));
+		m.execute(Periodo.getPeriodoEnUnMes(11,2008), new BigDecimal(63555.87));
+		m.execute(Periodo.getPeriodoEnUnMes(0,2009), new BigDecimal(76248.57));
+		
 		
 		
 			

@@ -76,7 +76,7 @@ public class InentarioMensual_Parche1 extends HibernateDaoSupport{
 				List<InventarioMensual> list=session.createQuery("from InventarioMensual i  " +						
 						//" where i.clave=? " +
 						"order by i.clave,i.year,i.mes ")
-						//.setString(0, "CAP100140")						
+						//.setString(0, "SBS2719512")						
 						.list();				
 				
 				for(int index=0;index<list.size()-1;index++){					
@@ -96,7 +96,10 @@ public class InentarioMensual_Parche1 extends HibernateDaoSupport{
 							actual.setCosto(actual.getCostoPromedio().multiply(actual.getSaldo()));
 							//actual.actualizar();
 							posterior.setCostoInicial(actual.getCosto());
-							
+							if(actual.getMovimientos().doubleValue()!=0){
+								double movs=actual.getMovimientos().doubleValue();
+								actual.setMovimientosCosto(actual.getCostoPromedio().multiply(movs).amount());
+							}
 							//session.update(actual);
 							System.out.println("Res: "+actual.getCosto()+" CP: "+actual.getCostoPromedio());
 						}
@@ -146,7 +149,7 @@ public class InentarioMensual_Parche1 extends HibernateDaoSupport{
 				List<InventarioMensual> list=session.createQuery("from InventarioMensual i  " +
 						//" where i.clave in (?)" +						
 						" order by i.clave,i.year,i.mes")
-						//.setString(0, "SBS210212")
+						//.setString(0, "UNI52")
 						//.setString(1, "CAP10214")
 						//.setString(2, "CAP635214")
 						//.setString(3, "CAP487320")
@@ -231,8 +234,8 @@ public class InentarioMensual_Parche1 extends HibernateDaoSupport{
 		
 		//EJECUCION DE PARCHES
 		//test.execute2();
-		test.fordwarCosto();
-		//test.actualizaElCostoPromedioUsandoElCatalogoDeArticulos();
+		//test.fordwarCosto();
+		test.actualizaElCostoPromedioUsandoElCatalogoDeArticulos();
 		
 	}
 

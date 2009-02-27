@@ -301,6 +301,8 @@ public class InventarioMensual extends MutableObject implements Comparable<Inven
 			setCosto(getCostoPromedio().multiply(getSaldo()));
 		if(getMovimientos()!=null){
 			setMovimientosCosto(getMovimientos().multiply(getCostoPromedio().amount()));
+		}if(getInicial()!=null){
+			setCostoInicial(getCostoPromedio().multiply(getInicial()));
 		}
 	}
 	
