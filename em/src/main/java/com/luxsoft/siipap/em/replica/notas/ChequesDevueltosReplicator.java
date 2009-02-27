@@ -46,7 +46,7 @@ public class ChequesDevueltosReplicator extends AbstractReplicatorSupport{
 	}
 	
 	public void bulkImport(Periodo p) {
-		validarBulkImport(p);
+		
 		List<Periodo> periodos=Periodo.periodosMensuales(p);
 		
 		for(final Periodo mes:periodos){
@@ -146,6 +146,7 @@ public class ChequesDevueltosReplicator extends AbstractReplicatorSupport{
 						});
 						notaCredito=nota;
 						injectYearMonth(mes, nota);
+						System.out.println("Generando nota: "+notaCredito);
 						getNotaDeCreditoDao().salvar(notaCredito);
 					}
 					//Creamos Juridico
@@ -221,7 +222,7 @@ public class ChequesDevueltosReplicator extends AbstractReplicatorSupport{
 	
 	public static void main(String[] args) {
 		ChequesDevueltosReplicator replicator=(ChequesDevueltosReplicator)ServiceManager.instance().getReplicador(Replicadores.ChequesDevueltosReplicator);
-		replicator.bulkImport(new Periodo("01/01/2008","30/09/2008"));
+		replicator.bulkImport(new Periodo("01/01/2008","31/12/2008"));
 	}	
 	
 	
