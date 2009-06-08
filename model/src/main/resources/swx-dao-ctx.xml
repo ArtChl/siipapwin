@@ -187,7 +187,7 @@
 			</list>
 		</property>
 		
-		<property name="entityInterceptor" ref="interceptor"/> 
+		<!--  <property name="entityInterceptor" ref="interceptor"/>--> 
 		
 	</bean>
 	

@@ -554,8 +554,10 @@ public class Venta extends PersistentObject implements ClienteHolder{
 	}
 	
 	public Date getVencimiento() {
-		if(getCredito()!=null)
-			return getCredito().getVencimiento();
+		if(getCredito()!=null){
+			int plazo=getCredito().getPlazo();
+			return org.apache.commons.lang.time.DateUtils.addDays(getFecha(), plazo);
+		}
 		return vencimiento;
 	}
 	public void setVencimiento(Date vencimiento) {
@@ -710,6 +712,25 @@ public class Venta extends PersistentObject implements ClienteHolder{
 			
 		}
 		
+	}
+	
+	public int getAtrasoReal(){
+		if(getSaldo().doubleValue()<=0)
+			return 0;
+		Date today=new Date();
+		Date pivot=getFecha();
+		/*if(getCredito()!=null){
+			pivot=getCredito().getFechaRevision();
+		}*/
+		long res=today.getTime()-pivot.getTime();
+		if(res>0){			
+			long dias=(res/(86400*1000));			
+			int atraso= ((int)dias-getPlazo());
+			if(atraso<0) atraso=0;
+			return atraso;
+		}else{
+			return 0;
+		}
 	}
 	
 	public Currency getMoneda(){
@@ -1020,5 +1041,11 @@ public class Venta extends PersistentObject implements ClienteHolder{
 	}
 	
 	
-	
+	public Boolean getMandarARevision(){
+		Boolean tipo=Boolean.FALSE;
+		if(getCredito()!=null){
+			tipo=getCredito().isRevision();
+		}
+		return tipo;
+	}
 }

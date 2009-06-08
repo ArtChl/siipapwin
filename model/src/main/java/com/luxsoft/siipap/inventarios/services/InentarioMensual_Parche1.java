@@ -89,19 +89,22 @@ public class InentarioMensual_Parche1 extends HibernateDaoSupport{
 							actual.getVentas().doubleValue()!=0) &&
 								actual.getCostoPromedio().amount().doubleValue()==0){
 						if(posterior.getCostoCxp().amount().doubleValue()!=0){
-							System.out.println("Requiere ajuste.. "+actual+ "Puede usar: "+posterior.getCostoPromedio());
-							System.out.println("Saldo: "+actual.getSaldo()+"Promedio a usar: "+posterior.getCostoPromedio());
-							
-							actual.setCostoPromedio(posterior.getCostoPromedio());
-							actual.setCosto(actual.getCostoPromedio().multiply(actual.getSaldo()));
-							//actual.actualizar();
-							posterior.setCostoInicial(actual.getCosto());
-							if(actual.getMovimientos().doubleValue()!=0){
-								double movs=actual.getMovimientos().doubleValue();
-								actual.setMovimientosCosto(actual.getCostoPromedio().multiply(movs).amount());
+							if(actual.getYear()==2009){
+								System.out.println("Requiere ajuste.. "+actual+ "Puede usar: "+posterior.getCostoPromedio());
+								System.out.println("Saldo: "+actual.getSaldo()+"Promedio a usar: "+posterior.getCostoPromedio());
+								
+								actual.setCostoPromedio(posterior.getCostoPromedio());
+								actual.setCosto(actual.getCostoPromedio().multiply(actual.getSaldo()));
+								//actual.actualizar();
+								posterior.setCostoInicial(actual.getCosto());
+								if(actual.getMovimientos().doubleValue()!=0){
+									double movs=actual.getMovimientos().doubleValue();
+									actual.setMovimientosCosto(actual.getCostoPromedio().multiply(movs).amount());
+								}
+								//session.update(actual);
+								System.out.println("Res: "+actual.getCosto()+" CP: "+actual.getCostoPromedio());
 							}
-							//session.update(actual);
-							System.out.println("Res: "+actual.getCosto()+" CP: "+actual.getCostoPromedio());
+							
 						}
 						
 					}
@@ -138,7 +141,7 @@ public class InentarioMensual_Parche1 extends HibernateDaoSupport{
 	
 	/**
 	 * Verifica que el una vez que exista el costo promedio este se mantenga
-	 * si en meses posteriores no existiera costo
+	 * en meses posteriores aun si no existiera costo
 	 *
 	 */
 	public void fordwarCosto(){
@@ -202,7 +205,7 @@ public class InentarioMensual_Parche1 extends HibernateDaoSupport{
 			public Object doInHibernate(Session session) throws HibernateException, SQLException {
 				
 				List<InventarioMensual> list=session.createQuery("from InventarioMensual i  " +
-						" where i.year=2008" +						
+						" where i.year=2009" +						
 						" order by i.clave,i.year,i.mes")						
 						.list();				
 				
@@ -235,7 +238,7 @@ public class InentarioMensual_Parche1 extends HibernateDaoSupport{
 		//EJECUCION DE PARCHES
 		//test.execute2();
 		//test.fordwarCosto();
-		test.actualizaElCostoPromedioUsandoElCatalogoDeArticulos();
+		//test.actualizaElCostoPromedioUsandoElCatalogoDeArticulos();
 		
 	}
 

@@ -577,22 +577,22 @@ public class InventariosManagerImpl extends HibernateDaoSupport implements Inven
 	}
 	
 	public static void main(String[] args) throws Exception{
-		/*
+		
 		Collection<String> claves=ServiceLocator.getInventariosManager().buscarArticulos();		
 		for(String clave:claves){
-			for(int i=1;i<=12;i++){				
-				InventarioMensual im=ServiceLocator.getInventariosManager().actualizarInventario(2008,i, clave);
+			for(int i=2;i<=2;i++){				
+				InventarioMensual im=ServiceLocator.getInventariosManager().actualizarInventario(2009,i, clave);
 				System.out.println("\t"+im);
 			}
 		}		
-		*/
 		
+	/*	
 		for(int i=1;i<=12;i++){						
 			InventarioMensual im=ServiceLocator.getInventariosManager().actualizarInventario(2008,i, "UNI52");
 			System.out.println("\t"+im);
 			
 		
-		}
+		}*/
 		
 		//InventarioMensual im=ServiceLocator.getInventariosManager().actualizarInventario(2008,1, "CAP9011018");
 		

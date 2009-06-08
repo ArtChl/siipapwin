@@ -211,7 +211,8 @@ public class VentaACredito extends MutableObject implements ClienteHolder{
 	
 	public int getAtrasoOperativo(){
 		Date today=new Date();		
-			long res=today.getTime()-getVencimiento().getTime();
+			//long res=today.getTime()-getVencimiento().getTime();
+			long res=today.getTime()-getVencimientoReal().getTime();
 			if(res>0){				
 				long dias=(res/(86400*1000));			
 				return (int)dias;
@@ -222,7 +223,10 @@ public class VentaACredito extends MutableObject implements ClienteHolder{
 		
 	}
 	
-	
+	public Date getVencimientoReal(){
+		int plazo=getPlazo();
+		return org.apache.commons.lang.time.DateUtils.addDays(venta.getFecha(), plazo);
+	}
 	
 	public void actualizar(){
 		actualizar(new Date());
@@ -282,7 +286,8 @@ public class VentaACredito extends MutableObject implements ClienteHolder{
 
 	private void calcularFechaDePago(){
 		
-		Date vencimiento=getVencimiento();
+		//Date vencimiento=getVencimiento();
+		Date vencimiento=getVencimientoReal();
 		int dia=getVenta().getDiaPago();
 		Date pago=DateUtils.calcularFechaMasProxima(vencimiento,dia, true);
 		if(!isRevisada())
